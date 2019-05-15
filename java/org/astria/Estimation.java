@@ -313,7 +313,7 @@ public class Estimation
 		    tm = new AbsoluteDate(DateTimeComponents.parseDateTime(odobs.rawmeas[mix].Time),
 					  DataManager.utcscale);
 		    AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
-
+			
 		    double[] pv = xhat.toArray();
 		    TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tmlt,
 										new Vector3D(pv[0], pv[1], pv[2]),
@@ -424,7 +424,8 @@ public class Estimation
 		RealMatrix K = Pxy.multiply(MatrixUtils.inverse(Pyy));
 		xhat = new ArrayRealVector(xhatpre.add(K.operate(raw.subtract(yhatpre))));
 		P = Ppre.subtract(K.multiply(Pyy.multiply(K.transpose())));
-
+		
+		double[] xbar = xhatpre.toArray();
 		double[] pv = xhat.toArray();
 		ssta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
 										   new Vector3D(pv[3], pv[4], pv[5])),
@@ -436,7 +437,9 @@ public class Estimation
 		odout.EstimatedState = pv;
 		odout.EstimatedCovariance = P.getData();
 		odout.InnovationCovariance = Pyy.getData();
-
+		odout.xBar = xbar;
+		odout.PBar = Ppre.getData();
+		
 		if (combmeas)
 		{
 		    for (int i = 0; i < meanames.length; i++)
@@ -542,6 +545,8 @@ public class Estimation
 	    double[] EstimatedAcceleration;
 	    double[][] EstimatedCovariance;
 	    double[][] InnovationCovariance;
+		double[] xBar;
+		double[][] PBar;		
 
 	    public JSONEstimation()
 	    {

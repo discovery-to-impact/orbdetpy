@@ -1,0 +1,11 @@
+Estimation.java
+
+add line above: double[] pv = xhat.toArray();
+double[] xbar = xhatpre.toArray();
+add line under: odout.InnovationCovariance = Pyy.getData()
+odout.xBar = xbar;
+odout.PBar = Ppre.getData();
+add line below: double[][] InnovationCovariance;
+double[] xbar;
+double[][] PBar;
+
