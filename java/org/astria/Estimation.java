@@ -385,7 +385,8 @@ public class Estimation
 		RealMatrix K = Pxy.multiply(MatrixUtils.inverse(Pyy));
 		xhat = new ArrayRealVector(xhatpre.add(K.operate(raw.subtract(yhatpre))));
 		P = Ppre.subtract(K.multiply(Pyy.multiply(K.transpose())));
-
+		
+		double[] xbar = xhatpre.toArray();
 		double[] pv = xhat.toArray();
 		ssta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
 										   new Vector3D(pv[3], pv[4], pv[5])),
@@ -495,6 +496,8 @@ public class Estimation
 	    double[] EstimatedAcceleration;
 	    double[][] EstimatedCovariance;
 	    double[][] InnovationCovariance;
+		double[] xBar;
+		double[][] PBar;		
 
 	    public JSONEstimation()
 	    {
