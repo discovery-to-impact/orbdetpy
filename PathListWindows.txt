@@ -15,6 +15,7 @@ python plotodet.py data/radec_od_cfg.json data/radec_od_input.json data/radec_od
 WINDOWS CMD 
 (run code)
 cd Documents\ASTRIA\orbdetpy\examples
+python testodet.py data/azel_od_cfg.json data/azel_od_input.json data/azel_od_output_1.json
 python testsim.py data/azel_od_cfg.json data/azel_od_input.json data/azel_od_output_1.json
 python plotsim.py data/azel_od_cfg.json data/azel_od_input.json data/azel_od_output_1.json
 
@@ -22,6 +23,9 @@ python testodet.py data/posvel_od_cfg.json data/posvel_od_input.json data/posvel
 python plotodet.py data/posvel_od_cfg.json data/posvel_od_input.json data/posvel_od_output_1.json
 
 Smoother:
-cd Documents\Python Code\CAR-MHF
+cd Documents\ASTRIA\orbdetpy\examples
 python testsmoother.py data/azel_od_output_1.json
 
+CAR:
+cd Documents\ASTRIA\orbdetpy\examples
+python testCAR.py data/radec_car_cfg.json
