@@ -180,7 +180,7 @@ public class Settings
 		RelTolerance = 1E-12;
 	}
     }
-    
+
     class JSONManeuver
     {
 	String Time;
@@ -238,6 +238,16 @@ public class Settings
 	}
     }
 
+    class ConsiderParameter                                               //Begining of Addition
+    {
+  String name;
+
+  public ConsiderParameter(String n)
+  {
+      name = n;
+  }
+    }                                                                        //End of Addition
+
     JSONGravity Gravity;
     JSONOceanTides OceanTides;
     JSONDrag Drag;
@@ -258,6 +268,7 @@ public class Settings
     HashMap<String, GroundStation> stations;
     ArrayList<ForceModel> forces;
     ArrayList<Settings.EstimatedParameter> estparams;
+    ArrayList<Settings.ConsiderParameter> considerparams; //Addition Made
 
     Frame propframe;
 
@@ -411,6 +422,7 @@ public class Settings
     private void loadEstimatedParameters()
     {
 	estparams = new ArrayList<EstimatedParameter>();
+  considerparams = new ArrayList<ConsiderParameter>();     //Addition made
 
 	if (Drag.Coefficient.Estimation != null &&
 	    Drag.Coefficient.Estimation.equals("Estimate"))
@@ -428,6 +440,27 @@ public class Settings
 		estparams.add(new EstimatedParameter(org.astria.Estimation.DMC_ACC_ESTM+i, Estimation.DMCAcceleration.Min,
 						     Estimation.DMCAcceleration.Max, Estimation.DMCAcceleration.Value));
 	}
+
+  if (Drag.Coefficient.Estimation != null &&                                         //Begining of Additions
+       Drag.Coefficient.Estimation.equals("Consider"))
+       {
+         estparams.add(new EstimatedParameter(DragSensitive.DRAG_COEFFICIENT,
+                Drag.Coefficient.Min,
+                Drag.Coefficient.Max,
+                Drag.Coefficient.Value));
+         considerparams.add(new ConsiderParameter("Drag"));
+       }
+
+   if (RadiationPressure.Creflection.Estimation != null &&
+       RadiationPressure.Creflection.Estimation.equals("Consider"))
+       {
+         estparams.add(new EstimatedParameter(RadiationSensitive.REFLECTION_COEFFICIENT,
+                RadiationPressure.Creflection.Min,
+                RadiationPressure.Creflection.Max,
+                RadiationPressure.Creflection.Value));
+         considerparams.add(new ConsiderParameter("SRP"));
+       }                                                                              //End of Additions
+
     }
 
     public double[] getInitialState()
@@ -523,7 +556,7 @@ public class Settings
 
 	return(attpro);
     }
-    
+
     public RealMatrix getProcessNoiseMatrix()
     {
 	int i;

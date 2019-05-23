@@ -422,8 +422,34 @@ public class Estimation
 		}
 
 		RealMatrix K = Pxy.multiply(MatrixUtils.inverse(Pyy));
-		xhat = new ArrayRealVector(xhatpre.add(K.operate(raw.subtract(yhatpre))));
-		P = Ppre.subtract(K.multiply(Pyy.multiply(K.transpose())));
+
+    int numConsideredParams = odcfg.considerparams.size();  //Addition Made
+    int numEstimatedParams = numsta - numConsideredParams;   //Addition made
+    RealMatrix KnoConsider = new Array2DRowRealMatrix(numsta , Rsize);      //Addition made
+
+    for (int i = 0; i < numEstimatedParams; i++)            //Addition made (whole loop)
+    {
+        KnoConsider.setRowVector(i, K.getRowVector(i));
+    }
+
+		xhat = new ArrayRealVector(xhatpre.add(KnoConsider.operate(raw.subtract(yhatpre))));  //Alteration made
+
+    for (int i = 0; i < (numsta-numEstimatedParams); i++)            //Addition made (whole loop)
+    {
+        xhat.setEntry(i+numEstimatedParams, Xi[i+numEstimatedParams]);
+    }
+
+    RealMatrix Pcorrective = K.multiply(Pyy.multiply(K.transpose()));                //Addition made
+    RealMatrix PcorrectiveNoConsider = new Array2DRowRealMatrix(numsta,numsta);
+
+    for (int i = 0; i < numEstimatedParams; i++)            //Addition made (whole loop)
+    {
+        PcorrectiveNoConsider.setRowVector(i, Pcorrective.getRowVector(i));
+        PcorrectiveNoConsider.setColumnVector(i, Pcorrective.getColumnVector(i));
+    }
+
+		P = Ppre.subtract(PcorrectiveNoConsider);                                         //Alteration made
+
 
 		double[] pv = xhat.toArray();
 		ssta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
@@ -436,6 +462,7 @@ public class Estimation
 		odout.EstimatedState = pv;
 		odout.EstimatedCovariance = P.getData();
 		odout.InnovationCovariance = Pyy.getData();
+    odout.numConsideredParams = numConsideredParams;  //Addition Made
 
 		if (combmeas)
 		{
@@ -542,6 +569,7 @@ public class Estimation
 	    double[] EstimatedAcceleration;
 	    double[][] EstimatedCovariance;
 	    double[][] InnovationCovariance;
+      int numConsideredParams;      //Addition Made
 
 	    public JSONEstimation()
 	    {
