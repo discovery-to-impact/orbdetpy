@@ -213,6 +213,9 @@ public class Settings
 	double DMCCorrTime;
 	double DMCSigmaPert;
 	JSONParameter DMCAcceleration;
+	
+	String Smoother;
+
     }
 
     class JSONSimulation
@@ -238,6 +241,20 @@ public class Settings
 	}
     }
 
+    
+    class ConsiderParameter
+    {
+    	String name;
+    	
+    	public ConsiderParameter(String n) 
+    	{
+    		
+    		name = n;
+    		
+    	}
+    	
+    }
+    
     JSONGravity Gravity;
     JSONOceanTides OceanTides;
     JSONDrag Drag;
@@ -258,6 +275,7 @@ public class Settings
     HashMap<String, GroundStation> stations;
     ArrayList<ForceModel> forces;
     ArrayList<Settings.EstimatedParameter> estparams;
+    ArrayList<Settings.ConsiderParameter> considerparams;
 
     Frame propframe;
 
@@ -411,7 +429,8 @@ public class Settings
     private void loadEstimatedParameters()
     {
 	estparams = new ArrayList<EstimatedParameter>();
-
+	considerparams = new ArrayList<ConsiderParameter>();
+	
 	if (Drag.Coefficient.Estimation != null &&
 	    Drag.Coefficient.Estimation.equals("Estimate"))
 	    estparams.add(new EstimatedParameter(DragSensitive.DRAG_COEFFICIENT, Drag.Coefficient.Min,
@@ -428,6 +447,30 @@ public class Settings
 		estparams.add(new EstimatedParameter(org.astria.Estimation.DMC_ACC_ESTM+i, Estimation.DMCAcceleration.Min,
 						     Estimation.DMCAcceleration.Max, Estimation.DMCAcceleration.Value));
 	}
+	
+	if (Drag.Coefficient.Estimation != null && Drag.Coefficient.Estimation.equals("Consider"))
+	{
+		estparams.add(new EstimatedParameter(DragSensitive.DRAG_COEFFICIENT, Drag.Coefficient.Min,
+			Drag.Coefficient.Max, Drag.Coefficient.Value));
+		
+     	considerparams.add(new ConsiderParameter("Drag"));
+	}
+
+	if (RadiationPressure.Creflection.Estimation != null && RadiationPressure.Creflection.Estimation.equals("Consider"))
+	{
+		estparams.add(new EstimatedParameter(RadiationSensitive.REFLECTION_COEFFICIENT,
+				RadiationPressure.Creflection.Min,
+				RadiationPressure.Creflection.Max,
+				RadiationPressure.Creflection.Value));
+		
+		considerparams.add(new ConsiderParameter("SRP"));
+		
+
+	}	
+
+	
+	
+	
     }
 
     public double[] getInitialState()

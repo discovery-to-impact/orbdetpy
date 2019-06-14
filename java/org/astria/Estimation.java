@@ -69,6 +69,7 @@ public class Estimation
     protected boolean combmeas;
 
     protected JSONResults results;
+    protected smootherData smootherResults;
 
     public final static String DMC_ACC_ESTM = "DMCaccest";
     public final static String DMC_ACC_PROP = "DMCaccprop";
@@ -96,6 +97,7 @@ public class Estimation
     public String determineOrbit()
     {
 	results = new JSONResults();
+	smootherResults = new smootherData();
 	results.Filter = odcfg.Estimation.Filter;
 
 	if (odcfg.Estimation.Filter.equals("UKF"))
@@ -114,7 +116,7 @@ public class Estimation
 	    CartesianOrbit X0 = new CartesianOrbit(new PVCoordinates(
 						       new Vector3D(Xi[0], Xi[1], Xi[2]),
 						       new Vector3D(Xi[3], Xi[4], Xi[5])),
-						   odcfg.propframe, new AbsoluteDate(
+				   		odcfg.propframe, new AbsoluteDate(
 						       DateTimeComponents.parseDateTime(odcfg.Propagation.Start),
 						       DataManager.utcscale), Constants.EGM96_EARTH_MU);
 
@@ -301,6 +303,9 @@ public class Estimation
 
 	    ManualPropagation prop = new ManualPropagation(odcfg, veclen);
 
+	    
+	    
+	    //// Loop starts
 	    for (int mix = 0; mix <= odobs.rawmeas.length; mix++)
 	    {
 		JSONResults.JSONEstimation odout = results.new JSONEstimation();
@@ -314,6 +319,7 @@ public class Estimation
 					  DataManager.utcscale);
 		    AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
 
+		    
 		    double[] pv = xhat.toArray();
 		    TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tmlt,
 										new Vector3D(pv[0], pv[1], pv[2]),
@@ -334,6 +340,7 @@ public class Estimation
 		    tofm = 0.0;
 		    tm = new AbsoluteDate(DateTimeComponents.parseDateTime(odcfg.Propagation.End),
 					  DataManager.utcscale);
+
 		}
 
 		RealMatrix Ptemp = P.scalarMultiply(numsta);
@@ -422,9 +429,38 @@ public class Estimation
 		}
 
 		RealMatrix K = Pxy.multiply(MatrixUtils.inverse(Pyy));
-		xhat = new ArrayRealVector(xhatpre.add(K.operate(raw.subtract(yhatpre))));
-		P = Ppre.subtract(K.multiply(Pyy.multiply(K.transpose())));
+		
+		int numConsideredParams = odcfg.considerparams.size();
+		int numEstimatedParams = numsta - numConsideredParams;
+		RealMatrix KnoConsider = new Array2DRowRealMatrix(numsta, Rsize);
+		
+		for(int i = 0; i<numEstimatedParams; i++)
+		{
+			KnoConsider.setRowVector(i,K.getRowVector(i));
+		}
+		
+		xhat = new ArrayRealVector(xhatpre.add(KnoConsider.operate(raw.subtract(yhatpre))));
+		
+		for (int i = 0; i < (numsta-numEstimatedParams); i++)
+	    {
+	        xhat.setEntry(i+numEstimatedParams, Xi[i+numEstimatedParams]);
+	    }
+		
+		
+	    RealMatrix Pcorrective = K.multiply(Pyy.multiply(K.transpose()));            
+	    RealMatrix PcorrectiveNoConsider = new Array2DRowRealMatrix(numsta,numsta);
 
+	    
+	    for (int i = 0; i < numEstimatedParams; i++)          
+	    {
+	        PcorrectiveNoConsider.setRowVector(i, Pcorrective.getRowVector(i));
+	        PcorrectiveNoConsider.setColumnVector(i, Pcorrective.getColumnVector(i));
+	    }
+
+		P = Ppre.subtract(PcorrectiveNoConsider);
+		
+		
+		
 		double[] pv = xhat.toArray();
 		ssta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
 										   new Vector3D(pv[3], pv[4], pv[5])),
@@ -436,7 +472,10 @@ public class Estimation
 		odout.EstimatedState = pv;
 		odout.EstimatedCovariance = P.getData();
 		odout.InnovationCovariance = Pyy.getData();
+		odout.numConsideredParams = numConsideredParams;
+		
 
+		
 		if (combmeas)
 		{
 		    for (int i = 0; i < meanames.length; i++)
@@ -451,6 +490,8 @@ public class Estimation
 			{
 			    odout.PreFit.put(meanames[i], new double[] {yhatpre.getEntry(i)});
 			    odout.PostFit.put(meanames[i], new double[] {fitv[i]});
+			    
+			    
 			}
 		    }
 		}
@@ -469,8 +510,59 @@ public class Estimation
 		}
 
 		results.Estimation.add(odout);
-	    }
+		
+		if(odcfg.Estimation.Smoother.equals("On"))
+		{	
+		// compute post sigma points
+	    Array2DRowRealMatrix sigpost = new Array2DRowRealMatrix(numsta, numsig);
 
+		RealMatrix Ptemp2 = P.scalarMultiply(numsta);
+		RealMatrix sqrP2 = new CholeskyDecomposition(
+		    Ptemp2.add(Ptemp2.transpose()).scalarMultiply(0.5), 1E-6, 1E-14).getL();
+		
+		//generate points
+		for (int i = 0; i < numsta; i++)
+		{
+			sigpost.setColumnVector(i, xhat.add(sqrP2.getColumnVector(i)));
+			sigpost.setColumnVector(numsta + i, xhat.subtract(sqrP2.getColumnVector(i)));
+		}
+		
+		//reduce estimated params to max/min
+		if (odcfg.estparams.size() > 0)
+		{
+		    double[][] sigdata = sigpost.getData();
+
+		    for (int j = 6; j < odcfg.estparams.size() + 6; j++)
+		    {
+			Settings.EstimatedParameter tempep = odcfg.estparams.get(j - 6);
+			for (int i = 0; i < numsig; i++)
+			    sigdata[j][i] = Math.min(Math.max(sigdata[j][i], tempep.min), tempep.max);
+		    }
+
+		    sigpost.setSubMatrix(sigdata, 0, 0);
+		}
+		
+		// store smoother data
+
+		smootherData.smootherStep smout = smootherResults.new smootherStep();
+
+		smout.xpre = MatrixUtils.createColumnRealMatrix(xhatpre.toArray());
+		smout.xpost = MatrixUtils.createColumnRealMatrix(xhat.toArray());
+		
+		smout.Ppre = Ppre;
+		smout.Ppost = P;
+
+		smout.sigPre = MatrixUtils.createRealMatrix(sigpr.getData());
+		smout.sigPost = MatrixUtils.createRealMatrix(sigpost.getData());
+
+		smootherResults.smoother.add(smout);
+		}
+		
+	    }
+	    //
+
+	    
+	    
 	    double[] pv = xhatpre.toArray();
 	    tm = new AbsoluteDate(DateTimeComponents.parseDateTime(odcfg.Propagation.End),
 				  DataManager.utcscale);
@@ -483,6 +575,126 @@ public class Estimation
 
 	    results.Propagation.Time = odcfg.Propagation.End;
 	    results.Propagation.State = pv;
+	    
+
+	    
+	    // run smoother
+
+		if(odcfg.Estimation.Smoother.equals("On"))
+		{
+			
+	    smootherResults.smoother.get(smootherResults.smoother.size()-1).xstar = smootherResults.smoother.get(smootherResults.smoother.size()-1).xpost;
+	    smootherResults.smoother.get(smootherResults.smoother.size()-1).Pstar = smootherResults.smoother.get(smootherResults.smoother.size()-1).Ppost;			
+			
+	    for(int i = 0; i < smootherResults.smoother.size()-1;i++)
+	    {
+	    	smootherData.smootherStep smDatak1 = smootherResults.smoother.get(smootherResults.smoother.size() - i - 1);
+	    	smootherData.smootherStep smDatak = smootherResults.smoother.get(smootherResults.smoother.size() - i - 2);
+
+			RealMatrix Csmoother = new Array2DRowRealMatrix(numsta,numsta);
+			RealMatrix Asmoother = new Array2DRowRealMatrix(numsta,numsta);
+	    	
+			for(int j = 0; j < numsig; j++) 
+			{
+				Csmoother = Csmoother.add(((smDatak.sigPost.getColumnMatrix(j).subtract(smDatak.xpost)).multiply( 
+				    (smDatak1.sigPre.getColumnMatrix(j).subtract(smDatak1.xpre)).transpose())).scalarMultiply(weight));
+
+
+			}
+	    		
+			Asmoother = Csmoother.multiply(MatrixUtils.inverse(smDatak1.Ppre));
+
+			smDatak.xstar = smDatak.xpost.add(Asmoother.multiply(smDatak1.xstar.subtract(smDatak1.xpre)));
+			smDatak.Pstar = smDatak.Ppost.add(Asmoother.multiply((smDatak1.Pstar.subtract(smDatak1.Ppre)).multiply(Asmoother.transpose())));
+			
+			smootherResults.smoother.set(smootherResults.smoother.size() - i - 2,smDatak);
+			
+	    }
+	    
+	    
+	    
+	    //store in results
+	    
+	    SpacecraftState[] smSsta = new SpacecraftState[1];
+
+	    tofm = 0.0;
+
+	    
+	    for(int j = 0; j < smootherResults.smoother.size();j++)
+	    {
+	    	
+		    pv = smootherResults.smoother.get(j).xstar.getColumn(0);
+		    
+		    tm = new AbsoluteDate(DateTimeComponents.parseDateTime(odobs.rawmeas[j].Time),
+					  DataManager.utcscale);
+		    
+		    
+		    //LT Adjustment
+
+		    AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
+
+		    
+		    TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tmlt,
+										new Vector3D(pv[0], pv[1], pv[2]),
+										new Vector3D(pv[3], pv[4], pv[5]));
+
+		    tofm = 0.0;
+		    if (odcfg.stations != null && odobs.rawmeas[j].Station != null)
+		    {
+			PVCoordinates pvi = odcfg.stations.get(odobs.rawmeas[j].Station).getBaseFrame().
+			    getPVCoordinates(tm, odcfg.propframe);
+			tofm = Range.signalTimeOfFlight(pvs, pvi.getPosition(), tm);
+		    }
+		    
+			tmlt = new AbsoluteDate(tm, -tofm);
+
+		    ///
+		    
+		    smSsta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
+										       new Vector3D(pv[3], pv[4], pv[5])), odcfg.propframe, tmlt, Constants.EGM96_EARTH_MU));
+
+
+
+		    
+	    	//compute smoothed residuals
+			if (combmeas)
+			{
+			    for (int i = 0; i < meanames.length; i++)
+			    {
+				double[] fitv = odobs.measobjs.get(j).estimate(1, 1, smSsta).getEstimatedValue();
+				if (meanames.length == 1)
+				{
+				   results.Estimation.get(j).PostFit.put(meanames[i], fitv);
+				}
+				else
+				{
+					results.Estimation.get(j).PostFit.put(meanames[i], new double[] {fitv[i]});
+					
+
+				}
+			    }
+			}
+			else
+			{
+			    double[] fitv = odobs.measobjs.get(j*2).estimate(1, 1, smSsta).getEstimatedValue();
+			    results.Estimation.get(j).PostFit.put(meanames[0], fitv);
+
+			    if (Rsize > 1)
+			    {
+				fitv = odobs.measobjs.get(j*2 + 1).estimate(1, 1, smSsta).getEstimatedValue();
+				results.Estimation.get(j).PostFit.put(meanames[1], fitv);
+			    }
+			}
+
+	    	
+	    	//store
+	    	results.Estimation.get(j).EstimatedState = smootherResults.smoother.get(j).xstar.getColumn(0);
+	    	results.Estimation.get(j).EstimatedCovariance = smootherResults.smoother.get(j).Pstar.getData();
+	    		    	
+	    }
+	    
+		}
+	    
 	}
 
 	double[] stack(RealMatrix mat, double[] arr)
@@ -542,11 +754,15 @@ public class Estimation
 	    double[] EstimatedAcceleration;
 	    double[][] EstimatedCovariance;
 	    double[][] InnovationCovariance;
+	    int numConsideredParams;
 
+	    
+	    
 	    public JSONEstimation()
 	    {
 		PreFit = new HashMap<String, double[]>();
 		PostFit = new HashMap<String, double[]>();
+		
 	    }
 	}
 
@@ -566,4 +782,34 @@ public class Estimation
 	    Propagation = new JSONPropagation();
 	}
     }
+    
+    class smootherData
+    {
+    	class smootherStep
+    	{
+    		
+    		RealMatrix Ppre;
+    		RealMatrix Ppost;
+    		RealMatrix xpre;
+    		RealMatrix xpost;
+    		RealMatrix sigPre;
+    		RealMatrix sigPost;
+    		
+    		RealMatrix xstar;
+    		RealMatrix Pstar;
+
+    	}
+    	
+    	ArrayList<smootherStep> smoother;
+    	
+    	public smootherData()
+    	{
+    		smoother = new ArrayList<smootherStep>();
+    	}
+    }
+    
+    
+    
+    
+    
 }

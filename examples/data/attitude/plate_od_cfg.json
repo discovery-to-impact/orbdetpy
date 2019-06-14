@@ -56,7 +56,7 @@
     "Propagation" :
     {
 	"Start" : "2018-03-23T08:55:03Z",
-	"End" : "2018-03-24T08:55:03Z",
+	"End" : "2018-03-30T08:55:03Z",
 	"Step" : 300.0,
 	"InitialState" :
 	[
@@ -97,7 +97,7 @@
     {
 	"Filter" : "UKF",
 	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25, 1E-6, 1E-6, 1E-6],
-	"ProcessNoise" : [1E-24, 1E-24, 1E-24, 1E-24, 1E-24, 1E-24],
+	"ProcessNoise" : [1E-30, 1E-30, 1E-30, 1E-30, 1E-30, 1E-30],
 	"NoiseTimeDelta" : 10.0,
 	"DMCCorrTime" : 50.0,
 	"DMCSigmaPert" : 0.001,

@@ -140,7 +140,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
     if (cfg["RadiationPressure"]["Creflection"]["Estimation"] == "Estimate"):
         parnames.append(r"$C_R$")
 
-    for i in range(par.shape[-1]):
+    for i in range(par.shape[-1] - o["numConsideredParams"]):
         if (i == 0):
             plt.figure(2)
             plt.suptitle("Estimated parameters")

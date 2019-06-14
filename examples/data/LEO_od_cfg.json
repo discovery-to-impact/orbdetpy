@@ -22,7 +22,7 @@
 	    "Value" : 2.0,
 	    "Min" : 0.01,
 	    "Max" : 3.00,
-	    "Estimation" : "Consider"
+	    "Estimation" : "Estimate"
 	}
     },
 
@@ -46,7 +46,7 @@
             "Value" : 1.5,
             "Min" : 1.0,
             "Max" : 2.0,
-            "Estimation" : "Consider"
+            "Estimation" : "Estimate"
 	}
     },
 
@@ -61,37 +61,45 @@
     "Propagation" :
     {
 	"Start" : "2018-01-01T00:02:54Z",
-	"End" : "2018-01-02T00:02:54Z",
+	"End" : "2018-03-01T00:02:54Z",
 	"InitialState" :
 	[
-	    35996020.7669903,
-	    -22467515.537321,
-	    -87938.3477596335,
-        1625.07170292693,
-        2610.77460296534,
-	    -2.09170251623871
+	    7378000.7669903,
+	    0,
+	    0,
+        0,
+        5500.77460296534,
+	    5500.09170251623871
 	]
     },
 
     "Stations" :
     {
-	"Station1" :
+	"Kwaj" :
 	{
-            "Latitude" : 0.5578822780952235,
-            "Longitude" : -1.8017600227679735,
-            "Altitude" : 855.0
+            "Latitude" : 0.1522312267,
+            "Longitude" : 2.92744494054,
+            "Altitude" : 38.2246
+	},
+	"Arecibo" :
+	{
+            "Latitude" : 0.32016610686,
+            "Longitude" : -1.16505575707,
+            "Altitude" : 497
 	}
     },
 
     "Measurements" :
     {
-	"RightAscension" :
+	"Range" :
 	{
-	    "Error" : [4.8E-6]
+	    "TwoWay" : true,
+	    "Error" : [10.0]
 	},
-	"Declination" :
+	"RangeRate" :
 	{
-	    "Error" : [4.8E-6]
+	    "TwoWay" : true,
+	    "Error" : [0.1]
 	}
     },
 
@@ -100,7 +108,6 @@
 	"Filter" : "UKF",
 	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25],
 	"ProcessNoise" : [1E-24, 1E-24, 1E-24, 1E-24, 1E-24, 1E-24],
-	"NoiseTimeDelta" : 30.0,
-	"Smoother" : "On"
+	"NoiseTimeDelta" : 30.0
     }
 }
