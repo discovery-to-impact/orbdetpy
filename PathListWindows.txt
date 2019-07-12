@@ -29,3 +29,5 @@ python testsmoother.py data/azel_od_output_1.json
 CAR:
 cd Documents\ASTRIA\orbdetpy\examples
 python testCAR.py data/radec_car_cfg.json
+
+test 1
