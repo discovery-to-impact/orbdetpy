@@ -18,16 +18,12 @@
 
 package org.astria;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.util.ArrayList;
+import org.astria.DataManager;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.estimation.iod.IodGooding;
 import org.orekit.estimation.measurements.GroundStation;
-import org.orekit.files.ccsds.TDMFile;
-import org.orekit.files.ccsds.TDMParser;
 import org.orekit.frames.Frame;
 import org.orekit.frames.TopocentricFrame;
 import org.orekit.frames.Transform;
@@ -36,6 +32,16 @@ import org.orekit.time.AbsoluteDate;
 import org.orekit.time.DateTimeComponents;
 import org.orekit.utils.Constants;
 import org.orekit.utils.PVCoordinates;
+
+import org.orekit.estimation.measurements.ObservableSatellite;
+import org.orekit.estimation.measurements.AngularRaDec;
+import org.orekit.estimation.measurements.AngularAzEl;
+import org.orekit.utils.TimeStampedPVCoordinates;
+import org.orekit.orbits.CartesianOrbit;
+import org.orekit.propagation.SpacecraftState;
+import org.orekit.estimation.measurements.Range;
+import org.orekit.estimation.measurements.RangeRate;
+import org.astria.Settings;
 
 public class Utilities
 {
@@ -92,60 +98,207 @@ public class Utilities
 	return(new IodGooding(DataManager.eme2000, Constants.EGM96_EARTH_MU).estimate(
 		   gspos[0], gspos[1], gspos[2], los[0], time[0], los[1], time[1], los[2], time[2], rho1init, rho3init));
     }
+	
+	public static double[] cart2radec(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
+	{	
 
-    public static String[] importTDM(String file_name)
-    {
-	Measurements meas = new Measurements();
-	Measurements.JSONMeasurement json = null;
-	ArrayList<String> output = new ArrayList<String>();
-	Gson gsonobj = new GsonBuilder().setPrettyPrinting().create();
+		double[] baseWeight;
+	
+		OneAxisEllipsoid oae = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, DataManager.itrf);
+		GeodeticPoint geopoint = new GeodeticPoint(gslat, gslon, gsalt);
+		TopocentricFrame baseFrame = new TopocentricFrame(oae,geopoint,Integer.toString(0));
 
-	TDMFile tdm = new TDMParser().parse(file_name);
-	for (TDMFile.ObservationsBlock blk : tdm.getObservationsBlocks())
-	{
-	    int i = 0;
-	    String atype = blk.getMetaData().getAngleType();
-	    ArrayList<Measurements.JSONMeasurement> mall = new ArrayList<Measurements.JSONMeasurement>();
+		GroundStation station = new GroundStation(baseFrame);
+		station.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
 
-	    for (TDMFile.Observation obs : blk.getObservations())
-	    {
-		if (i == 0)
-		    json = meas.new JSONMeasurement();
+		Frame referenceFrame = DataManager.eme2000;
+		
+		AbsoluteDate tm = new AbsoluteDate(DateTimeComponents.parseDateTime(time), DataManager.utcscale);
 
-		if (atype == null)
-		{
-		    if (obs.getKeyword().equals("RANGE"))
-			json.Range = obs.getMeasurement()*1000.0;
-		    else
-			json.RangeRate = obs.getMeasurement()*1000.0;
-		}
-		else if (atype.equals("RADEC"))
-		{
-		    if (obs.getKeyword().equals("ANGLE_1"))
-			json.RightAscension = obs.getMeasurement()*Math.PI/180.0;
-		    else
-			json.Declination = obs.getMeasurement()*Math.PI/180.0;
-		}
-		else if (atype.equals("AZEL"))
-		{
-		    if (obs.getKeyword().equals("ANGLE_1"))
-			json.Azimuth = obs.getMeasurement()*Math.PI/180.0;
-		    else
-			json.Elevation = obs.getMeasurement()*Math.PI/180.0;
-		}
+		baseWeight = new double[]{1.0, 1.0};
 
-		if (++i == 2)
-		{
-		    i = 0;
-		    json.Time = obs.getEpoch().toString() + "Z";
-		    mall.add(json);
-		}
-	    }
+		ObservableSatellite satellite = new ObservableSatellite(0);
+							
+		AngularRaDec radec = new AngularRaDec(station, referenceFrame, tm, angular, sigma, baseWeight, satellite);
+		
+		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
+		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
 
-	    Measurements.JSONMeasurement[] rawmeas = mall.toArray(new Measurements.JSONMeasurement[0]);
-	    output.add(gsonobj.toJson(rawmeas));
+		String stationName = "Station1";
+		Settings odcfg = Settings.loadJSON(cfgjson);
+
+		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
+		PVCoordinates pvi = odcfg.stations.get(stationName).getBaseFrame().getPVCoordinates(tm, odcfg.propframe);
+		double tofm = 0.0;
+		// tofm = Range.signalTimeOfFlight(pvs, pvi.getPosition(), tm);
+		AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
+
+		PVCoordinates PV = new PVCoordinates(pos, vel);
+		CartesianOrbit cartOrbit = new CartesianOrbit(PV, odcfg.propframe, tmlt, Constants.EGM96_EARTH_MU);
+		SpacecraftState[] ssta = new SpacecraftState[1];
+		ssta[0] = new SpacecraftState(cartOrbit, odcfg.SpaceObject.Mass);
+
+		double[] RADEC;
+		RADEC = radec.estimate(1, 1, ssta).getEstimatedValue();
+
+		return(RADEC);
 	}
 
-	return(output.toArray(new String[0]));
-    }
+	public static double[] cart2azel(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
+	{	
+
+		double[] baseWeight;
+	
+		OneAxisEllipsoid oae = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, DataManager.itrf);
+		GeodeticPoint geopoint = new GeodeticPoint(gslat, gslon, gsalt);
+		TopocentricFrame baseFrame = new TopocentricFrame(oae,geopoint,Integer.toString(0));
+
+		GroundStation station = new GroundStation(baseFrame);
+		station.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		
+		AbsoluteDate tm = new AbsoluteDate(DateTimeComponents.parseDateTime(time), DataManager.utcscale);
+
+		baseWeight = new double[]{1.0, 1.0};
+
+		ObservableSatellite satellite = new ObservableSatellite(0);
+							
+		AngularAzEl azel = new AngularAzEl(station, tm, angular, sigma, baseWeight, satellite);
+		
+		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
+		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
+
+		String stationName = "Station1";
+		Settings odcfg = Settings.loadJSON(cfgjson);
+
+		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
+		PVCoordinates pvi = odcfg.stations.get(stationName).getBaseFrame().getPVCoordinates(tm, odcfg.propframe);
+		double tofm = 0.0;
+		// tofm = Range.signalTimeOfFlight(pvs, pvi.getPosition(), tm);
+		AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
+
+		PVCoordinates PV = new PVCoordinates(pos, vel);
+		CartesianOrbit cartOrbit = new CartesianOrbit(PV, odcfg.propframe, tmlt, Constants.EGM96_EARTH_MU);
+		SpacecraftState[] ssta = new SpacecraftState[1];
+		ssta[0] = new SpacecraftState(cartOrbit, odcfg.SpaceObject.Mass);
+
+		double[] AZEL;
+		AZEL = azel.estimate(1, 1, ssta).getEstimatedValue();
+
+		return(AZEL);
+	}
+
+	public static double[] cart2range(String cfgjson, double gslat, double gslon, double gsalt, String time, double range1, double error, double[] pv)
+	{
+		
+		double[] baseWeight;
+	
+		OneAxisEllipsoid oae = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, DataManager.itrf);
+		GeodeticPoint geopoint = new GeodeticPoint(gslat, gslon, gsalt);
+		TopocentricFrame baseFrame = new TopocentricFrame(oae,geopoint,Integer.toString(0));
+
+		GroundStation station = new GroundStation(baseFrame);
+		station.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		
+		AbsoluteDate tm = new AbsoluteDate(DateTimeComponents.parseDateTime(time), DataManager.utcscale);
+
+		ObservableSatellite satellite = new ObservableSatellite(0);
+							
+		Range range = new Range(station, true, tm, range1, error, 1.0, satellite);
+		
+		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
+		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
+
+		String stationName = "Station1";
+		Settings odcfg = Settings.loadJSON(cfgjson);
+
+		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
+		PVCoordinates pvi = odcfg.stations.get(stationName).getBaseFrame().getPVCoordinates(tm, odcfg.propframe);
+		double tofm = 0.0;
+		// tofm = Range.signalTimeOfFlight(pvs, pvi.getPosition(), tm);
+		AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
+
+		PVCoordinates PV = new PVCoordinates(pos, vel);
+		CartesianOrbit cartOrbit = new CartesianOrbit(PV, odcfg.propframe, tmlt, Constants.EGM96_EARTH_MU);
+		SpacecraftState[] ssta = new SpacecraftState[1];
+		ssta[0] = new SpacecraftState(cartOrbit, odcfg.SpaceObject.Mass);
+
+		double[] RANGE;
+		RANGE = range.estimate(1, 1, ssta).getEstimatedValue();
+
+		return(RANGE);
+	}
+	
+	public static double[] cart2rangerate(String cfgjson, double gslat, double gslon, double gsalt, String time, double rangerate1, double error, double[] pv)
+	{
+		
+		double[] baseWeight;
+	
+		OneAxisEllipsoid oae = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, DataManager.itrf);
+		GeodeticPoint geopoint = new GeodeticPoint(gslat, gslon, gsalt);
+		TopocentricFrame baseFrame = new TopocentricFrame(oae,geopoint,Integer.toString(0));
+
+		GroundStation station = new GroundStation(baseFrame);
+		station.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		
+		AbsoluteDate tm = new AbsoluteDate(DateTimeComponents.parseDateTime(time), DataManager.utcscale);
+
+		ObservableSatellite satellite = new ObservableSatellite(0);
+							
+		RangeRate rangerate = new RangeRate(station, tm, rangerate1, error, 1.0, true, satellite);
+		
+		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
+		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
+
+		String stationName = "Station1";
+		Settings odcfg = Settings.loadJSON(cfgjson);
+
+		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
+		PVCoordinates pvi = odcfg.stations.get(stationName).getBaseFrame().getPVCoordinates(tm, odcfg.propframe);
+		double tofm = 0.0;
+		// tofm = Range.signalTimeOfFlight(pvs, pvi.getPosition(), tm);
+		AbsoluteDate tmlt = new AbsoluteDate(tm, -tofm);
+
+		PVCoordinates PV = new PVCoordinates(pos, vel);
+		CartesianOrbit cartOrbit = new CartesianOrbit(PV, odcfg.propframe, tmlt, Constants.EGM96_EARTH_MU);
+		SpacecraftState[] ssta = new SpacecraftState[1];
+		ssta[0] = new SpacecraftState(cartOrbit, odcfg.SpaceObject.Mass);
+
+		double[] RANGERATE;
+		RANGERATE = rangerate.estimate(1, 1, ssta).getEstimatedValue();
+
+		return(RANGERATE);
+	}
+
+	public static double[] lla2eciJ2000(double gslat, double gslon, double gsalt, String tmstr)
+	{	
+
+		Vector3D gspos;
+		double[] gsPOS = new double[3];
+		
+		AbsoluteDate time = new AbsoluteDate(DateTimeComponents.parseDateTime(tmstr), DataManager.utcscale);
+		
+		OneAxisEllipsoid oae = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING, DataManager.itrf);
+		GeodeticPoint geopoint = new GeodeticPoint(gslat, gslon, gsalt);
+		TopocentricFrame baseFrame = new TopocentricFrame(oae,geopoint,Integer.toString(0));
+
+		GroundStation station = new GroundStation(baseFrame);
+		station.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		station.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+		
+		gspos = station.getBaseFrame().getPVCoordinates(time, DataManager.eme2000).getPosition();
+		gsPOS[0] = gspos.getX();
+		gsPOS[1] = gspos.getY();
+		gsPOS[2] = gspos.getZ();
+		
+	return(gsPOS);
+	}
 }
