@@ -30,11 +30,30 @@ acclerations that result from unmodeled dynamics, maneuvers etc.
 You can either use your own measurements or simulate observations using
 the simulateMeasurements() function.
 
+The web interface for process execution currently includes:
+
+About – provides brief information on the interface
+1) Select input files. Multi option dropdown that allows the user to select the files in the data folder.
+2) Data segmentation. Range slider that allows the user to select the time range of data to run. Displays the start and end time below the slider. (in-progress)
+3) Run simulation. Runs testsim.py
+4) Parse data. Parses currently provided L3 ADS data
+5) Add time bias, value is assigned in feature 7 or feature 12
+6) Estimate and correct observations for stellar aberration
+7) Estimate for a time bias using reference state information used for feature 5 (only works for RA/DEC right now)
+8) Create a plot showing residuals between the given observations and the reference state
+9) Run orbit determination. Runs testodet.py
+10) Run RTS UKF smoother (must run with feature 11 for now)
+11) Create plots for orbit determination analysis
+12) Input desired time bias value. Input box used for feature 5
+13) Submit button to run chosen process. Clear button to reset run and allow for another run.
+14) Select file to configure or view. Dropdown that shows files in data folder
+15) Text area that displays contents selected file and allows the user to change any of its contents
+
 Installation
 ------------
 
 1) Python 3.6+ must be installed with the packages numpy, scipy, pyjnius,
-   matplotlib, requests.
+   matplotlib, requests, plotly, and dash.
 2) Install the Java Development Kit 8+ (1.8+) from `here
    <http://openjdk.java.net>`_. Set the JAVA_HOME environment variable
    to point to your JDK installation.
@@ -50,8 +69,8 @@ Space weather data in data/ is obtained from `CelesTrak <http://www.celestrak.co
 The astrodynamics data in data/ must be periodically updated using the
 script examples/update_data.py.
 
-Examples
---------
+Command Line Examples
+---------------------
 
 The following example programs can be found in the 'examples' folder.
 These examples use the Python wrapper interface but calling the
@@ -66,6 +85,7 @@ underlying Java implementation directly is quite straightforward.
 
 4) plotodet.py : Plots the results of fitting orbits using testodet.py.
 
+5) runWebInterface : Executes locally hosted web interface. 
 orbdetpy uses JSON files to store settings, measurements and estimation
 results. The files in examples/data show how to configure measurement
 simulation and orbit determination using radar or telescope data. The
@@ -101,6 +121,45 @@ working directory is examples/data.
 
    This will plot the OD results from (3).
 
+Web Interface Examples
+----------------------
+
+An alternative to the above example is to use the web interface. Executing 
+runWebInterface.py will create a locally hosted site. The web address will 
+display in the terminal. Open a browser of your choice and navigate to the
+displayed address. Follow the instructions in the About section, or 
+follow the instructions below for a simple use case.
+
+1) Simulate state vectors and radar measurements:
+   
+   Select the "Select input files" dropdown: radar_sim_cfg.json
+   Select the "Run Simulation" checkbox:
+   Press the "Submit" button:
+   This will run the simulation configured in radar_sim_cfg.json and
+   write simulated output to radar_obs_data.json.
+   Once complete, press the "Clear" button:
+   This will reset the program and allow for another process to execute.
+   
+2) Run OD on simulated radar data:
+
+   Select the "Select input files" dropdown: radar_od_cfg.json, radar_obs_data.json
+   Select the "Run orbit determination" checkbox:
+   Press the "Submit" button:
+   This will run OD on the simulated radar data generated in (1)
+   using the OD configuration in radar_od_cfg.json and write OD
+   output to od_output.json.
+   Once complete, press the "Clear" button:
+   This will reset the program and allow for another process to execute.
+
+3) Plot results:
+
+   Select the "Select input files" dropdown: radar_od_cfg.json, radar_obs_data.json, radar_od_out.json
+   Select the "Create plots for orbit determination analysis" checkbox:
+   Press the "Submit" button:
+   This will plot OD results from (2).
+   Once complete, press the "Clear" button:
+   This will reset the program and allow for another process to execute.
+
 Future Work
 -----------
 
@@ -108,9 +167,10 @@ The following tasks are under consideration. Community contributions are
 always welcome.
 
 1) A batch least squares implementation.
-2) Rauch-Tung-Striebel smoother.
-3) Parametric analysis i.e. the ability to pass-through certain
+2) Parametric analysis i.e. the ability to pass-through certain
    measurement types.
+3) Time bias estimation during filter run.
+4) Dynamic outlier filtering
 
 Bug Reports
 -----------

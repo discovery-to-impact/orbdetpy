@@ -14,16 +14,12 @@ import plotly.graph_objs as go
 from plotly import tools
 from astropy.time import Time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from orbdetpy import cart2rangerate
-from orbdetpy import cart2range
-from orbdetpy import cart2azel
-from orbdetpy import cart2radec
 from orbdetpy import lla2eciJ2000
-
-def matlab_to_python_datetime(matlab_datenum):
-    """Convert matlab datenumes into date time"""
-    return datetime.fromordinal(int(matlab_datenum)) + timedelta(days=matlab_datenum % 1) - timedelta(days=366)
-
+from orbdetpy import cart2radec
+from orbdetpy import cart2azel
+from orbdetpy import cart2range
+from orbdetpy import cart2rangerate
+from orbdetpy import transformFrame
 
 def sigmapoints(xBar, PBar):
     """Unscaled Unscented Transform with no mean"""
@@ -95,111 +91,6 @@ def readODoutJSON(filename):
     return xPre, xPost, PPre, PPost, SPpre
 
 
-def dataConfigMAT(filename):
-
-    filestore = sio.loadmat(filename)
-
-    xPre = filestore['xfm']
-    xPost = filestore['xfp']
-    PPre = filestore['Pfm']
-    PPost = filestore['Pfp']
-    SPpre = filestore['Xfm']
-
-    xS = filestore['xs']
-    PS = filestore['Ps']
-
-    RS = filestore['Rs']
-
-    return xPre, xPost, PPre, PPost, SPpre, xS, PS, RS
-
-
-def interpolate1d(time, newtime, posvel):
-    """interpolated using python interp1d"""
-    # interpolates a given cartesian [6x1] at time to newtime
-    fx = interp1d(time, posvel[:, 0], kind='cubic')
-    fy = interp1d(time, posvel[:, 1], kind='cubic')
-    fz = interp1d(time, posvel[:, 2], kind='cubic')
-    fvx = interp1d(time, posvel[:, 3], kind='cubic')
-    fvy = interp1d(time, posvel[:, 4], kind='cubic')
-    fvz = interp1d(time, posvel[:, 5], kind='cubic')
-
-    indexsize = np.size(newtime)
-    PVobs = np.zeros([indexsize, 6])
-    PVobs[:, 0] = fx(newtime)
-    PVobs[:, 1] = fy(newtime)
-    PVobs[:, 2] = fz(newtime)
-    PVobs[:, 3] = fvx(newtime)
-    PVobs[:, 4] = fvy(newtime)
-    PVobs[:, 5] = fvz(newtime)
-
-    return PVobs
-
-
-def lla2xyz(lat, lon, alt):
-    """WGS84 planet fixed lat, lon, alt [rad, rad, km] to x, y, z [km]"""
-    dtr = math.pi / 180
-    a = 6378.1370
-    b = 6356.7523
-    f = (a-b) / a
-    lat = lat * dtr
-    lon = lon * dtr
-    sinlat = math.sin(lat)
-    coslat = math.cos(lat)
-    sinlat2 = sinlat * sinlat
-    denom = np.sqrt(1 - (2*f - f*f)*sinlat2)
-    G1 = a / denom + alt
-    G2 = a*(1-f)**2 / denom + alt
-
-    x = G1 * coslat * math.cos(lon)
-    y = G1 * coslat * math.sin(lon)
-    z = G2 * sinlat
-
-    return x, y, z
-
-
-def xyz2lla(x, y, z):
-    """WGS84 planet fixed x, y, z [km] to lat, lon, alt [rad, rad, km]"""
-    rtd = 180 / math.pi
-
-    a = 6378.1370
-    b = 6356.7523
-
-    a2 = a * a
-    b2 = b * b
-
-    f = (a - b) / a
-    e2 = f * (2 - f)
-    ep2 = (a2 - b2) / b2
-    p = np.sqrt(x**2 + y**2)
-
-    # Two sides and hypotenuse of right-angle-triangle with one angle=theta
-    s1 = z * a
-    s2 = p * b
-    h = np.sqrt(s1**2 + s2**2)
-    sin_theta = s1 / h
-    cos_theta = s2 / h
-    theta = math.atan(s1 / s2)
-
-    # Two sides and hypotenuse of right-angle-triangle with one angle=lat
-    s1 = z + ep2 * b * (sin_theta**3)
-    s2 = p - a * e2 * (cos_theta**3)
-    h = math.sqrt(s1**2 + s2**2)
-
-    tan_lat = s1 / s2
-    sin_lat = s1 / h
-    cos_lat = s2 / h
-    lat = math.atan(tan_lat)
-    lat = rtd * lat
-
-    #N = a2 * ((a2 * (cos_lat**2) + b2 * (sin_lat**2))**(-0.5))
-    N = a2 / math.sqrt(a2 * (cos_lat**2) + b2 * (sin_lat**2))
-    alt = p / cos_lat - N
-
-    lon = rtd * math.atan2(y, x)
-
-    return lat, lon, alt
-
-
 def xECI2RIC(xECI, r, v):
     """Transform ECI vector to RIC
     :param xECI: 3x1 pos [km] 
@@ -209,7 +100,6 @@ def xECI2RIC(xECI, r, v):
     xECI = np.reshape(xECI, [3, 1])
     r = np.reshape(r, [3, 1])
     v = np.reshape(v, [3, 1])
-
     nr = np.linalg.norm(r)
     ruv = r / nr
     crossrv = np.cross(r, v, axis=0)
@@ -433,7 +323,6 @@ def meanstdANG(meas):
     meanstdANG = [np.mean(meas[:, 0]), np.std(
         meas[:, 0]), np.mean(meas[:, 1]), np.std(meas[:, 1])]
     # meanstd = [meanRA stdRA meanDEC stdDEC]
-
     return meanstdANG
 
 
@@ -460,9 +349,7 @@ def pv2radec(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-
     radec = cart2radec(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv)
-
     return(radec)
 
 
@@ -489,9 +376,7 @@ def pv2azel(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-
     azel = cart2azel(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv)
-
     return(azel)
 
 
@@ -518,9 +403,7 @@ def pv2range(cfg, gslat, gslon, gsalt, time, range1, error, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-
     range1 = cart2range(cfgjson, gslat, gslon, gsalt, time, range1, error, pv)
-
     return(range1)
 
 
@@ -547,10 +430,8 @@ def pv2rangerate(cfg, gslat, gslon, gsalt, time, rangerate1, error, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-
     rangerate1 = cart2rangerate(
         cfgjson, gslat, gslon, gsalt, time, rangerate1, error, pv)
-
     return(rangerate1)
 
 
@@ -563,7 +444,6 @@ def meanstdPV(PV):
     """
     meanstdPV = [np.mean(PV[:, 0]), np.std(PV[:, 0]), np.mean(PV[:, 1]), np.std(PV[:, 1]), np.mean(PV[:, 2]), np.std(
         PV[:, 2]), np.mean(PV[:, 3]), np.std(PV[:, 3]), np.mean(PV[:, 4]), np.std(PV[:, 4]), np.mean(PV[:, 5]), np.std(PV[:, 5])]
-
     return meanstdPV
 
 
@@ -624,12 +504,10 @@ def interpolationANG(newtime, time, ang, degree):
     val = int(indexsize/10)
     ang1 = interpolation(newtime, time[0::val], ang[0::val, 0])
     ang2 = interpolation(newtime, time[0::val], ang[0::val, 1])
-
     indexsize = np.size(newtime)
     ANGobs = np.zeros([indexsize, 2])
     ANGobs[:, 0] = ang1
     ANGobs[:, 1] = ang2
-
     return ANGobs
 
 
@@ -641,10 +519,8 @@ def aberrationCorrection(obs_data, plot):
     :type plot: 1 or 0
     """
     # Reference: pg 143-152 Astronomical Algorithms 2nd ed. Jean Meeus
-
     with open(obs_data, "r") as fp:
             inp = json.load(fp)
-
     tstr, ang1, ang2 = [], [], []
     for i in inp:
             # Get time string
@@ -652,12 +528,10 @@ def aberrationCorrection(obs_data, plot):
             # Get obs
             ang1.append(i['RightAscension'])
             ang2.append(i['Declination'])
-
     time_UTC = Time(tstr, format='isot', scale='utc')
     time_TT = time_UTC.tt
     # JDE = Julian Day Ephemeris
     JDE = time_TT.jd
-
     # Degrees to radians
     D2R = math.pi/180
     # Radians to degrees
@@ -666,7 +540,6 @@ def aberrationCorrection(obs_data, plot):
     R2A = 648000.0/math.pi
     # Arcseconds to radians
     A2R = math.pi/648000.
-
     numObs = len(tstr)
     devRA, devDEC = [], []
     for ii in range(0, numObs, 1):
@@ -716,13 +589,10 @@ def aberrationCorrection(obs_data, plot):
         # ddec = deviation in declination [rad]
         ddec = -kappa*(CS*CE*(TE*CD - SA*SD)+CA*SD*SS) + e * \
             kappa*(CP*CE*(TE*CD-SA*SD)+CA*SD*SP)
-
         devRA.append(dalpha*R2A)
         devDEC.append(ddec*R2A)
-
         inp[ii]['RightAscension'] = inp[ii]['RightAscension'] + dalpha
         inp[ii]['Declination'] = inp[ii]['Declination'] + ddec
-
         # TEST CASE
         # alpha = DTR*41.5472
         # dec = DTR*49.3485
@@ -733,10 +603,8 @@ def aberrationCorrection(obs_data, plot):
         # print('pi =',R2D*pi - 103.434)
         # print('alpha =',R2A*dalpha - 30.045)
         # print('dec =',R2A*ddec - 6.697)
-
     with open(obs_data, 'w') as fp:
         json.dump(inp, fp, indent=4)
-
     if plot:
         TITLE = 'Stellar Aberration Correction'
         # Plot Filter Measurement Residuals
@@ -749,7 +617,6 @@ def aberrationCorrection(obs_data, plot):
         # Create subplot
         fig = tools.make_subplots(rows=2, cols=1, subplot_titles=(
             title1, title2), shared_xaxes=True)
-
         # Assign traces to subplots
         fig.append_trace(trace1, 1, 1)
         fig.append_trace(trace2, 2, 1)
@@ -759,8 +626,8 @@ def aberrationCorrection(obs_data, plot):
         fig['layout']['yaxis1'].update(title='Aberration Effect [arcsec]')
         fig['layout']['yaxis2'].update(title='Aberration Effect [arcsec]')
         # Execute
-        plotly.offline.plot(fig, filename='Plots/abereffect.html', auto_open=True)
-
+        plotly.offline.plot(
+            fig, filename='Plots/abereffect.html', auto_open=True)
     return
 
 
@@ -769,20 +636,16 @@ def plotEstSensorError(od_cfg, obs_data):
     :param od_cfg: od_cfg filename
     :type obs_data: obs_data filename
     """
-
     with open(od_cfg, "r") as fp:
             cfg = json.load(fp)
     with open(obs_data, "r") as fp:
             inp = json.load(fp)
-
     key = tuple(cfg["Measurements"].keys())
-
     # Get site location
     key2 = tuple(cfg["Stations"].keys())
     lat = cfg['Stations'][key2[0]]['Latitude']
     lon = cfg['Stations'][key2[0]]['Longitude']
     alt = cfg['Stations'][key2[0]]['Altitude']
-
     tstr, pvRef, ang1, ang2 = [], [], [], []
     for i in inp:
             # Get time string
@@ -793,18 +656,15 @@ def plotEstSensorError(od_cfg, obs_data):
             # Get obs
             ang1.append(i[key[0]])
             ang2.append(i[key[1]])
-
     obs = np.array([ang1, ang2])
     pvRef = np.array(pvRef)
     numObs = np.size(ang1)
-
     smoothMeas, smoothRes, refMeas, refRes = [], [], [], []
     sig1 = np.array(cfg['Measurements'][key[0]]['Error'])
     sig2 = np.array(cfg['Measurements'][key[1]]['Error'])
     for ii in range(0, numObs, 1):
         ti = tstr[ii]
         sigma = [sig1, sig2]
-
         pv = pvRef[ii, :].tolist()
         angular = obs[:, ii].tolist()
         if key[0] == 'RightAscension':
@@ -822,10 +682,8 @@ def plotEstSensorError(od_cfg, obs_data):
         output = np.squeeze(np.array(output))
         angular = np.array(angular)
         refRes.append(angular - output)
-
     refRes = np.array(refRes)
     meanstdANGref = meanstdANG(refRes)
-
     angles = ("Azimuth", "Elevation", "RightAscension", "Declination")
     if (key[0] in angles and key[1] in angles):
         refRes = refRes*648000.0/math.pi
@@ -833,11 +691,10 @@ def plotEstSensorError(od_cfg, obs_data):
         units = ("[arcsec]", "[arcsec]")
     else:
         if ("PositionVelocity" in key):
-            
+
             units = ("[m]", "[m]", "[m]", "[m/s]", "[m/s]", "[m/s]")
         else:
             units = ("[m]", "[m/s]")
-
     TITLE = 'Sensor Measurement - Reference Measurement Residuals'
     # Plot Filter Measurement Residuals
     title1 = key[0] + ' Error: Mean = ' + \
@@ -863,12 +720,10 @@ def plotEstSensorError(od_cfg, obs_data):
     fig['layout']['yaxis2'].update(title=key[1]+' '+units[1])
     # Execute
     plotly.offline.plot(fig, filename='Plots/measerror.html', auto_open=True)
-
     return
 
 
 def parseAstroAndRefData(fnAstro, fnRef, fnObs, fnODout, tBias):
-
     fnODin = 'data/radec_od_cfg.json'  # Use as generic cfg to edit
     # Load astro formatted .mat file into python
     mat_contents = sio.loadmat(fnAstro, struct_as_record=False)
@@ -879,7 +734,8 @@ def parseAstroAndRefData(fnAstro, fnRef, fnObs, fnODout, tBias):
     DEC = astro.dec_stellar
     numObs = np.size(RA)
     obs_mjd = astro.mjd
-    obs_Time = Time(obs_mjd, format='mjd', scale='utc') - timedelta(seconds = tBias)
+    obs_Time = Time(obs_mjd, format='mjd', scale='utc') - \
+        timedelta(seconds=tBias)
     obs_isot = np.squeeze(obs_Time.isot)
     obs_mjd = obs_Time.mjd
     # Get lat, lon, alt, for station location in od_cfg (radians and meters)
@@ -901,6 +757,7 @@ def parseAstroAndRefData(fnAstro, fnRef, fnObs, fnODout, tBias):
                  obs_isot, PVobs, RA, DEC)
     writeODcfgJSON(fnODin, fnODout, startTime, endTime,
                    startMeasurement, PVobs, lat, lon, alt)
+    return
 
 
 def lla2eci(gslat, gslon, gsalt, time):
@@ -920,7 +777,7 @@ def lla2eci(gslat, gslon, gsalt, time):
     return(ecij2000)
 
 
-def estTimeBiasRADEC(obs_data,od_cfg):
+def estTimeBiasRADEC(obs_data, od_cfg):
     """ 
     estimates a time bias using reference data for right ascension and declination measurements
     """
@@ -964,9 +821,9 @@ def estTimeBiasRADEC(obs_data,od_cfg):
     obs_mjd = timeObj.mjd
     tObs = (obs_mjd - obs_mjd[0]) * 86400
     degree = 1
-    while abs(rms-rms_prev) > tb_eps and count < maxcount : 
-        z = np.zeros([2*numObs,1])
-        H = np.zeros([2*numObs,degree])
+    while abs(rms-rms_prev) > tb_eps and count < maxcount:
+        z = np.zeros([2*numObs, 1])
+        H = np.zeros([2*numObs, degree])
         W = np.identity(2*numObs) * 1/(math.pi * 5 / 3600 / 180)**2
         count = count + 1
         for ii in range(0, numObs, 1):
@@ -975,12 +832,14 @@ def estTimeBiasRADEC(obs_data,od_cfg):
             sigma = [sig1, sig2]
             pv = interpolationPV(t, tObs, pvRef, 10)
             pv = np.squeeze(pv)
-            pv = pvRef[ii,:]
-            obs_Time = Time(obs_mjd[ii], format='mjd', scale='utc') - timedelta(seconds=tBias)
+            pv = pvRef[ii, :]
+            obs_Time = Time(obs_mjd[ii], format='mjd',
+                            scale='utc') - timedelta(seconds=tBias)
             obs_isot = obs_Time.isot
-            refObs = pv2radec(od_cfg, lat, lon, alt, obs_isot, obs[:, ii].tolist(), sigma, pv.tolist())
-            epsRA = obs[0,ii] - refObs[0]
-            epsDEC = obs[1,ii] - refObs[1]
+            refObs = pv2radec(od_cfg, lat, lon, alt, obs_isot,
+                              obs[:, ii].tolist(), sigma, pv.tolist())
+            epsRA = obs[0, ii] - refObs[0]
+            epsDEC = obs[1, ii] - refObs[1]
             z[2*ii-1] = epsRA
             z[2*ii] = epsDEC
             # print(epsRA*math.pi*648000.0/math.pi)
@@ -995,11 +854,12 @@ def estTimeBiasRADEC(obs_data,od_cfg):
             rhoz = rhoVec[2]
             rho = np.linalg.norm(rhoVec[:3])
             rhoHat = rhoVec/rho
-            for jj in range(0,degree,1):
-                depsRAdaj = -( rhox*vy - rhoy*vx ) / (rhox**2 + rhoy**2) * t**jj
-                H[2*ii-1,jj] = depsRAdaj
-                depsDECdaj = -( rho*vz - rhoz*np.dot(rhoHat,vVec) ) / (rho**2*math.sqrt(1-rhoHat[2]**2)) * t**jj
-                H[2*ii,jj] = depsDECdaj
+            for jj in range(0, degree, 1):
+                depsRAdaj = -(rhox*vy - rhoy*vx) / (rhox**2 + rhoy**2) * t**jj
+                H[2*ii-1, jj] = depsRAdaj
+                depsDECdaj = -(rho*vz - rhoz*np.dot(rhoHat, vVec)) / \
+                    (rho**2*math.sqrt(1-rhoHat[2]**2)) * t**jj
+                H[2*ii, jj] = depsDECdaj
         HtH = H.T @ W @ H
         Phat = np.linalg.inv(HtH)
         xHat = Phat @ H.T @ W @ z
@@ -1009,8 +869,9 @@ def estTimeBiasRADEC(obs_data,od_cfg):
         if degree > 2:
             a2 = float(xHat[2])
         rms_prev = rms
-        rms = np.sqrt( sum( z**2, 1 ) / 2 / numObs )
+        rms = np.sqrt(sum(z**2, 1) / 2 / numObs)
     return a0
+
 
 def addTimeBias(obs_data, od_cfg, tBias):
     """ applies a given time bias to the obs data and configure file """
@@ -1023,7 +884,8 @@ def addTimeBias(obs_data, od_cfg, tBias):
         refTimeString = i['Time']
         refTime = Time(refTimeString, format='isot', scale='utc')
         refMJD.append(refTime.mjd)
-        obsTime = Time(refTimeString, format='isot', scale='utc') - timedelta(seconds = tBias)
+        obsTime = Time(refTimeString, format='isot',
+                       scale='utc') - timedelta(seconds=tBias)
         obsMJD.append(obsTime.mjd)
         i['Time'] = obsTime.isot + 'Z'
         pvRef.append(i['TrueState']['Cartesian'])
@@ -1036,7 +898,7 @@ def addTimeBias(obs_data, od_cfg, tBias):
     PVobs = interpolationPV(np.squeeze(obsMJD), refMJD, pvRef, 10)
     count = 0
     for i in inp:
-        i['TrueState']['Cartesian'] = PVobs[count,:].tolist()
+        i['TrueState']['Cartesian'] = PVobs[count, :].tolist()
         count = count + 1
     with open(obs_data, 'w') as fp:
         json.dump(inp, fp, indent=4)
@@ -1045,7 +907,7 @@ def addTimeBias(obs_data, od_cfg, tBias):
     return
 
 
-def estTimeBiasRange(obs_data,od_cfg):
+def estTimeBiasRange(obs_data, od_cfg):
     """ NOT COMPLETE, estimate time bias using reference data for range, az, and el measurements"""
     with open(od_cfg, "r") as fp:
         cfg = json.load(fp)
@@ -1087,9 +949,9 @@ def estTimeBiasRange(obs_data,od_cfg):
     obs_mjd = timeObj.mjd
     tObs = (obs_mjd - obs_mjd[0]) * 86400
     degree = 1
-    while abs(rms-rms_prev) > tb_eps and count < maxcount : 
-        z = np.zeros([2*numObs,1])
-        H = np.zeros([2*numObs,degree])
+    while abs(rms-rms_prev) > tb_eps and count < maxcount:
+        z = np.zeros([2*numObs, 1])
+        H = np.zeros([2*numObs, degree])
         W = np.identity(2*numObs) * 1/(math.pi * 5 / 3600 / 180)**2
         count = count + 1
         for ii in range(0, numObs, 1):
@@ -1098,14 +960,18 @@ def estTimeBiasRange(obs_data,od_cfg):
             sigma = [sig1, sig2]
             pv = interpolationPV(t, tObs, pvRef, 10)
             pv = np.squeeze(pv)
-            pv = pvRef[ii,:]
-            obs_Time = Time(obs_mjd[ii], format='mjd', scale='utc') - timedelta(seconds=tBias)
+            pv = pvRef[ii, :]
+            obs_Time = Time(obs_mjd[ii], format='mjd',
+                            scale='utc') - timedelta(seconds=tBias)
             obs_isot = obs_Time.isot
-            refObs = pv2radec(od_cfg, lat, lon, alt, obs_isot, obs[:, ii].tolist(), sigma, pv.tolist())
-            refObs1 = pv2range(od_cfg, lat, lon, alt, obs_isot, obs[0, ii].tolist(), sig1, pv.tolist())
-            refObs2 = pv2rangerate(od_cfg, lat, lon, alt, obs_isot, obs[1, ii].tolist(), sig2, pv.tolist())
-            epsRA = obs[0,ii] - refObs1
-            epsDEC = obs[1,ii] - refObs
+            refObs = pv2radec(od_cfg, lat, lon, alt, obs_isot,
+                              obs[:, ii].tolist(), sigma, pv.tolist())
+            refObs1 = pv2range(od_cfg, lat, lon, alt, obs_isot,
+                               obs[0, ii].tolist(), sig1, pv.tolist())
+            refObs2 = pv2rangerate(
+                od_cfg, lat, lon, alt, obs_isot, obs[1, ii].tolist(), sig2, pv.tolist())
+            epsRA = obs[0, ii] - refObs1
+            epsDEC = obs[1, ii] - refObs
             z[2*ii-1] = epsRA
             z[2*ii] = epsDEC
             # print(epsRA*math.pi*648000.0/math.pi)
@@ -1120,11 +986,12 @@ def estTimeBiasRange(obs_data,od_cfg):
             rhoz = rhoVec[2]
             rho = np.linalg.norm(rhoVec[:3])
             rhoHat = rhoVec/rho
-            for jj in range(0,degree,1):
-                depsRAdaj = -( rhox*vy - rhoy*vx ) / (rhox**2 + rhoy**2) * t**jj
-                H[2*ii-1,jj] = depsRAdaj
-                depsDECdaj = -( rho*vz - rhoz*np.dot(rhoHat,vVec) ) / (rho**2*math.sqrt(1-rhoHat[2]**2)) * t**jj
-                H[2*ii,jj] = depsDECdaj
+            for jj in range(0, degree, 1):
+                depsRAdaj = -(rhox*vy - rhoy*vx) / (rhox**2 + rhoy**2) * t**jj
+                H[2*ii-1, jj] = depsRAdaj
+                depsDECdaj = -(rho*vz - rhoz*np.dot(rhoHat, vVec)) / \
+                    (rho**2*math.sqrt(1-rhoHat[2]**2)) * t**jj
+                H[2*ii, jj] = depsDECdaj
         HtH = H.T @ W @ H
         Phat = np.linalg.inv(HtH)
         xHat = Phat @ H.T @ W @ z
@@ -1134,6 +1001,44 @@ def estTimeBiasRange(obs_data,od_cfg):
         if degree > 2:
             a2 = float(xHat[2])
         rms_prev = rms
-        rms = np.sqrt( sum( z**2, 1 ) / 2 / numObs )
-
+        rms = np.sqrt(sum(z**2, 1) / 2 / numObs)
     return a0
+
+
+def transformDataTEME2J2000(obs_data, od_cfg):
+    srcframe = 'TEME'
+    destframe = 'eme2000'
+    with open(od_cfg, "r") as fp:
+        cfg = json.load(fp)
+    with open(obs_data, "r") as fp:
+        inp = json.load(fp)
+
+    count = 0
+
+    for i in inp:
+        tstr = i['Time']
+        pvTEME = i['TrueState']['Cartesian']
+        RA = i['RightAscension']
+        DEC = i['Declination']
+        x = math.cos(DEC)*math.cos(RA)
+        y = math.cos(DEC)*math.sin(RA)
+        z = math.sin(DEC)
+        los = [x,y,z,0,0,0]
+        [x,y,z,vx,vy,vz] = transformFrame(srcframe, tstr, los, destframe)
+        RA = math.atan2(y,x)
+        DEC = math.asin(z)
+        i['RightAscension'] = RA
+        i['Declination'] = DEC
+        [x,y,z,vx,vy,vz] = transformFrame(srcframe, tstr, pvTEME, destframe)
+        pvJ2000 = [x,y,z,vx,vy,vz]
+        i['TrueState']['Cartesian'] = pvJ2000
+        if count == 0:
+            cfg['Propagation']['InitialState'] = pvJ2000
+        count = 1
+
+    with open(obs_data, 'w') as fp:
+        json.dump(inp, fp, indent=4)
+    with open(od_cfg, 'w') as fp:
+        json.dump(cfg, fp, indent=4)
+
+    return

@@ -52,6 +52,8 @@ public class Utilities
 	    fromframe = DataManager.gcrf;
 	else if (srcframe.equals("ITRF"))
 	    fromframe = DataManager.itrf;
+	else if (srcframe.equals("TEME"))
+	    fromframe = DataManager.teme;
 	else
 	    fromframe = DataManager.eme2000;
 
@@ -59,6 +61,8 @@ public class Utilities
 	    toframe = DataManager.gcrf;
 	else if (destframe.equals("ITRF"))
 	    toframe = DataManager.itrf;
+	else if (destframe.equals("TEME"))
+	    toframe = DataManager.teme;
 	else
 	    toframe = DataManager.eme2000;
 

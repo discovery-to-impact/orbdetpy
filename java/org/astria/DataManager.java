@@ -45,6 +45,7 @@ public class DataManager
 
     public static Frame gcrf;
     public static Frame itrf;
+	public static Frame teme;
     public static Frame eme2000;
     public static TimeScale utcscale;
     public static UT1Scale ut1scale;
@@ -59,6 +60,7 @@ public class DataManager
 
 	gcrf = FramesFactory.getGCRF();
 	itrf = FramesFactory.getITRF(ITRFVersion.ITRF_2014, IERSConventions.IERS_2010, false);
+	teme = FramesFactory.getTEME();
 	eme2000 = FramesFactory.getEME2000();
 	utcscale = TimeScalesFactory.getUTC();
 	ut1scale = TimeScalesFactory.getUT1(IERSConventions.IERS_2010, false);
