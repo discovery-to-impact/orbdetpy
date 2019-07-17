@@ -127,8 +127,6 @@ Configuration files are needed for both simulation and orbit determination.
 
  "IncludeExtras" : true to generate additional simulated data; defaults to false.
 
- "IncludeStationState" : true to include station inertial coordinates; defaults to false.
-
  }
 
 "Integration" : Optional tolerances for numerical integration {
@@ -143,30 +141,16 @@ Configuration files are needed for both simulation and orbit determination.
 
 }
  
-"Stations" : Ground stations for measurements. {
+"Stations" : Ground stations for measurements. Not required for "PositionVelocity" measurements {
 
- "Station_Name" : {
+ "Station1" : {
  
   "Latitude" : Geodetic latitude [rad].
   
   "Longitude" : Geodetic longitude [rad].
   
-  "Altitude" : Height above mean sea level [m].
-
-  "AzimuthBias" : Optional sensor bias [rad].
-
-  "ElevationBias" : Optional sensor bias [rad].
-
-  "RangeBias" : Optional sensor bias [m].
-
-  "RangeRateBias" : Optional sensor bias [m/s].
-
-  "RightAscensionBias" : Optional sensor bias [rad].
-
-  "DeclinationBias" : Optional sensor bias [rad].
-
-  "PositionVelocityBias" : Optional sensor bias [m, m, m, m/s, m/s, m/s].
-
+  "Altitude" : Height above Mean Sea Level [m].
+  
   }
   
  }

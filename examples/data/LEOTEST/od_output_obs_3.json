@@ -1,0 +1,576 @@
+[
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T00:07:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.7575371426923638,
+    "Elevation": 0.16817005906787366
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T00:12:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.9390624872420916,
+    "Elevation": 0.6105472163571544
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T00:17:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.24750385976734166,
+    "Elevation": 0.42744803770513284
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T00:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.6048233131118257,
+    "Elevation": 0.12611839840836128
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T02:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.0740954138417746,
+    "Elevation": 0.007523501846163978
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T02:27:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.5713394782067306,
+    "Elevation": 0.20093137930285473
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T02:32:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.03319877643393404,
+    "Elevation": 0.25364187796259763
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T02:37:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.4918290742001595,
+    "Elevation": 0.15950128351321166
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T02:42:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.7790251333148547,
+    "Elevation": 0.025452045989214696
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:07:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.995411633521432,
+    "Elevation": 0.005947842946193964
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:12:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.4055010322249983,
+    "Elevation": 0.09167632049521414
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:17:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.7606303336798943,
+    "Elevation": 0.01378039331768775
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:42:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.4754370904561001,
+    "Elevation": 0.1491334417258675
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:47:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.02648856476974705,
+    "Elevation": 0.3277406690124491
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:52:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.4870898614671552,
+    "Elevation": 0.3777525889413183
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T04:57:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.9084284014159348,
+    "Elevation": 0.2983608226609765
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T05:02:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.1974131213688621,
+    "Elevation": 0.16730028220895724
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T05:07:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.3966058745122754,
+    "Elevation": 0.028789784315230042
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T06:22:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -2.5342498131057423,
+    "Elevation": 0.402932049621435
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T06:27:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.2898582564910785,
+    "Elevation": 1.1335562191276032
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T06:32:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.8355238039451062,
+    "Elevation": 0.2490199667679224
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T06:57:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.6100381206487583,
+    "Elevation": 0.2241468777299591
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:02:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -0.37154985870803897,
+    "Elevation": 0.5613225652956778
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:07:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.18035482535866285,
+    "Elevation": 0.9088318711391303
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:12:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.1404162481366427,
+    "Elevation": 0.9358184650851433
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:17:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.678560315324314,
+    "Elevation": 0.6644206618103927
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.9044430401293193,
+    "Elevation": 0.39492056127433656
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T07:27:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 2.024585153863339,
+    "Elevation": 0.17180690360761824
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T08:37:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.1618415420443173,
+    "Elevation": 0.17455037781921218
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T08:42:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.3587421020014323,
+    "Elevation": 0.2552428862318792
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T08:47:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.21459688637625868,
+    "Elevation": 0.10580395152659562
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:12:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.0027923625276756,
+    "Elevation": 0.2066975605735138
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:17:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.1616685322692109,
+    "Elevation": 0.5009783690903044
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.519669737454328,
+    "Elevation": 0.8308555196386258
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:27:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.3307184326151518,
+    "Elevation": 1.004054887860914
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:32:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -3.0641919881769266,
+    "Elevation": 0.8083498293062996
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:37:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 2.9056417099695704,
+    "Elevation": 0.5147058571089034
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:42:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 2.7530007939218555,
+    "Elevation": 0.25815125905377634
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T09:47:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 2.6584752922983834,
+    "Elevation": 0.04191974991120119
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T10:57:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.3346255458995191,
+    "Elevation": 0.025397480569303448
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:02:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.10250510477680157,
+    "Elevation": 0.03896783731776596
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:32:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.5640131854067318,
+    "Elevation": 0.0935669355654759
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:37:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.8278651227092835,
+    "Elevation": 0.18670669639533835
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:42:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.129621336275905,
+    "Elevation": 0.2307763900741576
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:47:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.4419348253153115,
+    "Elevation": 0.21323760295345753
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:52:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.732164792326978,
+    "Elevation": 0.13968235799083503
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T11:57:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.9834662641572454,
+    "Elevation": 0.028966190408164554
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T13:12:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.3143426743773029,
+    "Elevation": 0.013693292185497022
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T13:17:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.04858067305790009,
+    "Elevation": 0.13869216523378675
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T13:22:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.4379714915683757,
+    "Elevation": 0.1932523582491058
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T13:27:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.7932675564312568,
+    "Elevation": 0.17000475514113803
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T13:32:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.0809557958476672,
+    "Elevation": 0.09466410044840835
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:27:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.4702631750980799,
+    "Elevation": 0.10942024112975479
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:32:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.24084867660783768,
+    "Elevation": 0.3685144132170531
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:37:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.1492074170186221,
+    "Elevation": 0.6304889558813728
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:42:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 0.7663175654386579,
+    "Elevation": 0.7602471151824012
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:47:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.3508868277796091,
+    "Elevation": 0.6538165639242146
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:52:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.6990700807530619,
+    "Elevation": 0.4425896797889694
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T15:57:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 1.8979319679030169,
+    "Elevation": 0.23148690237457645
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T16:02:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.024155569983957,
+    "Elevation": 0.04093565419392076
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T17:42:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.8727478289087469,
+    "Elevation": 0.1294789799281279
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T17:47:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -0.94826282970741,
+    "Elevation": 0.40597199248874455
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T17:52:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.1176966218007272,
+    "Elevation": 0.7540508413298536
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T17:57:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.675010260602214,
+    "Elevation": 1.1285878776800897
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T18:02:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -2.9592107128435057,
+    "Elevation": 1.098178664309783
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T18:07:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.844714674939477,
+    "Elevation": 0.7331304644269584
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T18:12:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.682803453329866,
+    "Elevation": 0.41084560164589057
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T18:17:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 2.5976562459501626,
+    "Elevation": 0.15352232248880665
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:02:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.4521500569333046,
+    "Elevation": 0.07351951600843268
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:07:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.685952858861689,
+    "Elevation": 0.19979476692365042
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:12:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -1.9803257471194975,
+    "Elevation": 0.2908571685611698
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:17:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -2.3225430519236423,
+    "Elevation": 0.3190265789612758
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:22:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -2.6687656173146346,
+    "Elevation": 0.26986988779968163
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:27:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": -2.9744077819570816,
+    "Elevation": 0.15864668760879214
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T20:32:54.000Z",
+    "Station": "Kwaj",
+    "Azimuth": 3.057376239085546,
+    "Elevation": 0.01491400003584962
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T21:12:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 3.0169187136572866,
+    "Elevation": 0.2023669365114584
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T21:17:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 2.0456935277961046,
+    "Elevation": 0.35530816796375575
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T21:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 1.3191789706161439,
+    "Elevation": 0.12080038446239887
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T23:22:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -2.0464681318726083,
+    "Elevation": 0.08251536310789039
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T23:27:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.5919095993293377,
+    "Elevation": 0.6178391361144203
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T23:32:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.22407784506788359,
+    "Elevation": 0.6368596011500987
+  },
+  {
+    "ObjectName": "GALAXY 16",
+    "Time": "2018-01-01T23:37:54.000Z",
+    "Station": "Arecibo",
+    "Azimuth": 0.6320464267449813,
+    "Elevation": 0.18871403799957154
+  }
+]

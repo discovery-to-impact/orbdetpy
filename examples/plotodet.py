@@ -34,7 +34,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
     dmcrun = (cfg["Estimation"].get("DMCCorrTime", 0.0) > 0.0 and
               cfg["Estimation"].get("DMCSigmaPert", 0.0) > 0.0)
 
-    tstamp, prefit, posfit, inocov, params, estmacc, estmcov = [], [], [], [], [], [], []
+    tstamp, prefit, posfit, inocov, params, estmacc, estmcov, RICstd = [], [], [], [], [], [], [], []
     for i, o in zip(inp, out):
         tstamp.append(dateutil.parser.isoparse(i["Time"]))
 
@@ -69,11 +69,19 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
             rot = numpy.vstack((r, numpy.cross(h, r), h))
             estmacc.append(rot.dot(o["EstimatedState"][-3:]))
 
+        p = []
+        for m in range(len(o["RICCovariance"])):
+            p.append(3.0*numpy.sqrt(o["RICCovariance"][m][m]))
+        RICstd.append(p)
+
+
     pre = numpy.array(prefit)
     pos = numpy.array(posfit)
     cov = numpy.array(inocov)
     par = numpy.array(params)
     estmacc = numpy.array(estmacc)
+    RICstd = numpy.array(RICstd)
+
     tim = [(t - tstamp[0]).total_seconds()/3600 for t in tstamp]
 
     angles = ("Azimuth", "Elevation", "RightAscension", "Declination")
@@ -140,7 +148,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
     if (cfg["RadiationPressure"]["Creflection"]["Estimation"] == "Estimate"):
         parnames.append(r"$C_R$")
 
-    for i in range(par.shape[-1]):
+    for i in range(par.shape[-1] - o["numConsideredParams"]):
         if (i == 0):
             plt.figure(2)
             plt.suptitle("Estimated parameters")
@@ -172,8 +180,28 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
             outfiles.append(filepath + "_estacc.png")
             plt.savefig(outfiles[-1], format = "png")
 
+    #######
+    plt.figure(4)
+    plt.suptitle("RIC Standard Deviations")
+
+    lab = [r"Radial [${m}$]", r"In track [${m}$]",
+               r"Cross track [${m}$]"]
+    for i in range(3):
+        plt.subplot(3, 1, i+1)
+        plt.semilogx(tim, RICstd[:,i], "-b")
+        plt.xlabel("Time [hr]")
+        plt.ylabel(lab[i])
+
+    plt.tight_layout(rect = [0, 0.03, 1, 0.95])
+    if (filepath is not None):
+        outfiles.append(filepath + "_RICCovar.png")
+        plt.savefig(outfiles[-1], format = "png")
+
+    ######
+
     if (interactive):
         plt.show()
+
 
     plt.close("all")
     return(outfiles)

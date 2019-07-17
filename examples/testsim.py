@@ -23,14 +23,21 @@ if (len(sys.argv) < 3):
     exit()
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from orbdetpy import simulateMeasurements
 
 print("Simulation start : %s" % time.strftime("%Y-%m-%d %H:%M:%S"))
-with open(sys.argv[1], "r") as fp:
-    config = fp.read()
+
+config = []
+
+for i in range(1,len(sys.argv)-1):
+	with open(sys.argv[i], "r") as fp:
+		config.insert(i-1,fp.read())
+
 
 output = simulateMeasurements(config)
-with open(sys.argv[2], "w") as fp:
+
+with open(sys.argv[len(sys.argv)-1], "w") as fp:
     fp.write(output)
 
 print("Simulation end   : %s" % time.strftime("%Y-%m-%d %H:%M:%S"))

@@ -29,13 +29,22 @@ from orbdetpy import determineOrbit
 
 print("OD start : %s" % time.strftime("%Y-%m-%d %H:%M:%S"))
 
-with open(sys.argv[1], "r") as fp:
-    config = fp.read()
+config = []
 
-with open(sys.argv[2], "r") as fp:
+for i in range(1,len(sys.argv)-2):
+	with open(sys.argv[i], "r") as fp:
+		config.insert(i-1,fp.read())
+
+with open(sys.argv[len(sys.argv)-2], "r") as fp:
     output = determineOrbit(config, fp.read())
 
-with open(sys.argv[3], "w") as fp:
-    fp.write(output)
+for i in range(0,int(len(output)/2)):
+	with open(sys.argv[len(sys.argv)-1]+"_estimation_"+str(i)+".json", "w") as fp:
+		fp.write(output[i])
+	with open(sys.argv[len(sys.argv)-1]+"_obs_"+str(i)+".json", "w") as fp:
+		fp.write(output[int(len(output)/2) + i])
+
+
+
 
 print("OD end   : %s" % time.strftime("%Y-%m-%d %H:%M:%S"))

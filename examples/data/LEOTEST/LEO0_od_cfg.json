@@ -1,0 +1,115 @@
+{
+    "Gravity" :
+    {
+	"Degree" : 20,
+	"Order" : 20
+    },
+
+    "OceanTides" :
+    {
+	"Degree" : -1,
+	"Order" : -1
+    },
+
+    "Drag" :
+    {
+	"Model" : "Exponential",
+	"ExpRho0" : 3.614E-13,
+	"ExpH0": 700000.0,
+	"ExpHScale" : 88667.0,
+	"Coefficient" :
+	{
+	    "Value" : 2.0,
+	    "Min" : 0.01,
+	    "Max" : 3.00,
+	    "Estimation" : "Estimate"
+	}
+    },
+
+    "SolidTides" :
+    {
+	"Sun" : false,
+	"Moon" : false
+    },
+
+    "ThirdBodies" :
+    {
+	"Sun" : true,
+	"Moon" : true
+    },
+
+    "RadiationPressure" :
+    {
+	"Sun" : true,
+	"Creflection" :
+	{
+            "Value" : 1.5,
+            "Min" : 1.0,
+            "Max" : 2.0,
+	    "Estimation" : "Estimate"
+	}
+    },
+
+    "SpaceObject" :
+    {
+	"Name" : "GALAXY 18",
+	"NoradID" : 28884,
+	"Mass" : 2000.0,
+	"Area" : 20.0
+    },
+
+    "Propagation" :
+    {
+	"Start" : "2018-01-01T00:02:54Z",
+	"End" : "2018-01-02T00:02:54Z",
+	"InitialState" :
+	[
+	    7378000.7669903,
+	    5000,
+	    0,
+        0,
+        5700.77460296534,
+	    5500.09170251623871
+	]
+    },
+
+    "Stations" :
+    {
+	"Kwaj" :
+	{
+            "Latitude" : 0.1522312267,
+            "Longitude" : 2.92744494054,
+            "Altitude" : 38.2246
+	},
+	"Arecibo" :
+	{
+            "Latitude" : 0.32016610686,
+            "Longitude" : -1.16505575707,
+            "Altitude" : 497
+	}
+    },
+
+    "Measurements" :
+    {
+	"Azimuth" :
+	{
+	    "Error" : [4.8E-6]
+	},
+	"Elevation" :
+	{
+	    "Error" : [4.8E-6]
+	}
+    },
+
+    "Estimation" :
+    {
+	"Filter" : "UKF",
+	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25],
+	"ProcessNoise" : [1E-8, 1E-8, 1E-8, 1E-8, 1E-8, 1E-8],
+	"NoiseTimeDelta" : 30.0,
+	"Smoother" : "On",
+	"ProbDetection" : 0.95,
+	"GatingThreshold" : 4,
+	"USKFIterations" : 5
+    }
+}

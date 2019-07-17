@@ -1,0 +1,100 @@
+{
+    "Gravity" :
+    {
+	"Degree" : 20,
+	"Order" : 20
+    },
+
+    "OceanTides" :
+    {
+	"Degree" : -1,
+	"Order" : -1
+    },
+
+    "Drag" :
+    {
+	"Model" : "Exponential",
+	"ExpRho0" : 3.614E-13,
+	"ExpH0": 700000.0,
+	"ExpHScale" : 88667.0,
+	"Coefficient" :
+	{
+	    "Value" : 2.0
+	}
+    },
+
+    "SolidTides" :
+    {
+	"Sun" : false,
+	"Moon" : false
+    },
+
+    "ThirdBodies" :
+    {
+	"Sun" : true,
+	"Moon" : true
+    },
+
+    "RadiationPressure" :
+    {
+	"Sun" : true,
+	"Creflection" :
+	{
+            "Value" : 1.5,
+            "Min" : 1.0,
+            "Max" : 2.0
+	}
+    },
+
+    "SpaceObject" :
+    {
+	"Name" : "GALAXY 18",
+	"NoradID" : 28884,
+	"Mass" : 2000.0,
+	"Area" : 20.0
+    },
+
+    "Propagation" :
+    {
+	"Start" : "2018-01-01T00:02:54Z",
+	"End" : "2018-01-02T00:02:54Z",
+	"Step" : 300.0,
+	"InitialState" :
+	[
+	    7378000.7669903,
+	    4000,
+	    0,
+        0,
+        5700.77460296534,
+	    5500.09170251623871
+	]
+    },
+
+    "Stations" :
+    {
+	"Kwaj" :
+	{
+            "Latitude" : 0.1522312267,
+            "Longitude" : 2.92744494054,
+            "Altitude" : 38.2246
+	},
+	"Arecibo" :
+	{
+            "Latitude" : 0.32016610686,
+            "Longitude" : -1.16505575707,
+            "Altitude" : 497
+	}
+    },
+
+    "Measurements" :
+    {
+	"Azimuth" :
+	{
+	    "Error" : [4.8E-6]
+	},
+	"Elevation" :
+	{
+	    "Error" : [4.8E-6]
+	}
+    }
+}

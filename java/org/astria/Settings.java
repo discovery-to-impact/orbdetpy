@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Stream;
+import org.astria.DataManager;
 import org.hipparchus.geometry.euclidean.threed.Rotation;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.linear.Array2DRowRealMatrix;
@@ -142,6 +143,7 @@ public class Settings
 
     class JSONSpaceObject
     {
+	String Name;
 	double Mass;
 	double Area;
 	JSONFacet[] Facets;
@@ -194,13 +196,6 @@ public class Settings
 	double Latitude;
 	double Longitude;
 	double Altitude;
-	double AzimuthBias;
-	double ElevationBias;
-	double RangeBias;
-	double RangeRateBias;
-	double RightAscensionBias;
-	double DeclinationBias;
-	double[] PositionVelocityBias;
     }
 
     class JSONMeasurement
@@ -219,6 +214,13 @@ public class Settings
 	double DMCCorrTime;
 	double DMCSigmaPert;
 	JSONParameter DMCAcceleration;
+	
+	String Smoother;
+	
+	double ProbDetection;
+	double GatingThreshold;
+	int USKFIterations;
+
     }
 
     class JSONSimulation
@@ -226,7 +228,6 @@ public class Settings
 	Boolean SimulateMeasurements;
 	Boolean SkipUnobservable;
 	Boolean IncludeExtras;
-	Boolean IncludeStationState;
     }
 
     class EstimatedParameter
@@ -245,6 +246,20 @@ public class Settings
 	}
     }
 
+    
+    class ConsiderParameter
+    {
+    	String name;
+    	
+    	public ConsiderParameter(String n) 
+    	{
+    		
+    		name = n;
+    		
+    	}
+    	
+    }
+    
     JSONGravity Gravity;
     JSONOceanTides OceanTides;
     JSONDrag Drag;
@@ -265,14 +280,17 @@ public class Settings
     HashMap<String, GroundStation> stations;
     ArrayList<ForceModel> forces;
     ArrayList<Settings.EstimatedParameter> estparams;
+    ArrayList<Settings.ConsiderParameter> considerparams;
 
     Frame propframe;
 
     public static Settings loadJSON(String json)
     {
 	Settings set = new Gson().fromJson(json, Settings.class);
+
 	if (set.Integration == null)
 	    set.Integration = set.new JSONIntegration();
+
 	if (set.Propagation.InertialFrame != null && set.Propagation.InertialFrame.equals("GCRF"))
 	    set.propframe = DataManager.gcrf;
 	else
@@ -281,6 +299,7 @@ public class Settings
 	set.loadGroundStations();
 	set.loadForces();
 	set.loadEstimatedParameters();
+
 	return(set);
     }
 
@@ -298,6 +317,7 @@ public class Settings
 	{
 	    String k = kv.getKey();
 	    JSONStation v = kv.getValue();
+
 	    GroundStation sta = new GroundStation(new TopocentricFrame(new OneAxisEllipsoid(
 									   Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
 									   Constants.WGS84_EARTH_FLATTENING, DataManager.itrf),
@@ -305,6 +325,7 @@ public class Settings
 	    sta.getPrimeMeridianOffsetDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
 	    sta.getPolarOffsetXDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
 	    sta.getPolarOffsetYDriver().setReferenceDate(AbsoluteDate.J2000_EPOCH);
+
     	    stations.put(k, sta);
 	}
     }
@@ -413,7 +434,8 @@ public class Settings
     private void loadEstimatedParameters()
     {
 	estparams = new ArrayList<EstimatedParameter>();
-
+	considerparams = new ArrayList<ConsiderParameter>();
+	
 	if (Drag.Coefficient.Estimation != null &&
 	    Drag.Coefficient.Estimation.equals("Estimate"))
 	    estparams.add(new EstimatedParameter(DragSensitive.DRAG_COEFFICIENT, Drag.Coefficient.Min,
@@ -430,6 +452,30 @@ public class Settings
 		estparams.add(new EstimatedParameter(org.astria.Estimation.DMC_ACC_ESTM+i, Estimation.DMCAcceleration.Min,
 						     Estimation.DMCAcceleration.Max, Estimation.DMCAcceleration.Value));
 	}
+	
+	if (Drag.Coefficient.Estimation != null && Drag.Coefficient.Estimation.equals("Consider"))
+	{
+		estparams.add(new EstimatedParameter(DragSensitive.DRAG_COEFFICIENT, Drag.Coefficient.Min,
+			Drag.Coefficient.Max, Drag.Coefficient.Value));
+		
+     	considerparams.add(new ConsiderParameter("Drag"));
+	}
+
+	if (RadiationPressure.Creflection.Estimation != null && RadiationPressure.Creflection.Estimation.equals("Consider"))
+	{
+		estparams.add(new EstimatedParameter(RadiationSensitive.REFLECTION_COEFFICIENT,
+				RadiationPressure.Creflection.Min,
+				RadiationPressure.Creflection.Max,
+				RadiationPressure.Creflection.Value));
+		
+		considerparams.add(new ConsiderParameter("SRP"));
+		
+
+	}	
+
+	
+	
+	
     }
 
     public double[] getInitialState()

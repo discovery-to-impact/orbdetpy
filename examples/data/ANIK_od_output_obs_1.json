@@ -1,0 +1,2025 @@
+[
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277977537543807,
+    "Elevation": 0.6924611263772145
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278081398104372,
+    "Elevation": 0.6924560576136974
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927821358791424,
+    "Elevation": 0.6924547393955179
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278253820351463,
+    "Elevation": 0.6924492825513054
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278364156438126,
+    "Elevation": 0.6924445825198973
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278278748910975,
+    "Elevation": 0.6924475050845175
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278407960517572,
+    "Elevation": 0.6924354748189577
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278512034105728,
+    "Elevation": 0.6924313162376671
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278534235168083,
+    "Elevation": 0.6924183534615838
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278476379295835,
+    "Elevation": 0.6924232189763474
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278579404783034,
+    "Elevation": 0.6924134020012512
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T00:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278578536788824,
+    "Elevation": 0.6924211554181188
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278593390427163,
+    "Elevation": 0.6924120100876519
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927848384807445,
+    "Elevation": 0.6924019917863145
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278392302594778,
+    "Elevation": 0.6924032667560065
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278401434957761,
+    "Elevation": 0.6923986367059385
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278382434549801,
+    "Elevation": 0.6923901050189104
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278255684641208,
+    "Elevation": 0.6923926688100306
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278189067266331,
+    "Elevation": 0.6923915702773255
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9278129220223914,
+    "Elevation": 0.6923877037686424
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277997957065691,
+    "Elevation": 0.692386031086007
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277904573346685,
+    "Elevation": 0.6923767609074587
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277760782710185,
+    "Elevation": 0.6923873421776708
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T01:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927760625659928,
+    "Elevation": 0.6923756801927713
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277546012242528,
+    "Elevation": 0.6923687689811823
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927736926789669,
+    "Elevation": 0.6923646228947288
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277192819200186,
+    "Elevation": 0.6923677871893865
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276962414275967,
+    "Elevation": 0.6923618588310277
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276864062446704,
+    "Elevation": 0.6923645230873587
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276656305949014,
+    "Elevation": 0.6923561464861945
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276467524715404,
+    "Elevation": 0.6923679720290161
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276219771592376,
+    "Elevation": 0.6923520047801954
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276045427415813,
+    "Elevation": 0.6923683798525083
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275824662694412,
+    "Elevation": 0.6923616220718168
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275608305196887,
+    "Elevation": 0.6923592204451757
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T02:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927526640704514,
+    "Elevation": 0.692353611213866
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275036937547299,
+    "Elevation": 0.6923669662758866
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274747401569825,
+    "Elevation": 0.6923554141707291
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274536808075171,
+    "Elevation": 0.6923637085881975
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274213190317442,
+    "Elevation": 0.6923648686911225
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9273875130056906,
+    "Elevation": 0.6923516437061861
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927358299069432,
+    "Elevation": 0.6923659566409408
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9273395295086848,
+    "Elevation": 0.6923596771494566
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927300714026828,
+    "Elevation": 0.6923576561138888
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927262648845554,
+    "Elevation": 0.6923557702951579
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9272347392099292,
+    "Elevation": 0.6923645298339524
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9271938541776075,
+    "Elevation": 0.6923566691575203
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T03:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927166483802193,
+    "Elevation": 0.6923643146874
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9271153938183874,
+    "Elevation": 0.692365627968452
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927092746576952,
+    "Elevation": 0.6923655959586856
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927057119643304,
+    "Elevation": 0.6923648811119457
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9270139278673755,
+    "Elevation": 0.6923642469319354
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9269801933138568,
+    "Elevation": 0.6923700710756502
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9269420937710227,
+    "Elevation": 0.6923682898274421
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9269078265282393,
+    "Elevation": 0.6923728698256446
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926853845208474,
+    "Elevation": 0.6923796433655316
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9268229085710784,
+    "Elevation": 0.6923713682599207
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9267687842569408,
+    "Elevation": 0.6923754147627149
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9267339631078384,
+    "Elevation": 0.6923795986635911
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T04:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9266890600046813,
+    "Elevation": 0.6923862049464904
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9266456013934186,
+    "Elevation": 0.6923799456278009
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9266063415458972,
+    "Elevation": 0.6923881514984623
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9265506046716367,
+    "Elevation": 0.6923907797117359
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9265139893413106,
+    "Elevation": 0.6923968258210051
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9264732184892686,
+    "Elevation": 0.6924002637146581
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9264181858381983,
+    "Elevation": 0.6923943788381831
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9263642672159769,
+    "Elevation": 0.6924045137209474
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926328938151587,
+    "Elevation": 0.6924088187360721
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926280233097129,
+    "Elevation": 0.6924111940372999
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9262394487396308,
+    "Elevation": 0.6924174952393942
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9261864677052165,
+    "Elevation": 0.6924191263227181
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T05:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9261386195291146,
+    "Elevation": 0.6924246450960482
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926085301436908,
+    "Elevation": 0.692422848100014
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9260401108164928,
+    "Elevation": 0.6924190721271661
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9259872630484427,
+    "Elevation": 0.6924284757926634
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9259486246520179,
+    "Elevation": 0.692430518054591
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9258928200711445,
+    "Elevation": 0.6924412607061751
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9258460818277932,
+    "Elevation": 0.6924482250056552
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9257900099986238,
+    "Elevation": 0.6924396793543244
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9257429414374538,
+    "Elevation": 0.692451557743073
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925689605825142,
+    "Elevation": 0.6924473135840806
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9256400244337815,
+    "Elevation": 0.6924601790246036
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9255994054971903,
+    "Elevation": 0.6924692408861717
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T06:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9255401448706881,
+    "Elevation": 0.6924623287706744
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9254962612073412,
+    "Elevation": 0.6924720645806158
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9254366972746464,
+    "Elevation": 0.6924770703019737
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9253952735437383,
+    "Elevation": 0.6924809878181856
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9253508156263517,
+    "Elevation": 0.6924801523545513
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9252959783474939,
+    "Elevation": 0.6924946219807162
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925242410160522,
+    "Elevation": 0.6924855547848121
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9251925049363257,
+    "Elevation": 0.6924920232220911
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9251464753204652,
+    "Elevation": 0.6924896993583055
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9250941653177496,
+    "Elevation": 0.6925015800489651
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925047197921504,
+    "Elevation": 0.6925068737960255
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9249976582685744,
+    "Elevation": 0.6925169325473112
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T07:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9249587339196865,
+    "Elevation": 0.6925249741080423
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9249026083711165,
+    "Elevation": 0.6925301730532208
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9248554475893258,
+    "Elevation": 0.6925322148756566
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9247942571612722,
+    "Elevation": 0.6925420528997702
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9247563019761258,
+    "Elevation": 0.6925371308470589
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9247134430332185,
+    "Elevation": 0.6925456197795448
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9246729646125318,
+    "Elevation": 0.6925388743375253
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9246174190871512,
+    "Elevation": 0.6925486566224156
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9245774860178917,
+    "Elevation": 0.6925629398097133
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9245354228342508,
+    "Elevation": 0.6925653951398525
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9244737889047712,
+    "Elevation": 0.6925729508960863
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9244454368350894,
+    "Elevation": 0.6925801433083104
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T08:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9243934911984084,
+    "Elevation": 0.6925738438963748
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924359131061015,
+    "Elevation": 0.6925787523072529
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924307212418107,
+    "Elevation": 0.6925940524828477
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9242723162269717,
+    "Elevation": 0.6925879526892166
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9242290381450575,
+    "Elevation": 0.692595945396858
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9241881074986447,
+    "Elevation": 0.6926044711362569
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9241470040832818,
+    "Elevation": 0.6926111819213794
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924110039505035,
+    "Elevation": 0.6926162833977622
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9240674109394627,
+    "Elevation": 0.6926206631754288
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9240326060025452,
+    "Elevation": 0.6926290905952536
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239968307928286,
+    "Elevation": 0.6926324493411593
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239556680159033,
+    "Elevation": 0.6926384118379576
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T09:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239192685310018,
+    "Elevation": 0.6926365926988228
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923884533010843,
+    "Elevation": 0.6926449133367277
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923856451591998,
+    "Elevation": 0.6926475479190771
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923829657239602,
+    "Elevation": 0.6926603957287462
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237953836610022,
+    "Elevation": 0.6926648507943246
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237569551887137,
+    "Elevation": 0.6926630878170754
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237290586262243,
+    "Elevation": 0.6926704518018212
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923690508812791,
+    "Elevation": 0.6926696316660242
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923671914517717,
+    "Elevation": 0.692681282372869
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9236432536399612,
+    "Elevation": 0.6926950027379273
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9236176822937225,
+    "Elevation": 0.6926866794301598
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9235937544415305,
+    "Elevation": 0.6927038826413919
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T10:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.92356351186301,
+    "Elevation": 0.6927057206233483
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9235380567319829,
+    "Elevation": 0.6927123473743275
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923521462495784,
+    "Elevation": 0.6927197149341788
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9235019090418708,
+    "Elevation": 0.6927189612670299
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234755744262517,
+    "Elevation": 0.6927265619085722
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234588493142417,
+    "Elevation": 0.6927245260209189
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234336241044847,
+    "Elevation": 0.6927301048083955
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234198540340433,
+    "Elevation": 0.6927384815609807
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234042171875398,
+    "Elevation": 0.6927379936834778
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923377168393927,
+    "Elevation": 0.6927545052762273
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233737566082691,
+    "Elevation": 0.6927519704017243
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233582800846314,
+    "Elevation": 0.6927617123118476
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T11:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923336009709812,
+    "Elevation": 0.6927664067048858
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233318215760593,
+    "Elevation": 0.6927677584640841
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233196486390123,
+    "Elevation": 0.6927753392801344
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233140507901811,
+    "Elevation": 0.692780110448989
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923313863273858,
+    "Elevation": 0.6927807618808431
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232959534670269,
+    "Elevation": 0.6927806390647269
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232934678137854,
+    "Elevation": 0.6927947085202919
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923281734933449,
+    "Elevation": 0.692801679697888
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232769475247151,
+    "Elevation": 0.692805907867786
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232824997233748,
+    "Elevation": 0.6928027661034946
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923282126943153,
+    "Elevation": 0.6928010367465457
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232755335956604,
+    "Elevation": 0.6928224156050761
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T12:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232838974051747,
+    "Elevation": 0.6928133222962564
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232773612765688,
+    "Elevation": 0.6928273328993478
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232794296081563,
+    "Elevation": 0.6928195020109663
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923278317527119,
+    "Elevation": 0.6928280271906776
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232853683593312,
+    "Elevation": 0.6928270269666599
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233012832057923,
+    "Elevation": 0.6928343944492174
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9232956970047133,
+    "Elevation": 0.6928413078944248
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233235745841104,
+    "Elevation": 0.6928493099639679
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.92332187927316,
+    "Elevation": 0.6928492439264011
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233246747814554,
+    "Elevation": 0.6928509895509353
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233380572476748,
+    "Elevation": 0.6928479286831778
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233544816488413,
+    "Elevation": 0.6928603248406363
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T13:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923365796938127,
+    "Elevation": 0.6928551750749631
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233826608360634,
+    "Elevation": 0.6928665637922623
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9233968318039987,
+    "Elevation": 0.6928626184546808
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234199423322327,
+    "Elevation": 0.6928709426808951
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234310977993656,
+    "Elevation": 0.6928800882565807
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234564158865046,
+    "Elevation": 0.6928670762729833
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9234700395145026,
+    "Elevation": 0.6928743298043313
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923492244220674,
+    "Elevation": 0.6928836670795949
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923509900001726,
+    "Elevation": 0.6928809052008651
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9235354241712186,
+    "Elevation": 0.6928831653290837
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923553477617157,
+    "Elevation": 0.6928926281478833
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9235830355070553,
+    "Elevation": 0.6928751882793882
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T14:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923614654306785,
+    "Elevation": 0.6928860347908853
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9236327164686422,
+    "Elevation": 0.6928862216696596
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9236630266069696,
+    "Elevation": 0.692893355452227
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9236941413642783,
+    "Elevation": 0.6928944338375254
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237191162923843,
+    "Elevation": 0.6928933771836123
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237548932873962,
+    "Elevation": 0.6928977773105839
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9237781758192913,
+    "Elevation": 0.6929069273239193
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9238060770167622,
+    "Elevation": 0.6928984029646053
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.923846166607339,
+    "Elevation": 0.6928997963512714
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9238750485573257,
+    "Elevation": 0.6929017079188333
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239081292189266,
+    "Elevation": 0.692900390444116
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239499870798864,
+    "Elevation": 0.6929029865936083
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T15:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9239727224656777,
+    "Elevation": 0.6928984744483749
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9240263449229627,
+    "Elevation": 0.6929000709238055
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9240488221007535,
+    "Elevation": 0.6929039509039947
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9240961349162293,
+    "Elevation": 0.6929084120615396
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9241426001228283,
+    "Elevation": 0.6929110231755304
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9241727625164482,
+    "Elevation": 0.692906175108622
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9242154811113987,
+    "Elevation": 0.6929023292482366
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924257663766508,
+    "Elevation": 0.6929043427293581
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9242942633346698,
+    "Elevation": 0.6929024543505602
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9243328050816788,
+    "Elevation": 0.6929050187691581
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924383583247018,
+    "Elevation": 0.692898223092461
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9244234997284755,
+    "Elevation": 0.6929036177601368
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T16:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9244596653875907,
+    "Elevation": 0.6929087779156223
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9245061477931316,
+    "Elevation": 0.6929024648420595
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9245400583692174,
+    "Elevation": 0.6928973298579097
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9245993912846209,
+    "Elevation": 0.6928948246773668
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9246399763164612,
+    "Elevation": 0.6928896037047172
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9246847220066268,
+    "Elevation": 0.6928875260111108
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9247282544544353,
+    "Elevation": 0.6928922236700945
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.924778498005152,
+    "Elevation": 0.6928902331749668
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9248192463926188,
+    "Elevation": 0.6928816091684264
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9248722612317233,
+    "Elevation": 0.6928698496221921
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9249261640544848,
+    "Elevation": 0.6928816166923051
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9249691537260223,
+    "Elevation": 0.6928742852126313
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T17:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9250141636327651,
+    "Elevation": 0.6928693513579348
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9250726654733366,
+    "Elevation": 0.6928683734697016
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9251067260858896,
+    "Elevation": 0.6928718216042274
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9251643591507115,
+    "Elevation": 0.6928542942855066
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9252090843285425,
+    "Elevation": 0.6928651246956282
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9252571196630697,
+    "Elevation": 0.6928519789560819
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925307674273716,
+    "Elevation": 0.6928585819799145
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9253543630983514,
+    "Elevation": 0.692851365118909
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9253934573789842,
+    "Elevation": 0.6928494621600556
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9254532553775319,
+    "Elevation": 0.6928482971929009
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925512038387123,
+    "Elevation": 0.6928430765140389
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9255490230915837,
+    "Elevation": 0.69282312901886
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T18:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9256078202776257,
+    "Elevation": 0.692832888401273
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9256484381155072,
+    "Elevation": 0.6928194903334413
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925703651666926,
+    "Elevation": 0.6928151449820842
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925746362837487,
+    "Elevation": 0.6928203162673682
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9257971739767317,
+    "Elevation": 0.6928107822774751
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.925851001683383,
+    "Elevation": 0.6928015454774529
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9259073318357922,
+    "Elevation": 0.6927959396407195
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9259417805719752,
+    "Elevation": 0.6927972478814017
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9259883732935852,
+    "Elevation": 0.6927796251741166
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9260405401425456,
+    "Elevation": 0.6927867334137817
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9260950855794885,
+    "Elevation": 0.6927768562953824
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9261324182842725,
+    "Elevation": 0.6927676991629031
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T19:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9261765001003028,
+    "Elevation": 0.6927640934901738
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.92624000577476,
+    "Elevation": 0.6927505903188891
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9262790089159836,
+    "Elevation": 0.6927619732494326
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9263196767466544,
+    "Elevation": 0.6927457721519146
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9263620830559036,
+    "Elevation": 0.6927357811685523
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926411802868457,
+    "Elevation": 0.6927286172801872
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9264610522051997,
+    "Elevation": 0.6927343938932186
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9265001262966743,
+    "Elevation": 0.6927236395915842
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9265381143199023,
+    "Elevation": 0.6927148201702502
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9265945287163246,
+    "Elevation": 0.6927114906039605
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926627527968548,
+    "Elevation": 0.6927061096772451
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9266797320792572,
+    "Elevation": 0.6926902331126368
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T20:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926725249540331,
+    "Elevation": 0.6926876814063492
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9267574170561848,
+    "Elevation": 0.6926825807187506
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9267956909119697,
+    "Elevation": 0.6926681713654447
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9268409847972157,
+    "Elevation": 0.6926683258907067
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9268759817542802,
+    "Elevation": 0.6926588903437163
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926909952017021,
+    "Elevation": 0.6926498899972356
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9269419151993423,
+    "Elevation": 0.6926455867049273
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.926994748218716,
+    "Elevation": 0.6926447958720161
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9270283462891173,
+    "Elevation": 0.69264027962418
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927067363211127,
+    "Elevation": 0.6926225837746562
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9270973932289144,
+    "Elevation": 0.6926137384315695
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9271327050405676,
+    "Elevation": 0.6926105425751394
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T21:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.92716777723142,
+    "Elevation": 0.6926047758093369
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9272019904647426,
+    "Elevation": 0.6925946532104496
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9272289906996902,
+    "Elevation": 0.6925901068866476
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9272578522028183,
+    "Elevation": 0.6925785932579382
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9272950830239224,
+    "Elevation": 0.6925812304549634
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9273281581682207,
+    "Elevation": 0.6925653796515036
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9273471600465768,
+    "Elevation": 0.6925578639615897
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9273755549947649,
+    "Elevation": 0.6925591597822734
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274080346773004,
+    "Elevation": 0.6925513710859649
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274367413740332,
+    "Elevation": 0.6925409987559584
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274590125051043,
+    "Elevation": 0.6925384008045838
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9274820472972563,
+    "Elevation": 0.692534493025064
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T22:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275059017395233,
+    "Elevation": 0.6925177139926431
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275205951791479,
+    "Elevation": 0.6925143347898406
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:05:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927543678142588,
+    "Elevation": 0.6925079374646108
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:10:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275687919718552,
+    "Elevation": 0.6924950797461106
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:15:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9275926132473913,
+    "Elevation": 0.6925006875679107
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:20:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276107909348703,
+    "Elevation": 0.6924937701996474
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:25:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276287933293192,
+    "Elevation": 0.6924779748844817
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:30:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276486727236655,
+    "Elevation": 0.6924708978257426
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:35:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276646060120532,
+    "Elevation": 0.6924609987891874
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:40:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.927679854539636,
+    "Elevation": 0.692469260475142
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:45:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9276950056540314,
+    "Elevation": 0.6924583344737362
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:50:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277033434057786,
+    "Elevation": 0.6924553582259213
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-11T23:55:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277161650496237,
+    "Elevation": 0.6924459433526666
+  },
+  {
+    "ObjectName": "ANIK 28868",
+    "Time": "2019-07-12T00:00:00.000Z",
+    "Station": "Arecibo",
+    "Azimuth": -1.9277235362800673,
+    "Elevation": 0.692446204332248
+  }
+]
