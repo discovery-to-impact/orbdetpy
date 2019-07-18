@@ -219,6 +219,7 @@ def rtsSmoother(xPre, xPost, PPre, PPost, SPpre):
 
         # Smoother update
         Ak = np.dot(Ckp1, np.linalg.inv(Pkp1))
+        
         xS[:, [k]] = xk + np.dot(Ak, (xS[:, [k+1]] - xkp1))
         PS[:, :, k] = Pk + \
             np.dot(Ak, np.dot((PS[:, :, k+1] - Pkp1), np.transpose(Ak)))

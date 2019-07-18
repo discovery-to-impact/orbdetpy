@@ -85,7 +85,8 @@ underlying Java implementation directly is quite straightforward.
 4) plotodet.py : Plots the results of fitting orbits using testodet.py.
 
 5) runWebInterface : Executes locally hosted web interface. 
-orbdetpy uses JSON files to store settings, measurements and estimation
+
+Orbdetpy uses JSON files to store settings, measurements and estimation
 results. The files in examples/data show how to configure measurement
 simulation and orbit determination using radar or telescope data. The
 file docs/filefmt.rst documents the structure of the JSON files.
