@@ -3,7 +3,7 @@ import plotly.graph_objs as go
 import json
 import numpy as np
 from plotly import tools
-import plotly.plotly as py
+# import plotly.plotly as py
 import dateutil.parser
 import math
 import scipy.io as sio

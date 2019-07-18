@@ -53,7 +53,7 @@ Installation
 ------------
 
 1) Python 3.6+ must be installed with the packages numpy, scipy, pyjnius,
-   matplotlib, requests, plotly, and dash.
+   matplotlib, requests, astropy, plotly, and dash.
 2) Install the Java Development Kit 8+ (1.8+) from `here
    <http://openjdk.java.net>`_. Set the JAVA_HOME environment variable
    to point to your JDK installation.
