@@ -32,11 +32,10 @@ the simulateMeasurements() function.
 
 The web interface for process execution currently includes:
 
-About – provides brief information on the interface
 1) Select input files. Multi option dropdown that allows the user to select the files in the data folder.
 2) Data segmentation. Range slider that allows the user to select the time range of data to run. Displays the start and end time below the slider. (in-progress)
 3) Run simulation. Runs testsim.py
-4) Parse data. Parses currently provided L3 ADS data
+4) Parse data. (in-house data parse)
 5) Add time bias, value is assigned in feature 7 or feature 12
 6) Estimate and correct observations for stellar aberration
 7) Estimate for a time bias using reference state information used for feature 5 (only works for RA/DEC right now)
@@ -133,30 +132,42 @@ follow the instructions below for a simple use case.
 1) Simulate state vectors and radar measurements:
    
    Select the "Select input files" dropdown: radar_sim_cfg.json
+
    Select the "Run Simulation" checkbox:
+
    Press the "Submit" button:
+
    This will run the simulation configured in radar_sim_cfg.json and
    write simulated output to radar_obs_data.json.
+
    Once complete, press the "Clear" button:
    This will reset the program and allow for another process to execute.
    
 2) Run OD on simulated radar data:
 
    Select the "Select input files" dropdown: radar_od_cfg.json, radar_obs_data.json
+
    Select the "Run orbit determination" checkbox:
+
    Press the "Submit" button:
+
    This will run OD on the simulated radar data generated in (1)
    using the OD configuration in radar_od_cfg.json and write OD
    output to od_output.json.
+
    Once complete, press the "Clear" button:
    This will reset the program and allow for another process to execute.
 
 3) Plot results:
 
    Select the "Select input files" dropdown: radar_od_cfg.json, radar_obs_data.json, radar_od_out.json
+
    Select the "Create plots for orbit determination analysis" checkbox:
+
    Press the "Submit" button:
+
    This will plot OD results from (2).
+
    Once complete, press the "Clear" button:
    This will reset the program and allow for another process to execute.
 
