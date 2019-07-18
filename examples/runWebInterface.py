@@ -55,7 +55,7 @@ app.layout = html.Div([
                 id = 'input-dropdown-list',
                 options = [{'label' : i,'value' : i} for i in fnDir],
                 value = [''],
-                style = {'margin-bottom' : "10px", 'width' :'700px'},
+                style = {'margin-bottom' : "10px", 'width' :'95%'},
                 multi = True,
                 placeholder="Select input files"
             ),
@@ -67,7 +67,7 @@ app.layout = html.Div([
                     max = 100,
                     value = [0,100]
                 ),
-            ], style = {'margin-left' : '10px','margin-bottom' : '10px', 'width' : '675px'}),
+            ], style = {'margin-left' : '10px','margin-bottom' : '10px', 'width' : '95%'}),
             html.Div(id = 'start-display', style = {'margin-bottom' : '5px'}),
             html.Div(id = 'end-display', style = {'margin-bottom' : '10px'}),
             # Checklist
@@ -89,7 +89,7 @@ app.layout = html.Div([
                 labelStyle={'display': 'block'},
                 style = {
                     'margin-bottom' : "10px",
-                    'width' : '700px',
+                    'width' : '95%',
                 },
                 inputStyle={"margin-right": "10px", 'width' : '20px'},
             ),
@@ -116,12 +116,12 @@ app.layout = html.Div([
         html.Div([
             html.H5(['DATA CONFIGURATION'], style = {'margin-bottom' : '10px'}),
             html.P("""To change file contents, select a file from the dropdown 
-            and edit contents. Content is automatically saved when altered""", style = {'width' : '700px'}),
+            and edit contents. Content is automatically saved when altered""", style = {'width' : '95%'}),
             dcc.Dropdown(
                 id = 'configure-dropdown-list',
                 options = [{'label' : i,'value' : i} for i in fnDir],
                 style = {
-                    'width': '700px',
+                    'width': '95%',
                     'margin-top' : '10px',
                 },
             ),
@@ -129,7 +129,7 @@ app.layout = html.Div([
                 id = 'view-file',
                 style = {
                     'height' : '350px',
-                    'width': '700px',
+                    'width': '95%',
                     'margin-top' : '20px',
                 },
             ),
