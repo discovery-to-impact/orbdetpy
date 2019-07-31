@@ -55,19 +55,19 @@ app.layout = html.Div([
                 id = 'input-dropdown-list',
                 options = [{'label' : i,'value' : i} for i in fnDir],
                 value = [''],
-                style = {'margin-bottom' : "10px", 'width' :'95%'},
+                style = {'margin-bottom' : "10px"},
                 multi = True,
                 placeholder="Select input files"
             ),
-            # Range slider
-            html.Div([
-                dcc.RangeSlider(
-                    id = 'date-rangeslider',
-                    min = 0,
-                    max = 100,
-                    value = [0,100]
-                ),
-            ], style = {'margin-left' : '10px','margin-bottom' : '10px', 'width' : '95%'}),
+            # # Range slider
+            # html.Div([
+            #     dcc.RangeSlider(
+            #         id = 'date-rangeslider',
+            #         min = 0,
+            #         max = 100,
+            #         value = [0,100]
+            #     ),
+            # ], style = {'margin-bottom' : '10px'}),
             html.Div(id = 'start-display', style = {'margin-bottom' : '5px'}),
             html.Div(id = 'end-display', style = {'margin-bottom' : '10px'}),
             # Checklist
@@ -88,10 +88,9 @@ app.layout = html.Div([
                 value=[],
                 labelStyle={'display': 'block'},
                 style = {
-                    'margin-bottom' : "10px",
-                    'width' : '95%',
+                    'margin-bottom' : "10px"
                 },
-                inputStyle={"margin-right": "10px", 'width' : '20px'},
+                inputStyle={"margin-right": "10px"},
             ),
             # Manually add time bias input
             dcc.Input(
@@ -101,8 +100,7 @@ app.layout = html.Div([
                 value='',
                 style = {
                     'margin-bottom' : "20px",
-                    'margin-left' : "5px",
-                    'width' : '400px'
+                    'margin-left' : "5px"
                 },
             ),
             # Create buttons to run and reset processes
@@ -111,29 +109,28 @@ app.layout = html.Div([
                 html.Button('Submit', id='submit-button'),
                 html.Button('Clear', id='clear-button', style = {'margin-left':'10px'})
             ], style = {'display' : 'inline-block'}),
-        ], style = {'display' : 'inline-block', 'margin-right' : '30px', 'width' : '40%', 'border' : '0px solid rgb(51, 153, 255)', 'padding' : '10px'}),
+        ], style = {'display' : 'inline-block', 'margin-right' : '30px', 'border' : '0px solid rgb(51, 153, 255)', 'padding' : '10px'}),
 
         html.Div([
             html.H5(['DATA CONFIGURATION'], style = {'margin-bottom' : '10px'}),
             html.P("""To change file contents, select a file from the dropdown 
-            and edit contents. Content is automatically saved when altered""", style = {'width' : '95%'}),
+            and edit contents. Content is automatically saved when altered"""),
             dcc.Dropdown(
                 id = 'configure-dropdown-list',
                 options = [{'label' : i,'value' : i} for i in fnDir],
                 style = {
-                    'width': '95%',
-                    'margin-top' : '10px',
+                    'margin-top' : '10px'
                 },
             ),
             dcc.Textarea(
                 id = 'view-file',
                 style = {
-                    'height' : '350px',
-                    'width': '95%',
                     'margin-top' : '20px',
+                    'height' : '375px',
+                    'width' : '100%',
                 },
             ),
-        ], style = {"margin-top" : "25px", 'display' : 'inline-block', 'width' : '40%', 'border' : '0px solid rgb(51, 153, 255)', 'padding' : '10px'})
+        ], style = {"margin-top" : "25px", 'display' : 'inline-block', 'border' : '0px solid rgb(51, 153, 255)', 'padding' : '10px'})
 
     ], style = {"margin-left" : "25px", "margin-right" : "25px"}), # Everything below banner
 
@@ -324,4 +321,4 @@ def update_output_div(clear):
     return [], 0, ''
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(port = 3005, debug=True)

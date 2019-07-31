@@ -1,8 +1,8 @@
 import plotly
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 import json
 import numpy as np
-from plotly import tools
+from plotly.subplots import make_subplots
 import dateutil.parser
 import math
 import scipy.io as sio
@@ -10,6 +10,8 @@ from scipy.interpolate import interp1d
 import astrotools
 import plotly.figure_factory as ff
 import time as tsys
+import plotly.io as pio
+pio.templates.default = "none"
 
 def plot(obs_data, od_cfg, od_out, smootherRun,plots):
     """Plots results from OD
@@ -355,9 +357,9 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             title6 = 'Reference: Mean = ' + format(meanstdANGref[2],'.2f') + ' | STD = ' + format(meanstdANGref[3],'.2f')
             trace10 = go.Scatter(x=tstr, y=refRes[:,1], mode = 'markers', name = key[1], marker = dict(color = 'rgb(0, 204, 0)'), showlegend = False)
         # Create subplot
-        fig = tools.make_subplots(rows=2, cols=2, subplot_titles=(title1, title2, title3, title4), shared_xaxes=True)
+        fig = make_subplots(rows=2, cols=2, subplot_titles=(title1, title2, title3, title4), shared_xaxes=True)
         if plotRef:
-            fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title2, title3, title4, title5, title6), shared_xaxes=True)
+            fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title2, title3, title4, title5, title6), shared_xaxes=True)
         # Assign traces to subplots
         fig.append_trace(trace1, 1, 1)
         fig.append_trace(trace2, 1, 2)
@@ -409,7 +411,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             trace11 = go.Scatter(x=tstr, y=FSCT[4,:], mode = 'markers', name = 'vy', marker = dict(color = 'rgb(255, 192, 56)'))
             trace12 = go.Scatter(x=tstr, y=FSCT[5,:], mode = 'markers', name = 'vz', marker = dict(color = 'rgb(0, 204, 0)'))
             # Create subplot
-            fig = tools.make_subplots(rows=2, cols=2, subplot_titles=(title1, title2, title3, title4), shared_xaxes=True)
+            fig = make_subplots(rows=2, cols=2, subplot_titles=(title1, title2, title3, title4), shared_xaxes=True)
             # Assign traces to subplots
             fig.append_trace(trace1, 1, 1)
             fig.append_trace(trace2, 1, 2)
@@ -453,7 +455,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             title6 = 'McReynolds Smoother Filter Consistency Check: Coefficient of Reflectivity'
             trace6 = go.Scatter(x=tstr, y=FSCT[7,:], mode = 'markers', name = 'Cr', marker = dict(color = 'rgb(0, 204, 0)'), showlegend = False)
             # Create subplot
-            fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title2, title3, title4, title5, title6), shared_xaxes=True)
+            fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title2, title3, title4, title5, title6), shared_xaxes=True)
             # Assign traces to subplots
             fig.append_trace(trace1, 1, 1)
             fig.append_trace(trace2, 1, 2)
@@ -545,7 +547,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         trace17 = go.Scatter(x=tstr, y=-sigPf[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         trace18 = go.Scatter(x=tstr, y=-sigPf[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         # Create subplot
-        fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
+        fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
         # Assign traces to subplots
         fig.append_trace(trace1, 1, 1)
         fig.append_trace(trace2, 2, 1)
@@ -610,7 +612,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             trace17 = go.Scatter(x=tstr, y=-sigPs[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             trace18 = go.Scatter(x=tstr, y=-sigPs[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             # Create subplot
-            fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
+            fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
             # Assign traces to subplots
             fig.append_trace(trace1, 1, 1)
             fig.append_trace(trace2, 2, 1)
@@ -674,7 +676,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         trace17 = go.Scatter(x=tstr, y=-sigPRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         trace18 = go.Scatter(x=tstr, y=-sigPRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         # Create subplot
-        fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
+        fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
         # Assign traces to subplots
         fig.append_trace(trace1, 1, 1)
         fig.append_trace(trace2, 2, 1)
@@ -739,7 +741,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             trace17 = go.Scatter(x=tstr, y=-sigPSRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             trace18 = go.Scatter(x=tstr, y=-sigPSRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             # Create subplot
-            fig = tools.make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
+            fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
             # Assign traces to subplots
             fig.append_trace(trace1, 1, 1)
             fig.append_trace(trace2, 2, 1)

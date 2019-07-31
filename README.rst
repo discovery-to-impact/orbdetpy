@@ -25,9 +25,7 @@ The measurement model supports range, range-rate, angles, and inertial
 Cartesian coordinates. Filtering is done using Orekit's Extended Kalman
 Filter or our custom Unscented Kalman Filter. Dynamic Model Compensation
 (DMC) can be used with either filter to estimate additional perturbing
-acclerations that result from unmodeled dynamics, maneuvers etc.
-
-You can either use your own measurements or simulate observations using
+acclerations that result from unmodeled dynamics, maneuvers etc. You can either use your own measurements or simulate observations using
 the simulateMeasurements() function.
 
 The web interface for process execution currently includes:
@@ -51,13 +49,18 @@ The web interface for process execution currently includes:
 Installation
 ------------
 
-``orbdetpy`` requires ``pyjnius``, which requires the Java Development
+Python 3.6+ must be installed with the packages ``numpy``, ``scipy``, ``pyjnius``, ``matplotlib``, ``requests``, ``plotly``, and ``dash``.
+
+1. Install `Python 3.6+
+   <https://www.python.org/downloads/>`_.
+2. Install all required packages with pip install
+3. If pip is not recognized, try to add the installed python folder and the ``\Scripts\`` sub-folder to your ``PATH`` environment variable and try again. More information on `PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
+
+``orbdetpy`` also requires ``pyjnius``, which requires the Java Development
 Kit 8+ and ``Cython`` to install.
 
-1. Install the `Microsoft Visual C++ Build Tools
-   <https://visualstudio.microsoft.com/downloads/>`_.
-2. Install the `Java Development Kit 8+ (1.8+)
-   <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
+1. Install the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/downloads/>`_.
+2. Install the `Java Development Kit 8+ (1.8+) <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
 3. Set the ``JAVA_HOME`` environment variable to point to your JDK
    installation.
 4. Add ``$JAVA_HOME\bin`` and ``$JAVA_HOME\jre\bin\server`` to your
@@ -66,8 +69,6 @@ Kit 8+ and ``Cython`` to install.
 
     pip install cython
     
-Additionally, the python packages ``plotly`` and ``dash`` must be installed for the web interface. 
-
 The ``lib/`` folder contains JAR files for the following libraries, which are
 imported by orbdetpy automatically.
 

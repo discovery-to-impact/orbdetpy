@@ -10,8 +10,10 @@ import sys
 import time
 import math
 import plotly
-import plotly.graph_objs as go
-from plotly import tools
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import plotly.io as pio
+pio.templates.default = "none"
 from astropy.time import Time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from orbdetpy import lla2eciJ2000
@@ -616,7 +618,7 @@ def aberrationCorrection(obs_data, plot):
         trace2 = go.Scatter(x=tstr, y=devDEC, mode='markers', marker=dict(
             color='rgb(0, 204, 0)'), showlegend=False)
         # Create subplot
-        fig = tools.make_subplots(rows=2, cols=1, subplot_titles=(
+        fig = make_subplots(rows=2, cols=1, subplot_titles=(
             title1, title2), shared_xaxes=True)
         # Assign traces to subplots
         fig.append_trace(trace1, 1, 1)
@@ -709,16 +711,17 @@ def plotEstSensorError(od_cfg, obs_data):
     trace2 = go.Scatter(x=tstr, y=refRes[:, 1], mode='markers', name=key[1], marker=dict(
         color='rgb(0, 204, 0)'), showlegend=False)
     # Create subplot
-    fig = tools.make_subplots(rows=2, cols=1, subplot_titles=(
+    fig = make_subplots(rows=2, cols=1, subplot_titles=(
         title1, title2), shared_xaxes=True)
     # Assign traces to subplots
     fig.append_trace(trace1, 1, 1)
     fig.append_trace(trace2, 2, 1)
     # Configure Layout
-    fig['layout'].update(title=TITLE)
-    fig['layout']['xaxis1'].update(title='Time')
+    fig.update_layout(title=TITLE)
+    fig['layout']['xaxis2'].update(title='Time')
     fig['layout']['yaxis1'].update(title=key[0]+' '+units[0])
     fig['layout']['yaxis2'].update(title=key[1]+' '+units[1])
+    
     # Execute
     plotly.offline.plot(fig, filename='Plots/measerror.html', auto_open=True)
     return
