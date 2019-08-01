@@ -18,12 +18,17 @@
 
 package org.astria;
 
-import org.astria.DataManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
+import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.estimation.iod.IodGooding;
 import org.orekit.estimation.measurements.GroundStation;
+import org.orekit.files.ccsds.TDMFile;
+import org.orekit.files.ccsds.TDMParser;
 import org.orekit.frames.Frame;
 import org.orekit.frames.TopocentricFrame;
 import org.orekit.frames.Transform;
@@ -52,8 +57,6 @@ public class Utilities
 	    fromframe = DataManager.gcrf;
 	else if (srcframe.equals("ITRF"))
 	    fromframe = DataManager.itrf;
-	else if (srcframe.equals("TEME"))
-	    fromframe = DataManager.teme;
 	else
 	    fromframe = DataManager.eme2000;
 
@@ -61,8 +64,6 @@ public class Utilities
 	    toframe = DataManager.gcrf;
 	else if (destframe.equals("ITRF"))
 	    toframe = DataManager.itrf;
-	else if (destframe.equals("TEME"))
-	    toframe = DataManager.teme;
 	else
 	    toframe = DataManager.eme2000;
 
@@ -88,7 +89,8 @@ public class Utilities
 
 	for (int i = 0; i < 3; i++)
 	{
-	    los[i] = new Vector3D(Math.sin(azi[i])*Math.cos(ele[i]), Math.cos(azi[i])*Math.cos(ele[i]), Math.sin(ele[i]));
+	    los[i] = new Vector3D(FastMath.sin(azi[i])*FastMath.cos(ele[i]),
+				  FastMath.cos(azi[i])*FastMath.cos(ele[i]), FastMath.sin(ele[i]));
 	    time[i] = new AbsoluteDate(DateTimeComponents.parseDateTime(tmstr[i]), DataManager.utcscale);
 
 	    GroundStation sta = new GroundStation(
@@ -101,6 +103,62 @@ public class Utilities
 
 	return(new IodGooding(DataManager.eme2000, Constants.EGM96_EARTH_MU).estimate(
 		   gspos[0], gspos[1], gspos[2], los[0], time[0], los[1], time[1], los[2], time[2], rho1init, rho3init));
+    }
+
+    public static String[] importTDM(String file_name)
+    {
+	Measurements meas = new Measurements();
+	Measurements.JSONMeasurement json = null;
+	ArrayList<String> output = new ArrayList<String>();
+	Gson gsonobj = new GsonBuilder().setPrettyPrinting().create();
+
+	TDMFile tdm = new TDMParser().parse(file_name);
+	for (TDMFile.ObservationsBlock blk : tdm.getObservationsBlocks())
+	{
+	    int i = 0;
+	    String atype = blk.getMetaData().getAngleType();
+	    ArrayList<Measurements.JSONMeasurement> mall = new ArrayList<Measurements.JSONMeasurement>();
+
+	    for (TDMFile.Observation obs : blk.getObservations())
+	    {
+		if (i == 0)
+		    json = meas.new JSONMeasurement();
+
+		if (atype == null)
+		{
+		    if (obs.getKeyword().equals("RANGE"))
+			json.Range = obs.getMeasurement()*1000.0;
+		    else
+			json.RangeRate = obs.getMeasurement()*1000.0;
+		}
+		else if (atype.equals("RADEC"))
+		{
+		    if (obs.getKeyword().equals("ANGLE_1"))
+			json.RightAscension = obs.getMeasurement()*FastMath.PI/180.0;
+		    else
+			json.Declination = obs.getMeasurement()*FastMath.PI/180.0;
+		}
+		else if (atype.equals("AZEL"))
+		{
+		    if (obs.getKeyword().equals("ANGLE_1"))
+			json.Azimuth = obs.getMeasurement()*FastMath.PI/180.0;
+		    else
+			json.Elevation = obs.getMeasurement()*FastMath.PI/180.0;
+		}
+
+		if (++i == 2)
+		{
+		    i = 0;
+		    json.Time = obs.getEpoch().toString() + "Z";
+		    mall.add(json);
+		}
+	    }
+
+	    Measurements.JSONMeasurement[] rawmeas = mall.toArray(new Measurements.JSONMeasurement[0]);
+	    output.add(gsonobj.toJson(rawmeas));
+	}
+
+	return(output.toArray(new String[0]));
     }
 	
 	public static double[] cart2radec(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
@@ -149,7 +207,7 @@ public class Utilities
 
 		return(RADEC);
 	}
-
+	
 	public static double[] cart2azel(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
 	{	
 

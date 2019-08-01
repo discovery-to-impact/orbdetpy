@@ -1,5 +1,6 @@
-**/__pycache__
-**/*.class
+__pycache__/
+output/
+*.class
 **.html
 *examples/data
 *examples/.vscode
