@@ -57,6 +57,8 @@ public class Utilities
 	    fromframe = DataManager.gcrf;
 	else if (srcframe.equals("ITRF"))
 	    fromframe = DataManager.itrf;
+	else if (srcframe.equals("TEME"))
+	    fromframe = DataManager.teme;
 	else
 	    fromframe = DataManager.eme2000;
 
@@ -64,6 +66,8 @@ public class Utilities
 	    toframe = DataManager.gcrf;
 	else if (destframe.equals("ITRF"))
 	    toframe = DataManager.itrf;
+	else if (destframe.equals("TEME"))
+	    toframe = DataManager.teme;
 	else
 	    toframe = DataManager.eme2000;
 
@@ -161,7 +165,7 @@ public class Utilities
 	return(output.toArray(new String[0]));
     }
 	
-	public static double[] cart2radec(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
+	public static double[] cart2radec(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv, String stationName)
 	{	
 
 		double[] baseWeight;
@@ -188,7 +192,6 @@ public class Utilities
 		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
 		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
 
-		String stationName = "Station1";
 		Settings odcfg = Settings.loadJSON(cfgjson);
 
 		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
@@ -208,7 +211,7 @@ public class Utilities
 		return(RADEC);
 	}
 	
-	public static double[] cart2azel(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv)
+	public static double[] cart2azel(String cfgjson, double gslat, double gslon, double gsalt, String time, double[] angular, double[] sigma, double[] pv, String stationName)
 	{	
 
 		double[] baseWeight;
@@ -233,7 +236,6 @@ public class Utilities
 		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
 		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
 
-		String stationName = "Station1";
 		Settings odcfg = Settings.loadJSON(cfgjson);
 
 		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
@@ -253,7 +255,7 @@ public class Utilities
 		return(AZEL);
 	}
 
-	public static double[] cart2range(String cfgjson, double gslat, double gslon, double gsalt, String time, double range1, double error, double[] pv)
+	public static double[] cart2range(String cfgjson, double gslat, double gslon, double gsalt, String time, double range1, double error, double[] pv, String stationName)
 	{
 		
 		double[] baseWeight;
@@ -276,7 +278,6 @@ public class Utilities
 		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
 		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
 
-		String stationName = "Station1";
 		Settings odcfg = Settings.loadJSON(cfgjson);
 
 		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);
@@ -296,7 +297,7 @@ public class Utilities
 		return(RANGE);
 	}
 	
-	public static double[] cart2rangerate(String cfgjson, double gslat, double gslon, double gsalt, String time, double rangerate1, double error, double[] pv)
+	public static double[] cart2rangerate(String cfgjson, double gslat, double gslon, double gsalt, String time, double rangerate1, double error, double[] pv, String stationName)
 	{
 		
 		double[] baseWeight;
@@ -319,7 +320,6 @@ public class Utilities
 		Vector3D pos = new Vector3D(pv[0], pv[1], pv[2]);
 		Vector3D vel = new Vector3D(pv[3], pv[4], pv[5]);
 
-		String stationName = "Station1";
 		Settings odcfg = Settings.loadJSON(cfgjson);
 
 		TimeStampedPVCoordinates pvs = new TimeStampedPVCoordinates(tm, pos, vel);

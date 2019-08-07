@@ -163,21 +163,23 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
     smoothMeas, smoothRes, refMeas, refRes = [], [], [], []
     sig1 = np.array(cfg['Measurements'][key[0]]['Error'])
     sig2 = np.array(cfg['Measurements'][key[1]]['Error'])
+    stationName = key2[0]
     for ii in range(0,numObs,1):
         ti = tstr[ii]
         sigma = [sig1,sig2]
+        sigma = [float(sig) for sig in sigma]
         if plotRef:
             pv = refobs[ii,:].tolist()
             angular = obs[:,ii].tolist()
             if key[0] == 'RightAscension':
-                output = astrotools.pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+                output = astrotools.pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
             if key[0] == 'Azimuth':
-                output = astrotools.pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+                output = astrotools.pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
             if key[0] == 'Range':
                 range1 = obs[0,ii].tolist()
                 rangerate1 = obs[1,ii].tolist()
-                output1 = astrotools.pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv)
-                output2 = astrotools.pv2rangerate(od_cfg, lat, lon, alt, ti, rangerate1, sig2, pv)
+                output1 = astrotools.pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv, stationName)
+                output2 = astrotools.pv2rangerate(od_cfg, lat, lon, alt, ti, rangerate1, sig2, pv, stationName)
                 output = [output1,output2]
             refMeas.append(output)
             output = np.squeeze(np.array(output))
@@ -188,14 +190,14 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             pv = xS[0:6,ii].tolist()
             angular = obs[:,ii].tolist()
             if key[0] == 'RightAscension':
-                output = astrotools.pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+                output = astrotools.pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
             if key[0] == 'Azimuth':
-                output = astrotools.pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+                output = astrotools.pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
             if key[0] == 'Range':
                 range1 = obs[0,ii].tolist()
                 rangerate1 = obs[1,ii].tolist()
-                output1 = astrotools.pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv)
-                output2 = astrotools.pv2rangerate(od_cfg, lat, lon, alt, ti, rangerate1, sig2, pv)
+                output1 = astrotools.pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv, stationName)
+                output2 = astrotools.pv2rangerate(od_cfg, lat, lon, alt, ti, rangerate1, sig2, pv, stationName)
                 output = [output1,output2]
             smoothMeas.append(output)
             output = np.squeeze(np.array(output))
@@ -274,64 +276,64 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
     
     ################################################## PLOTLY #############################################################
 
-    initialCov = np.array(cfg['Estimation']['Covariance'])
-    initialProcNoise = np.array(cfg['Estimation']['ProcessNoise'])
-    initialANGNoise = [sig1,sig2]
+    # initialCov = np.array(cfg['Estimation']['Covariance'])
+    # initialProcNoise = np.array(cfg['Estimation']['ProcessNoise'])
+    # initialANGNoise = [sig1,sig2]
     
-    data_matrix = [['DESCRIPTION',' ']]
-    data_matrix.append(['Name', mT])
-    data_matrix.append(['Filter Type', cfg['Estimation']['Filter']])
-    data_matrix.append(['Number of observations', numObs])
-    data_matrix.append(['Propagation Start time [UTC]', cfg['Propagation']['Start']])
-    data_matrix.append(['Propagation End time [UTC]', cfg['Propagation']['End']])
-    data_matrix.append(['Initial Covariance [m,m/s]', initialCov])
-    data_matrix.append(['Initial Process Noise [m,m/s]', initialProcNoise])
-    data_matrix.append(['Initial Measurement Noise '+key[0]+' '+units[0], initialANGNoise[0]])
-    data_matrix.append(['Initial Measurement Noise '+key[1]+' '+units[1], initialANGNoise[1]])
+    # data_matrix = [['DESCRIPTION',' ']]
+    # data_matrix.append(['Name', mT])
+    # data_matrix.append(['Filter Type', cfg['Estimation']['Filter']])
+    # data_matrix.append(['Number of observations', numObs])
+    # data_matrix.append(['Propagation Start time [UTC]', cfg['Propagation']['Start']])
+    # data_matrix.append(['Propagation End time [UTC]', cfg['Propagation']['End']])
+    # data_matrix.append(['Initial Covariance [m,m/s]', initialCov])
+    # data_matrix.append(['Initial Process Noise [m,m/s]', initialProcNoise])
+    # data_matrix.append(['Initial Measurement Noise '+key[0]+' '+units[0], initialANGNoise[0]])
+    # data_matrix.append(['Initial Measurement Noise '+key[1]+' '+units[1], initialANGNoise[1]])
     
-    data_matrix.append(['PLOTS', ' '])
-    data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Prefit: Mean = ' + format(meanstdANGpre[0],'.2f') + ' | STD = ' + format(meanstdANGpre[1],'.2f')])
-    data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Prefit: Mean = ' + format(meanstdANGpre[2],'.2f') + ' | STD = ' + format(meanstdANGpre[3],'.2f')])
-    data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Postfit: Mean = ' + format(meanstdANGpost[0],'.2f') + ' | STD = ' + format(meanstdANGpost[1],'.2f')])
-    data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Postfit: Mean = ' + format(meanstdANGpost[2],'.2f') + ' | STD = ' + format(meanstdANGpost[3],'.2f')])
-    if plotRef:
-        data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Reference: Mean = ' + format(meanstdANGref[0],'.2f') + ' | STD = ' + format(meanstdANGref[1],'.2f')])
-        data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Reference: Mean = ' + format(meanstdANGref[2],'.2f') + ' | STD = ' + format(meanstdANGref[3],'.2f')])
+    # data_matrix.append(['PLOTS', ' '])
+    # data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Prefit: Mean = ' + format(meanstdANGpre[0],'.2f') + ' | STD = ' + format(meanstdANGpre[1],'.2f')])
+    # data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Prefit: Mean = ' + format(meanstdANGpre[2],'.2f') + ' | STD = ' + format(meanstdANGpre[3],'.2f')])
+    # data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Postfit: Mean = ' + format(meanstdANGpost[0],'.2f') + ' | STD = ' + format(meanstdANGpost[1],'.2f')])
+    # data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Postfit: Mean = ' + format(meanstdANGpost[2],'.2f') + ' | STD = ' + format(meanstdANGpost[3],'.2f')])
+    # if plotRef:
+    #     data_matrix.append(['Filter Measurement Residuals '+key[0]+' '+units[0], 'Reference: Mean = ' + format(meanstdANGref[0],'.2f') + ' | STD = ' + format(meanstdANGref[1],'.2f')])
+    #     data_matrix.append(['Filter Measurement Residuals '+key[1]+' '+units[1], 'Reference: Mean = ' + format(meanstdANGref[2],'.2f') + ' | STD = ' + format(meanstdANGref[3],'.2f')])
    
-    if smootherRun:
-        data_matrix.append(['Smoother Measurements Residuals '+key[0]+' '+units[0], 'Smoothed: Mean = ' + format(meanstdANGsmooth[0],'.2f') + ' | STD = ' + format(meanstdANGsmooth[1],'.2f')])
-        data_matrix.append(['Smoother Measurements Residuals '+key[1]+' '+units[1], 'Smoothed: Mean = ' + format(meanstdANGsmooth[2],'.2f') + ' | STD = ' + format(meanstdANGsmooth[3],'.2f')])
+    # if smootherRun:
+    #     data_matrix.append(['Smoother Measurements Residuals '+key[0]+' '+units[0], 'Smoothed: Mean = ' + format(meanstdANGsmooth[0],'.2f') + ' | STD = ' + format(meanstdANGsmooth[1],'.2f')])
+    #     data_matrix.append(['Smoother Measurements Residuals '+key[1]+' '+units[1], 'Smoothed: Mean = ' + format(meanstdANGsmooth[2],'.2f') + ' | STD = ' + format(meanstdANGsmooth[3],'.2f')])
     
-    data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position x: Mean = ' + format(meanstdPVfilter[0],'.2f') + ' | STD = ' + format(meanstdPVfilter[1],'.2f')])
-    data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position y: Mean = ' + format(meanstdPVfilter[2],'.2f') + ' | STD = ' + format(meanstdPVfilter[3],'.2f')])
-    data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position z: Mean = ' + format(meanstdPVfilter[4],'.2f') + ' | STD = ' + format(meanstdPVfilter[5],'.2f')])
-    # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vx: Mean = ' + format(meanstdPVfilter[6],'.2f') + ' | STD = ' + format(meanstdPVfilter[7],'.2f')])
-    # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vy: Mean = ' + format(meanstdPVfilter[8],'.2f') + ' | STD = ' + format(meanstdPVfilter[9],'.2f')])
-    # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vz: Mean = ' + format(meanstdPVfilter[10],'.2f') + ' | STD = ' + format(meanstdPVfilter[11],'.2f')])
-    if smootherRun:
-        data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position x: Mean = ' + format(meanstdPVsmooth[0],'.2f') + ' | STD = ' + format(meanstdPVsmooth[1],'.2f')])
-        data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position y: Mean = ' + format(meanstdPVsmooth[2],'.2f') + ' | STD = ' + format(meanstdPVsmooth[3],'.2f')])
-        data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position z: Mean = ' + format(meanstdPVsmooth[4],'.2f') + ' | STD = ' + format(meanstdPVsmooth[5],'.2f')])
-    # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vx: Mean = ' + format(meanstdPVsmooth[6],'.2f') + ' | STD = ' + format(meanstdPVsmooth[7],'.2f')])
-    # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vy: Mean = ' + format(meanstdPVsmooth[8],'.2f') + ' | STD = ' + format(meanstdPVsmooth[9],'.2f')])
-    # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vz: Mean = ' + format(meanstdPVsmooth[10],'.2f') + ' | STD = ' + format(meanstdPVsmooth[11],'.2f')])
+    # data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position x: Mean = ' + format(meanstdPVfilter[0],'.2f') + ' | STD = ' + format(meanstdPVfilter[1],'.2f')])
+    # data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position y: Mean = ' + format(meanstdPVfilter[2],'.2f') + ' | STD = ' + format(meanstdPVfilter[3],'.2f')])
+    # data_matrix.append(['Reference - Filter Position Residuals [m]', 'Position z: Mean = ' + format(meanstdPVfilter[4],'.2f') + ' | STD = ' + format(meanstdPVfilter[5],'.2f')])
+    # # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vx: Mean = ' + format(meanstdPVfilter[6],'.2f') + ' | STD = ' + format(meanstdPVfilter[7],'.2f')])
+    # # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vy: Mean = ' + format(meanstdPVfilter[8],'.2f') + ' | STD = ' + format(meanstdPVfilter[9],'.2f')])
+    # # data_matrix.append(['Reference - Filter Position and Velocity Residuals [m/s]', 'Position vz: Mean = ' + format(meanstdPVfilter[10],'.2f') + ' | STD = ' + format(meanstdPVfilter[11],'.2f')])
+    # if smootherRun:
+    #     data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position x: Mean = ' + format(meanstdPVsmooth[0],'.2f') + ' | STD = ' + format(meanstdPVsmooth[1],'.2f')])
+    #     data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position y: Mean = ' + format(meanstdPVsmooth[2],'.2f') + ' | STD = ' + format(meanstdPVsmooth[3],'.2f')])
+    #     data_matrix.append(['Reference - Smoother Position Residuals [m]', 'Position z: Mean = ' + format(meanstdPVsmooth[4],'.2f') + ' | STD = ' + format(meanstdPVsmooth[5],'.2f')])
+    # # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vx: Mean = ' + format(meanstdPVsmooth[6],'.2f') + ' | STD = ' + format(meanstdPVsmooth[7],'.2f')])
+    # # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vy: Mean = ' + format(meanstdPVsmooth[8],'.2f') + ' | STD = ' + format(meanstdPVsmooth[9],'.2f')])
+    # # data_matrix.append(['Reference - Smoother Position and Velocity Residuals [m/s]', 'Position vz: Mean = ' + format(meanstdPVsmooth[10],'.2f') + ' | STD = ' + format(meanstdPVsmooth[11],'.2f')])
     
-    data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position Radial: Mean = ' + format(meanstdRICfilter[0],'.2f') + ' | STD = ' + format(meanstdRICfilter[1],'.2f')])
-    data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position In-track: Mean = ' + format(meanstdRICfilter[2],'.2f') + ' | STD = ' + format(meanstdRICfilter[3],'.2f')])
-    data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position Cross-track: Mean = ' + format(meanstdRICfilter[4],'.2f') + ' | STD = ' + format(meanstdRICfilter[5],'.2f')])
-    if smootherRun:
-        data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position Radial: Mean = ' + format(meanstdRICsmooth[0],'.2f') + ' | STD = ' + format(meanstdRICsmooth[1],'.2f')])
-        data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position In-track: Mean = ' + format(meanstdRICsmooth[2],'.2f') + ' | STD = ' + format(meanstdRICsmooth[3],'.2f')])
-        data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position Cross-track: Mean = ' + format(meanstdRICsmooth[4],'.2f') + ' | STD = ' + format(meanstdRICsmooth[5],'.2f')])
+    # data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position Radial: Mean = ' + format(meanstdRICfilter[0],'.2f') + ' | STD = ' + format(meanstdRICfilter[1],'.2f')])
+    # data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position In-track: Mean = ' + format(meanstdRICfilter[2],'.2f') + ' | STD = ' + format(meanstdRICfilter[3],'.2f')])
+    # data_matrix.append(['RIC Reference - Filter Position Residuals [m]', 'Position Cross-track: Mean = ' + format(meanstdRICfilter[4],'.2f') + ' | STD = ' + format(meanstdRICfilter[5],'.2f')])
+    # if smootherRun:
+    #     data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position Radial: Mean = ' + format(meanstdRICsmooth[0],'.2f') + ' | STD = ' + format(meanstdRICsmooth[1],'.2f')])
+    #     data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position In-track: Mean = ' + format(meanstdRICsmooth[2],'.2f') + ' | STD = ' + format(meanstdRICsmooth[3],'.2f')])
+    #     data_matrix.append(['RIC Reference - Smoother Position Residuals [m]', 'Position Cross-track: Mean = ' + format(meanstdRICsmooth[4],'.2f') + ' | STD = ' + format(meanstdRICsmooth[5],'.2f')])
 
-    table = ff.create_table(data_matrix, index=True)
+    # table = ff.create_table(data_matrix, index=True)
 
-    # Make text size larger
-    for i in range(len(table.layout.annotations)):
-        table.layout.annotations[i].font.size = 20
+    # # Make text size larger
+    # for i in range(len(table.layout.annotations)):
+    #     table.layout.annotations[i].font.size = 20
 
-    # Execute
-    plotly.offline.plot(table, filename='Plots/index_table.html', auto_open=True)
+    # # Execute
+    # plotly.offline.plot(table, filename='Plots/index_table.html', auto_open=True)
 
     ########################################################################################
     if plots:
@@ -346,10 +348,10 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         title4 = 'Postfit: Mean = ' + format(meanstdANGpost[2],'.2f') + ' | STD = ' + format(meanstdANGpost[3],'.2f')
         trace4 = go.Scatter(x=tstr, y=pos[:,1], mode = 'markers', name = key[1], marker = dict(color = 'rgb(0, 204, 0)'), showlegend = False)
         # Plot 3-sigma Bounds
-        trace5 = go.Scatter(x=tstr, y=cov[:,0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
-        trace6 = go.Scatter(x=tstr, y=-cov[:,0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace7 = go.Scatter(x=tstr, y=cov[:,1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace8 = go.Scatter(x=tstr, y=-cov[:,1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace5 = go.Scatter(x=tstr, y=cov[:,0]+meanstdANGpost[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
+        trace6 = go.Scatter(x=tstr, y=-cov[:,0]+meanstdANGpost[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace7 = go.Scatter(x=tstr, y=cov[:,1]+meanstdANGpost[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace8 = go.Scatter(x=tstr, y=-cov[:,1]+meanstdANGpost[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         if plotRef:
             # Plot Reference residuals
             title5 = 'Reference: Mean = ' + format(meanstdANGref[0],'.2f') + ' | STD = ' + format(meanstdANGref[1],'.2f')
@@ -534,18 +536,18 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         title6 = 'Velocity vz: Mean = ' + format(meanstdPVfilter[10],'.2f') + ' | STD = ' + format(meanstdPVfilter[11],'.2f')
         trace6 = go.Scatter(x=tstr, y=PVDiff[:,5], mode = 'markers', name = 'vz', marker = dict(color = 'rgb(0, 204, 0)'))
         # Plot 3-sigma Bounds
-        trace7 = go.Scatter(x=tstr, y=sigPf[0,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
-        trace8 = go.Scatter(x=tstr, y=sigPf[1,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace9 = go.Scatter(x=tstr, y=sigPf[2,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace10 = go.Scatter(x=tstr, y=-sigPf[0,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace11 = go.Scatter(x=tstr, y=-sigPf[1,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace12 = go.Scatter(x=tstr, y=-sigPf[2,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace13 = go.Scatter(x=tstr, y=sigPf[3,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend=False)
-        trace14 = go.Scatter(x=tstr, y=sigPf[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace15 = go.Scatter(x=tstr, y=sigPf[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace16 = go.Scatter(x=tstr, y=-sigPf[3,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace17 = go.Scatter(x=tstr, y=-sigPf[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace18 = go.Scatter(x=tstr, y=-sigPf[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace7 = go.Scatter(x=tstr, y=sigPf[0,:]+meanstdPVfilter[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
+        trace8 = go.Scatter(x=tstr, y=sigPf[1,:]+meanstdPVfilter[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace9 = go.Scatter(x=tstr, y=sigPf[2,:]+meanstdPVfilter[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace10 = go.Scatter(x=tstr, y=-sigPf[0,:]+meanstdPVfilter[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace11 = go.Scatter(x=tstr, y=-sigPf[1,:]+meanstdPVfilter[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace12 = go.Scatter(x=tstr, y=-sigPf[2,:]+meanstdPVfilter[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace13 = go.Scatter(x=tstr, y=sigPf[3,:]+meanstdPVfilter[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend=False)
+        trace14 = go.Scatter(x=tstr, y=sigPf[4,:]+meanstdPVfilter[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace15 = go.Scatter(x=tstr, y=sigPf[5,:]+meanstdPVfilter[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace16 = go.Scatter(x=tstr, y=-sigPf[3,:]+meanstdPVfilter[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace17 = go.Scatter(x=tstr, y=-sigPf[4,:]+meanstdPVfilter[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace18 = go.Scatter(x=tstr, y=-sigPf[5,:]+meanstdPVfilter[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         # Create subplot
         fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
         # Assign traces to subplots
@@ -599,18 +601,18 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             title6 = 'Velocity vz: Mean = ' + format(meanstdPVsmooth[10],'.2f') + ' | STD = ' + format(meanstdPVsmooth[11],'.2f')
             trace6 = go.Scatter(x=tstr, y=posvelDiff[:,5], mode = 'markers', name = 'vz', marker = dict(color = 'rgb(0, 204, 0)'))
             # Plot 3-sigma Bounds
-            trace7 = go.Scatter(x=tstr, y=sigPs[0,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
-            trace8 = go.Scatter(x=tstr, y=sigPs[1,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace9 = go.Scatter(x=tstr, y=sigPs[2,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace10 = go.Scatter(x=tstr, y=-sigPs[0,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace11 = go.Scatter(x=tstr, y=-sigPs[1,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace12 = go.Scatter(x=tstr, y=-sigPs[2,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace13 = go.Scatter(x=tstr, y=sigPs[3,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend=False)
-            trace14 = go.Scatter(x=tstr, y=sigPs[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace15 = go.Scatter(x=tstr, y=sigPs[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace16 = go.Scatter(x=tstr, y=-sigPs[3,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace17 = go.Scatter(x=tstr, y=-sigPs[4,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace18 = go.Scatter(x=tstr, y=-sigPs[5,:], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace7 = go.Scatter(x=tstr, y=sigPs[0,:]+meanstdPVsmooth[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
+            trace8 = go.Scatter(x=tstr, y=sigPs[1,:]+meanstdPVsmooth[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace9 = go.Scatter(x=tstr, y=sigPs[2,:]+meanstdPVsmooth[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace10 = go.Scatter(x=tstr, y=-sigPs[0,:]+meanstdPVsmooth[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace11 = go.Scatter(x=tstr, y=-sigPs[1,:]+meanstdPVsmooth[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace12 = go.Scatter(x=tstr, y=-sigPs[2,:]+meanstdPVsmooth[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace13 = go.Scatter(x=tstr, y=sigPs[3,:]+meanstdPVsmooth[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend=False)
+            trace14 = go.Scatter(x=tstr, y=sigPs[4,:]+meanstdPVsmooth[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace15 = go.Scatter(x=tstr, y=sigPs[5,:]+meanstdPVsmooth[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace16 = go.Scatter(x=tstr, y=-sigPs[3,:]+meanstdPVsmooth[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace17 = go.Scatter(x=tstr, y=-sigPs[4,:]+meanstdPVsmooth[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace18 = go.Scatter(x=tstr, y=-sigPs[5,:]+meanstdPVsmooth[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             # Create subplot
             fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
             # Assign traces to subplots
@@ -663,18 +665,18 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         trace5 = go.Scatter(x=tstr, y=xDiffRIC[:,4], mode = 'markers', name = 'in-track', marker = dict(color = 'rgb(255, 192, 56)'), showlegend = False)
         trace6 = go.Scatter(x=tstr, y=xDiffRIC[:,5], mode = 'markers', name = 'cross-track', marker = dict(color = 'rgb(0, 204, 0)'), showlegend = False)
         # Plot 3-sigma Bounds
-        trace7 = go.Scatter(x=tstr, y=sigPRIC[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
-        trace8 = go.Scatter(x=tstr, y=sigPRIC[1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace9 = go.Scatter(x=tstr, y=sigPRIC[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace10 = go.Scatter(x=tstr, y=-sigPRIC[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace11 = go.Scatter(x=tstr, y=-sigPRIC[1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace12 = go.Scatter(x=tstr, y=-sigPRIC[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace13 = go.Scatter(x=tstr, y=sigPRIC[3], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace14 = go.Scatter(x=tstr, y=sigPRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace15 = go.Scatter(x=tstr, y=sigPRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace16 = go.Scatter(x=tstr, y=-sigPRIC[3], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace17 = go.Scatter(x=tstr, y=-sigPRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-        trace18 = go.Scatter(x=tstr, y=-sigPRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace7 = go.Scatter(x=tstr, y=sigPRIC[0]+meanstdRICfilter[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
+        trace8 = go.Scatter(x=tstr, y=sigPRIC[1]+meanstdRICfilter[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace9 = go.Scatter(x=tstr, y=sigPRIC[2]+meanstdRICfilter[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace10 = go.Scatter(x=tstr, y=-sigPRIC[0]+meanstdRICfilter[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace11 = go.Scatter(x=tstr, y=-sigPRIC[1]+meanstdRICfilter[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace12 = go.Scatter(x=tstr, y=-sigPRIC[2]+meanstdRICfilter[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace13 = go.Scatter(x=tstr, y=sigPRIC[3]+meanstdRICfilter[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace14 = go.Scatter(x=tstr, y=sigPRIC[4]+meanstdRICfilter[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace15 = go.Scatter(x=tstr, y=sigPRIC[5]+meanstdRICfilter[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace16 = go.Scatter(x=tstr, y=-sigPRIC[3]+meanstdRICfilter[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace17 = go.Scatter(x=tstr, y=-sigPRIC[4]+meanstdRICfilter[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+        trace18 = go.Scatter(x=tstr, y=-sigPRIC[5]+meanstdRICfilter[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
         # Create subplot
         fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
         # Assign traces to subplots
@@ -728,18 +730,18 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             trace5 = go.Scatter(x=tstr, y=xSDiffRIC[:,4], mode = 'markers', name = 'in-track', marker = dict(color = 'rgb(255, 192, 56)'), showlegend = False)
             trace6 = go.Scatter(x=tstr, y=xSDiffRIC[:,5], mode = 'markers', name = 'cross-track', marker = dict(color = 'rgb(0, 204, 0)'), showlegend = False)
             # Plot 3-sigma Bounds
-            trace7 = go.Scatter(x=tstr, y=sigPSRIC[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
-            trace8 = go.Scatter(x=tstr, y=sigPSRIC[1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace9 = go.Scatter(x=tstr, y=sigPSRIC[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace10 = go.Scatter(x=tstr, y=-sigPSRIC[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace11 = go.Scatter(x=tstr, y=-sigPSRIC[1], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace12 = go.Scatter(x=tstr, y=-sigPSRIC[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace13 = go.Scatter(x=tstr, y=sigPSRIC[3], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace14 = go.Scatter(x=tstr, y=sigPSRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace15 = go.Scatter(x=tstr, y=sigPSRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace16 = go.Scatter(x=tstr, y=-sigPSRIC[3], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace17 = go.Scatter(x=tstr, y=-sigPSRIC[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
-            trace18 = go.Scatter(x=tstr, y=-sigPSRIC[5], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace7 = go.Scatter(x=tstr, y=sigPSRIC[0]+meanstdRICsmooth[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds')
+            trace8 = go.Scatter(x=tstr, y=sigPSRIC[1]+meanstdRICsmooth[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace9 = go.Scatter(x=tstr, y=sigPSRIC[2]+meanstdRICsmooth[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace10 = go.Scatter(x=tstr, y=-sigPSRIC[0]+meanstdRICsmooth[0], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace11 = go.Scatter(x=tstr, y=-sigPSRIC[1]+meanstdRICsmooth[2], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace12 = go.Scatter(x=tstr, y=-sigPSRIC[2]+meanstdRICsmooth[4], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace13 = go.Scatter(x=tstr, y=sigPSRIC[3]+meanstdRICsmooth[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace14 = go.Scatter(x=tstr, y=sigPSRIC[4]+meanstdRICsmooth[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace15 = go.Scatter(x=tstr, y=sigPSRIC[5]+meanstdRICsmooth[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace16 = go.Scatter(x=tstr, y=-sigPSRIC[3]+meanstdRICsmooth[6], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace17 = go.Scatter(x=tstr, y=-sigPSRIC[4]+meanstdRICsmooth[8], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
+            trace18 = go.Scatter(x=tstr, y=-sigPSRIC[5]+meanstdRICsmooth[10], line = dict(color = ('rgb(255, 51, 51)')), name = '3-sigma bounds', showlegend = False)
             # Create subplot
             fig = make_subplots(rows=3, cols=2, subplot_titles=(title1, title4, title2, title5, title3, title6), shared_xaxes=True)
             # Assign traces to subplots

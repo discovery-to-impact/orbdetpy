@@ -329,7 +329,7 @@ def meanstdANG(meas):
     return meanstdANG
 
 
-def pv2radec(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
+def pv2radec(cfg, gslat, gslon, gsalt, time, angular, sigma, pv, stationName):
     """Converts a position and velocity into a right ascension & declination measurement
     :param cfg: od cfg filename
     :param gslat: geodetic latitude of station [rad]
@@ -352,11 +352,11 @@ def pv2radec(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-    radec = cart2radec(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv)
+    radec = cart2radec(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv, stationName)
     return(radec)
 
 
-def pv2azel(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
+def pv2azel(cfg, gslat, gslon, gsalt, time, angular, sigma, pv, stationName):
     """Converts a position and velocity into a right ascension & declination measurement
     :param cfg: od cfg filename
     :param gslat: geodetic latitude of station [rad]
@@ -379,11 +379,11 @@ def pv2azel(cfg, gslat, gslon, gsalt, time, angular, sigma, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-    azel = cart2azel(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv)
+    azel = cart2azel(cfgjson, gslat, gslon, gsalt, time, angular, sigma, pv, stationName)
     return(azel)
 
 
-def pv2range(cfg, gslat, gslon, gsalt, time, range1, error, pv):
+def pv2range(cfg, gslat, gslon, gsalt, time, range1, error, pv, stationName):
     """Converts a position and velocity into a right ascension & declination measurement
     :param cfg: od cfg filename
     :param gslat: geodetic latitude of station [rad]
@@ -406,11 +406,11 @@ def pv2range(cfg, gslat, gslon, gsalt, time, range1, error, pv):
     """
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
-    range1 = cart2range(cfgjson, gslat, gslon, gsalt, time, range1, error, pv)
+    range1 = cart2range(cfgjson, gslat, gslon, gsalt, time, range1, error, pv, stationName)
     return(range1)
 
 
-def pv2rangerate(cfg, gslat, gslon, gsalt, time, rangerate1, error, pv):
+def pv2rangerate(cfg, gslat, gslon, gsalt, time, rangerate1, error, pv, stationName):
     """Converts a position and velocity into a right ascension & declination measurement
     :param cfg: od cfg filename
     :param gslat: geodetic latitude of station [rad]
@@ -434,7 +434,7 @@ def pv2rangerate(cfg, gslat, gslon, gsalt, time, rangerate1, error, pv):
     with open(cfg, "r") as fp:
         cfgjson = fp.read()
     rangerate1 = cart2rangerate(
-        cfgjson, gslat, gslon, gsalt, time, rangerate1, error, pv)
+        cfgjson, gslat, gslon, gsalt, time, rangerate1, error, pv, stationName)
     return(rangerate1)
 
 
@@ -665,21 +665,22 @@ def plotEstSensorError(od_cfg, obs_data):
     smoothMeas, smoothRes, refMeas, refRes = [], [], [], []
     sig1 = np.array(cfg['Measurements'][key[0]]['Error'])
     sig2 = np.array(cfg['Measurements'][key[1]]['Error'])
+    stationName = key2[0]
     for ii in range(0, numObs, 1):
         ti = tstr[ii]
         sigma = [sig1, sig2]
         pv = pvRef[ii, :].tolist()
         angular = obs[:, ii].tolist()
         if key[0] == 'RightAscension':
-            output = pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+            output = pv2radec(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
         if key[0] == 'Azimuth':
-            output = pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv)
+            output = pv2azel(od_cfg, lat, lon, alt, ti, angular, sigma, pv, stationName)
         if key[0] == 'Range':
             range1 = obs[0, ii].tolist()
             rangerate1 = obs[1, ii].tolist()
-            output1 = pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv)
+            output1 = pv2range(od_cfg, lat, lon, alt, ti, range1, sig1, pv, stationName)
             output2 = pv2rangerate(od_cfg, lat, lon, alt,
-                                   ti, rangerate1, sig2, pv)
+                                   ti, rangerate1, sig2, pv, stationName)
             output = [output1, output2]
         refMeas.append(output)
         output = np.squeeze(np.array(output))
@@ -1044,5 +1045,58 @@ def transformDataTEME2J2000(obs_data, od_cfg):
         json.dump(inp, fp, indent=4)
     with open(od_cfg, 'w') as fp:
         json.dump(cfg, fp, indent=4)
+
+    return
+
+def tocParse(rawData, fname):
+
+    # Create sim_cfg.json file from raw obs_data.json file
+    fnsim = fname[:-13]
+    fnsim = fnsim + 'sim_cfg.json'
+    # open up a reference sim_cfg file to edit
+    with open('data/tle_sim_cfg.json', "r") as fp:
+        refSimFileData = json.load(fp)
+    refSimFileData['Propagation']['Start'] = rawData['data']['obsList'][0]['time']
+    refSimFileData['Propagation']['End'] = rawData['data']['obsList'][-1]['time']
+    refSimFileData['Propagation']['InitialTLE'] = rawData['initialTle']
+    refSimFileData['Stations'] = {
+        rawData['sensor']['name'] : {'Latitude' : rawData['sensor']['location']['latitude']/180*math.pi,
+                                    'Longitude' : rawData['sensor']['location']['longitude']/180*math.pi,
+                                    'Altitude' : rawData['sensor']['location']['altitude']}
+                                    }
+    ## IF EXISTING FILTER OUTPUT FOR SENSOR SATELLITE COMBINATION
+    # if os.path.exists('dataTOC/output/' + fname[:-13] + 'UKF_fit.json'):
+    #     with open('dataTOC/output/' + fname[:-13] + 'UKF_fit.json', "r") as fp:
+    #         FilteredData = json.load(fp)
+    #     refSimFileData['Propagation']['Start'] = FilteredData[-1]['Time']
+    # Write sim_cfg file to dataTOC folder                                
+    with open('dataTOC/'+fnsim, 'w') as fp:
+        json.dump(refSimFileData, fp, indent=4)
+
+
+    # Create od_cfg.json file from raw obs_data.json file
+    fnod = fname[:-13]
+    fnod = fnod + 'od_cfg.json'
+    # open up a reference od_cfg file to edit
+    with open('data/tle_od_cfg.json', "r") as fp:
+        refOdFileData = json.load(fp)
+    refOdFileData['Propagation']['Start'] = rawData['data']['obsList'][0]['time']
+    refOdFileData['Propagation']['End'] = rawData['data']['obsList'][-1]['time']
+    refOdFileData['Propagation']['InitialTLE'] = rawData['initialTle']
+    refOdFileData['Stations'] = {
+        rawData['sensor']['name'] : {'Latitude' : rawData['sensor']['location']['latitude']/180*math.pi,
+                                    'Longitude' : rawData['sensor']['location']['longitude']/180*math.pi,
+                                    'Altitude' : rawData['sensor']['location']['altitude']}
+                                    }
+    # ## IF EXISTING FILTER OUTPUT FOR SENSOR SATELLITE COMBINATION
+    # if os.path.exists('dataTOC/output/' + fname[:-13] + 'UKF_fit.json'):
+    #     with open('dataTOC/output/' + fname[:-13] + 'UKF_fit.json', "r") as fp:
+    #         FilteredData = json.load(fp)
+    #     refOdFileData['Propagation']['Start'] = FilteredData[-1]['Time']
+    #     refOdFileData['Propagation'] = {'InitialState' : FilteredData[-1]['EstimatedState'][:6]}
+    #     refOdFileData['Estimation']['Covariance'] = FilteredData[-1]['EstimatedCovariance'][:6][:6]
+    # Write od_cfg file to dataTOC folder 
+    with open('dataTOC/'+fnod, 'w') as fp:
+        json.dump(refOdFileData, fp, indent=4)
 
     return

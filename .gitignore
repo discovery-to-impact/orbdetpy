@@ -2,5 +2,6 @@ __pycache__/
 output/
 *.class
 **.html
+**.mat
 *examples/data
 *examples/.vscode
