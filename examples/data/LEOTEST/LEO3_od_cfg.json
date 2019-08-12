@@ -106,7 +106,7 @@
 	"Filter" : "UKF",
 	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25],
 	"ProcessNoise" : [1E-8, 1E-8, 1E-8, 1E-8, 1E-8, 1E-8],
-	"NoiseTimeDelta" : 30.0,
+	"NoiseTimeDelta" : 300.0,
 	"Smoother" : "On",
 	"ProbDetection" : 0.95,
 	"GatingThreshold" : 4,

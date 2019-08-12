@@ -28,6 +28,7 @@ import org.astria.ManualPropagation;
 import org.astria.Measurements;
 import org.astria.PropagatorBuilder;
 import org.astria.Settings;
+import org.astria.CAR;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.linear.Array2DRowRealMatrix;
 import org.hipparchus.linear.ArrayRealVector;
@@ -46,6 +47,7 @@ import org.orekit.estimation.sequential.KalmanEstimation;
 import org.orekit.estimation.sequential.KalmanEstimator;
 import org.orekit.estimation.sequential.KalmanEstimatorBuilder;
 import org.orekit.estimation.sequential.KalmanObserver;
+import org.hipparchus.distribution.continuous.ChiSquaredDistribution;
 import org.orekit.forces.ForceModel;
 import org.orekit.forces.gravity.NewtonianAttraction;
 import org.orekit.orbits.CartesianOrbit;
@@ -354,6 +356,9 @@ public class Estimation
 					
 					states.get(objNum).objResults = new JSONResults();
 					states.get(objNum).associatedObs = new ArrayList<Measurements.JSONMeasurement>();
+					
+					
+					states.get(objNum).obsConsidered = 0;
 				}
 			}
 			
@@ -401,13 +406,12 @@ public class Estimation
 		}
 		
 
-
 		
 		JPDAEvent[] MarginalEvents = new JPDAEvent[states.size()];
 		ArrayList<JPDAEvent> JointEvents = new ArrayList<JPDAEvent>();
 		JPDAEvent SingleJointEvent = new JPDAEvent();
 		
-		
+
 		///////////////////////////////////////////////////////// FIRST OBJECT LOOP /////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////// Propagation & Constructing Marginal Events/////////////////////////////////
 
@@ -531,6 +535,7 @@ public class Estimation
 		
 		currentObj.Ppre = currentObj.Q.copy();
 
+			
 
 
 		for (int i = 0; i < numsig; i++)
@@ -550,6 +555,7 @@ public class Estimation
 		    {
 				double[] fitv = odobs.measobjs.get(mix).estimate(1, 1, currentObj.ssta).getEstimatedValue();
 				spupd.setColumn(i, fitv);
+				
 
 		    }
 		    else
@@ -589,7 +595,6 @@ public class Estimation
 		{
 			
 			RealVector raw = null;
-			//adjust code to recompute raw	
 
 			    if (combmeas)
 			    {
@@ -627,18 +632,35 @@ public class Estimation
 
 
 		// run through jpda algorithms and calculate psi_r_i
-		RealMatrix MahalaTemp = MatrixUtils.createColumnRealMatrix(raw.subtract(currentObj.yhatpre).toArray());
-		RealMatrix JPDATemp = MahalaTemp.transpose().multiply(MatrixUtils.inverse(currentObj.Pyy).multiply(MahalaTemp));
-		
-		
+			
+	    //Innovations QuadCheck
+		RealVector Innov = raw.subtract(currentObj.yhatpre);
+	
+		if(combmeas && Innov.getEntry(0) > Math.PI)
+		{
+			Innov.setEntry(0, Innov.getEntry(0) - 2 * Math.PI);
+		}
+		else if(combmeas && Innov.getEntry(0) < -1*  Math.PI)
+		{
+			Innov.setEntry(0, Innov.getEntry(0) + 2 * Math.PI);
+		}
+							
+		RealMatrix MahalaTemp = MatrixUtils.createColumnRealMatrix(Innov.toArray());
 
+		RealMatrix JPDATemp = MahalaTemp.transpose().multiply(MatrixUtils.inverse(currentObj.Pyy).multiply(MahalaTemp));
+
+		
 		if( odcfg.Estimation.GatingThreshold > Math.sqrt(JPDATemp.getEntry(0,0)))
 		{
 	
 			JPDAEvent.JPDALikelihoods JPDAtemp2 = MarginalEvents[objNum].new JPDALikelihoods();
 
 
-			JPDAtemp2.Psi =  Math.exp(-JPDATemp.getEntry(0,0)/2) / (Math.sqrt(new LUDecomposition(currentObj.Pyy).getDeterminant() * Math.pow(2 * Math.PI, currentObj.Rsize)));
+			//JPDAtemp2.Psi =  Math.exp(-JPDATemp.getEntry(0,0)/2) / (Math.sqrt(new LUDecomposition(currentObj.Pyy).getDeterminant() * Math.pow(2 * Math.PI, currentObj.Rsize)));
+			JPDAtemp2.Psi = 1 - new ChiSquaredDistribution(currentObj.Rsize).cumulativeProbability(JPDATemp.getEntry(0,0));
+			
+			
+			
 			JPDAtemp2.object = objNum;
 			JPDAtemp2.measurement = measNum+1;
 			
@@ -646,11 +668,17 @@ public class Estimation
 			
 
 		}
+
 					
 		// end both loops (measurement then object)
 		}
 
-        
+
+    		if(MarginalEvents[objNum].Likelihoods.size() > 1)
+    		{
+    			states.get(objNum).obsConsidered++;
+    		}
+
         
 	    }
 		
@@ -766,9 +794,20 @@ public class Estimation
 								}
 						    }
 						    
+						    
+						    //Innovations QuadCheck
 						    RealMatrix Innovation = MatrixUtils.createColumnRealMatrix(raw.subtract(currentObj.yhatpre).toArray());
 
-
+						    
+				    		if(combmeas && Innovation.getEntry(0,0) > Math.PI)
+							{
+				    			Innovation.setEntry(0,0, Innovation.getEntry(0,0) - 2 * Math.PI);
+							}
+							else if(combmeas && Innovation.getEntry(0,0) < -1 *  Math.PI)
+							{
+								Innovation.setEntry(0,0, Innovation.getEntry(0,0) + 2 * Math.PI);
+							}
+							
 
 							
 							
@@ -927,8 +966,20 @@ public class Estimation
 				smout.sigPost = MatrixUtils.createRealMatrix(sigpost.getData());
 		
 				smout.tmSmoother = currentObj.tm;
-	    		smout.measObjsSmoother = odobs.measobjs.get(mix);
-	
+	    		
+	    		
+				if(combmeas)
+				{
+					smout.measObjsSmoother = odobs.measobjs.get(mix);
+					
+				}
+				else
+				{
+					smout.measObjsSmoother = odobs.measobjs.get(2 * mix);
+
+					smout.measObjsSmootherNoComb = odobs.measobjs.get(2* mix + 1);
+				}
+	    		
 				
 	    		currentObj.smootherResults.smoother.add(smout);
 				
@@ -983,9 +1034,12 @@ public class Estimation
 					= states.get(objNum).smootherResults.smoother.get(smSize).xpost;
 				states.get(objNum).smootherResults.smoother.get(smSize).Pstar 
 					= states.get(objNum).smootherResults.smoother.get(smSize).Ppost;			
-				
+			
+			double McReynoldsVal = -99999;
+
 		    for(int i = 0; i < states.get(objNum).smootherResults.smoother.size()-1;i++)
 		    {
+
 		    	SCstate.smootherData.smootherStep smDatak1 = states.get(objNum).smootherResults.smoother.get(smSize - i);
 		    	SCstate.smootherData.smootherStep smDatak = states.get(objNum).smootherResults.smoother.get(smSize - i - 1);
 	
@@ -1019,17 +1073,26 @@ public class Estimation
 					
 					for(int j = 0; j < 5; j++)
 					{			
-						if(delx.getEntry(j,0) / Math.sqrt(delP.getEntry(j,j)) >= 3)
+
+						McReynoldsVal = Math.max(McReynoldsVal, Math.abs(delx.getEntry(j,0)) / Math.sqrt(Math.abs(delP.getEntry(j,j))));
+						
+
+						
+						if(Math.abs(delx.getEntry(j,0)) / Math.sqrt(Math.abs(delP.getEntry(j,j))) >= 3)
 						{
 							states.get(objNum).McReynoldsConsistencyPass = false;
+
 						}
 					}
 				}
 		    }
 		    
 		    		    
-		    System.out.println(states.get(objNum).McReynoldsConsistencyPass);
-		    
+		    System.out.println("McReynolds Pass: " + states.get(objNum).McReynoldsConsistencyPass +  "   McReynoldsVal: " + McReynoldsVal);
+    		System.out.println("Object " + objNum + " Observations Considered: " + states.get(objNum).obsConsidered);
+    		System.out.println("Object " + objNum + " Observations Associated: " + states.get(objNum).associatedObs.size());
+
+
 		    //store in results
 		    
 			    SpacecraftState[] smSsta = new SpacecraftState[1];		
@@ -1044,20 +1107,22 @@ public class Estimation
 				    smSsta[0] = new SpacecraftState(new CartesianOrbit(new PVCoordinates(new Vector3D(pv[0], pv[1], pv[2]),
 												       new Vector3D(pv[3], pv[4], pv[5])), odcfg.propframe, currentObj.tm, Constants.EGM96_EARTH_MU));
 		
-	
 				    
 			    	//compute smoothed residuals
-					if (combmeas)
+				    
+				    if (combmeas)
 					{
 					    for (int i = 0; i < meanames.length; i++)
 					    {
 						double[] fitv = states.get(objNum).smootherResults.smoother.get(j).measObjsSmoother.estimate(1, 1, smSsta).getEstimatedValue();
 						if (meanames.length == 1)
 						{
+
 							states.get(objNum).objResults.Estimation.get(j).PostFit.put(meanames[i], fitv);
 						}
 						else
 						{
+
 							states.get(objNum).objResults.Estimation.get(j).PostFit.put(meanames[i], new double[] {fitv[i]});
 							
 		
@@ -1066,16 +1131,20 @@ public class Estimation
 					}
 					else
 					{
-					    double[] fitv = odobs.measobjs.get(j*2).estimate(1, 1, smSsta).getEstimatedValue();
+					    double[] fitv = states.get(objNum).smootherResults.smoother.get(j).measObjsSmoother.estimate(1, 1, smSsta).getEstimatedValue();
 					    states.get(objNum).objResults.Estimation.get(j).PostFit.put(meanames[0], fitv);
 		
 					    if (currentObj.Rsize > 1)
 					    {
-						fitv = odobs.measobjs.get(j*2 + 1).estimate(1, 1, smSsta).getEstimatedValue();
+
+						fitv = states.get(objNum).smootherResults.smoother.get(j).measObjsSmootherNoComb.estimate(1, 1, smSsta).getEstimatedValue();
 						states.get(objNum).objResults.Estimation.get(j).PostFit.put(meanames[1], fitv);
 					    }
 					}
 			    	
+					
+					
+					
 			    	//store
 					states.get(objNum).objResults.Estimation.get(j).EstimatedState = states.get(objNum).smootherResults.smoother.get(j).xstar.getColumn(0);
 					states.get(objNum).objResults.Estimation.get(j).EstimatedCovariance = states.get(objNum).smootherResults.smoother.get(j).Pstar.getData();
@@ -1085,12 +1154,12 @@ public class Estimation
 			}
 		
 		}
-			
+
 			//break out of smoother iteration if all data has been established
 			boolean allDataAssociated = true;
 			for(int objNum = 0; objNum < states.size(); objNum++)
 			{
-				if(states.get(objNum).McReynoldsConsistencyPass == false)
+				if(states.get(objNum).McReynoldsConsistencyPass == false || states.get(objNum).obsConsidered != states.get(objNum).associatedObs.size())
 				{
 					allDataAssociated = false;
 				}
@@ -1322,7 +1391,7 @@ public class Estimation
     
     class SCstate
     {
-    	
+    	int obsConsidered = 0; 
         Settings odcfg;
 
 	    SpacecraftState[] ssta;
@@ -1373,6 +1442,8 @@ public class Estimation
 	    		
 	    		AbsoluteDate tmSmoother;
 	    		ObservedMeasurement measObjsSmoother;
+	    		ObservedMeasurement measObjsSmootherNoComb;
+
 	    	}
 	    	
 	    	ArrayList<smootherStep> smoother;

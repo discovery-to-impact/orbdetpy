@@ -52,7 +52,7 @@
 
     "SpaceObject" :
     {
-	"Name" : "GALAXY 18",
+	"Name" : "GALAXY 16",
 	"NoradID" : 28884,
 	"Mass" : 2000.0,
 	"Area" : 20.0
@@ -60,32 +60,44 @@
 
     "Propagation" :
     {
-	"Start" : "2018-01-01T00:02:54Z",
-	"End" : "2018-01-02T00:02:54Z",
+	"Start" : "2019-07-11T00:00:00Z",
+	"End" : "2019-07-14T00:00:00Z",
 	"InitialState" :
 	[
-	    7378000.7669903,
-	    5000,
-	    0,
-        0,
-        5700.77460296534,
-	    5500.09170251623871
+	    7376000.7669903,
+	    3000,
+	    8000,
+        2,
+        5500.77460296534,
+	    5501.09170251623871
 	]
     },
 
     "Stations" :
     {
+	"Arecibo" :
+	{
+	    "Latitude" : 0.32016610686,
+	    "Longitude" : -1.16505575707,
+	    "Altitude" : 497
+	},
+	"Ka'ena" :
+	{
+	    "Latitude" : 0.0868343901,
+	    "Longitude" : -2.58718978041,
+	    "Altitude" : 460
+	},
+	"New Boston Air Station" :
+	{
+	    "Latitude" : 0.74949349786,
+	    "Longitude" : -1.25044863878,
+	    "Altitude" : 460
+	},
 	"Kwaj" :
 	{
             "Latitude" : 0.1522312267,
             "Longitude" : 2.92744494054,
             "Altitude" : 38.2246
-	},
-	"Arecibo" :
-	{
-            "Latitude" : 0.32016610686,
-            "Longitude" : -1.16505575707,
-            "Altitude" : 497
 	}
     },
 
@@ -93,11 +105,11 @@
     {
 	"Azimuth" :
 	{
-	    "Error" : [4.8E-6]
+	    "Error" : [15E-6]
 	},
 	"Elevation" :
 	{
-	    "Error" : [4.8E-6]
+	    "Error" : [15E-6]
 	}
     },
 
@@ -106,9 +118,9 @@
 	"Filter" : "UKF",
 	"Covariance" : [25E6, 25E6, 25E6, 1E-2, 1E-2, 1E-2, 1.00, 0.25],
 	"ProcessNoise" : [1E-8, 1E-8, 1E-8, 1E-8, 1E-8, 1E-8],
-	"NoiseTimeDelta" : 300.0,
+	"NoiseTimeDelta" : 30.0,
 	"Smoother" : "On",
-	"ProbDetection" : 0.95,
+	"ProbDetection" : 0.9999,
 	"GatingThreshold" : 4,
 	"USKFIterations" : 5
     }

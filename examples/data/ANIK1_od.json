@@ -61,15 +61,15 @@
     "Propagation" :
     {
 	"Start" : "2019-07-11T00:00:00Z",
-	"End" : "2019-07-12T00:00:00Z",
+	"End" : "2019-07-14T00:00:00Z",
 	"InitialState" :
 	[
-	-42154964.0166450,
+	-42150764.0166450,
 	-982728.839147411,
-	19739.9260879639,
+	17239.9260879639,
 	70.7465134186544,
-	-3073.76538240277,
-	-1.49628037120786
+	-3074.76538240277,
+	-1.07628037120786
 	]
     },
 
@@ -77,9 +77,27 @@
     {
 	"Arecibo" :
 	{
-            "Latitude" : 0.32016610686,
-            "Longitude" : -1.16505575707,
-            "Altitude" : 497
+	    "Latitude" : 0.32016610686,
+	    "Longitude" : -1.16505575707,
+	    "Altitude" : 497
+	},
+	"Ka'ena" :
+	{
+	    "Latitude" : 0.0868343901,
+	    "Longitude" : -2.58718978041,
+	    "Altitude" : 460
+	},
+	"New Boston Air Station" :
+	{
+	    "Latitude" : 0.74949349786,
+	    "Longitude" : -1.25044863878,
+	    "Altitude" : 460
+	},
+	"Kwaj" :
+	{
+            "Latitude" : 0.1522312267,
+            "Longitude" : 2.92744494054,
+            "Altitude" : 38.2246
 	}
     },
 
@@ -87,11 +105,11 @@
     {
 	"Azimuth" :
 	{
-	    "Error" : [4.8E-6]
+	    "Error" : [15E-6]
 	},
 	"Elevation" :
 	{
-	    "Error" : [4.8E-6]
+	    "Error" : [15E-6]
 	}
     },
 
@@ -102,7 +120,7 @@
 	"ProcessNoise" : [1E-8, 1E-8, 1E-8, 1E-8, 1E-8, 1E-8],
 	"NoiseTimeDelta" : 30.0,
 	"Smoother" : "On",
-	"ProbDetection" : 0.95,
+	"ProbDetection" : 0.9999,
 	"GatingThreshold" : 4,
 	"USKFIterations" : 5
     }

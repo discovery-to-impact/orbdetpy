@@ -112,7 +112,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
             plt.subplot(3, 2, order[i])
         else:
             plt.subplot(2, 1, i + 1)
-        plt.semilogx(tim, pre[:,i], "ob")
+        plt.plot(tim, pre[:,i], "ob")
         plt.xlabel("Time [hr]")
         plt.ylabel("%s [%s]" % (ylabs[i], units[i]))
 
@@ -128,9 +128,9 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
             plt.subplot(3, 2, order[i])
         else:
             plt.subplot(2, 1, i + 1)
-        plt.semilogx(tim, pos[:,i], "ob")
-        plt.semilogx(tim, -cov[:,i], "-r")
-        plt.semilogx(tim,  cov[:,i], "-r", label = r"Innov. 3$\sigma$")
+        plt.plot(tim, pos[:,i], "ob")
+        plt.plot(tim, -cov[:,i], "-r")
+        plt.plot(tim,  cov[:,i], "-r", label = r"Innov. 3$\sigma$")
         plt.xlabel("Time [hr]")
         plt.ylabel("%s [%s]" % (ylabs[i], units[i]))
         if ("PositionVelocity" not in key):
@@ -154,7 +154,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
             plt.suptitle("Estimated parameters")
 
         plt.subplot(par.shape[1], 1, i + 1)
-        plt.semilogx(tim, par[:,i], "ob")
+        plt.plot(tim, par[:,i], "ob")
         plt.xlabel("Time [hr]")
         plt.ylabel(parnames[i])
 
@@ -171,7 +171,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
                r"Cross track [$\frac{m}{s^2}$]"]
         for i in range(3):
             plt.subplot(3, 1, i+1)
-            plt.semilogx(tim, estmacc[:,i], "-b")
+            plt.plot(tim, estmacc[:,i], "-b")
             plt.xlabel("Time [hr]")
             plt.ylabel(lab[i])
 
@@ -188,7 +188,7 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
                r"Cross track [${m}$]"]
     for i in range(3):
         plt.subplot(3, 1, i+1)
-        plt.semilogx(tim, RICstd[:,i], "-b")
+        plt.plot(tim, RICstd[:,i], "-b")
         plt.xlabel("Time [hr]")
         plt.ylabel(lab[i])
 

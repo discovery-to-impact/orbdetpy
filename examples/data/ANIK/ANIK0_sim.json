@@ -72,29 +72,11 @@
 
     "Stations" :
     {
-	"Arecibo" :
-	{
-	    "Latitude" : 0.32016610686,
-	    "Longitude" : -1.16505575707,
-	    "Altitude" : 497
-	},
-	"Ka'ena" :
-	{
-	    "Latitude" : 0.0868343901,
-	    "Longitude" : -2.58718978041,
-	    "Altitude" : 460
-	},
 	"New Boston Air Station" :
 	{
 	    "Latitude" : 0.74949349786,
 	    "Longitude" : -1.25044863878,
 	    "Altitude" : 460
-	},
-	"Kwaj" :
-	{
-            "Latitude" : 0.1522312267,
-            "Longitude" : 2.92744494054,
-            "Altitude" : 38.2246
 	}
     },
 
@@ -102,11 +84,11 @@
     {
 	"Azimuth" :
 	{
-	    "Error" : [15E-6]
+	    "Error" : [4.8E-6]
 	},
 	"Elevation" :
 	{
-	    "Error" : [15E-6]
+	    "Error" : [4.8E-6]
 	}
     }
 }
