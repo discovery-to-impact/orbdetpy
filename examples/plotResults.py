@@ -23,8 +23,6 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
 
     plotRef = 1
 
-    mT = obs_data[5:9]
-
     if smootherRun:
         print("Smoother start : %s" % tsys.strftime("%Y-%m-%d %H:%M:%S"))
         xPre, xPost, PPre, PPost, SPpre = astrotools.readODoutJSON(od_out)

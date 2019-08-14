@@ -328,7 +328,6 @@ def meanstdANG(meas):
     # meanstd = [meanRA stdRA meanDEC stdDEC]
     return meanstdANG
 
-
 def pv2radec(cfg, gslat, gslon, gsalt, time, angular, sigma, pv, stationName):
     """Converts a position and velocity into a right ascension & declination measurement
     :param cfg: od cfg filename
@@ -826,6 +825,7 @@ def estTimeBiasRADEC(obs_data, od_cfg):
     obs_mjd = timeObj.mjd
     tObs = (obs_mjd - obs_mjd[0]) * 86400
     degree = 1
+    stationName = key2[0]
     while abs(rms-rms_prev) > tb_eps and count < maxcount:
         z = np.zeros([2*numObs, 1])
         H = np.zeros([2*numObs, degree])
@@ -842,7 +842,7 @@ def estTimeBiasRADEC(obs_data, od_cfg):
                             scale='utc') - timedelta(seconds=tBias)
             obs_isot = obs_Time.isot
             refObs = pv2radec(od_cfg, lat, lon, alt, obs_isot,
-                              obs[:, ii].tolist(), sigma, pv.tolist())
+                              obs[:, ii].tolist(), sigma, pv.tolist(), stationName)
             epsRA = obs[0, ii] - refObs[0]
             epsDEC = obs[1, ii] - refObs[1]
             z[2*ii-1] = epsRA
@@ -913,7 +913,7 @@ def addTimeBias(obs_data, od_cfg, tBias):
 
 
 def estTimeBiasRange(obs_data, od_cfg):
-    """ NOT COMPLETE, estimate time bias using reference data for range, az, and el measurements"""
+    """ NOT COMPLETE, need to estimate time bias using reference data for range, az, and el measurements"""
     with open(od_cfg, "r") as fp:
         cfg = json.load(fp)
     with open(obs_data, "r") as fp:
@@ -1045,58 +1045,5 @@ def transformDataTEME2J2000(obs_data, od_cfg):
         json.dump(inp, fp, indent=4)
     with open(od_cfg, 'w') as fp:
         json.dump(cfg, fp, indent=4)
-
-    return
-
-def tocParse(rawData, fname):
-
-    # Create sim_cfg.json file from raw obs_data.json file
-    fnsim = fname[:-13]
-    fnsim = fnsim + 'sim_cfg.json'
-    # open up a reference sim_cfg file to edit
-    with open('data/tle_sim_cfg.json', "r") as fp:
-        refSimFileData = json.load(fp)
-    refSimFileData['Propagation']['Start'] = rawData['data']['obsList'][0]['time']
-    refSimFileData['Propagation']['End'] = rawData['data']['obsList'][-1]['time']
-    refSimFileData['Propagation']['InitialTLE'] = rawData['initialTle']
-    refSimFileData['Stations'] = {
-        rawData['sensor']['name'] : {'Latitude' : rawData['sensor']['location']['latitude']/180*math.pi,
-                                    'Longitude' : rawData['sensor']['location']['longitude']/180*math.pi,
-                                    'Altitude' : rawData['sensor']['location']['altitude']}
-                                    }
-    ## IF EXISTING FILTER OUTPUT FOR SENSOR SATELLITE COMBINATION
-    # if os.path.exists('dataTOC/output/' + fname[:-13] + 'UKF_fit.json'):
-    #     with open('dataTOC/output/' + fname[:-13] + 'UKF_fit.json', "r") as fp:
-    #         FilteredData = json.load(fp)
-    #     refSimFileData['Propagation']['Start'] = FilteredData[-1]['Time']
-    # Write sim_cfg file to dataTOC folder                                
-    with open('dataTOC/'+fnsim, 'w') as fp:
-        json.dump(refSimFileData, fp, indent=4)
-
-
-    # Create od_cfg.json file from raw obs_data.json file
-    fnod = fname[:-13]
-    fnod = fnod + 'od_cfg.json'
-    # open up a reference od_cfg file to edit
-    with open('data/tle_od_cfg.json', "r") as fp:
-        refOdFileData = json.load(fp)
-    refOdFileData['Propagation']['Start'] = rawData['data']['obsList'][0]['time']
-    refOdFileData['Propagation']['End'] = rawData['data']['obsList'][-1]['time']
-    refOdFileData['Propagation']['InitialTLE'] = rawData['initialTle']
-    refOdFileData['Stations'] = {
-        rawData['sensor']['name'] : {'Latitude' : rawData['sensor']['location']['latitude']/180*math.pi,
-                                    'Longitude' : rawData['sensor']['location']['longitude']/180*math.pi,
-                                    'Altitude' : rawData['sensor']['location']['altitude']}
-                                    }
-    # ## IF EXISTING FILTER OUTPUT FOR SENSOR SATELLITE COMBINATION
-    # if os.path.exists('dataTOC/output/' + fname[:-13] + 'UKF_fit.json'):
-    #     with open('dataTOC/output/' + fname[:-13] + 'UKF_fit.json', "r") as fp:
-    #         FilteredData = json.load(fp)
-    #     refOdFileData['Propagation']['Start'] = FilteredData[-1]['Time']
-    #     refOdFileData['Propagation'] = {'InitialState' : FilteredData[-1]['EstimatedState'][:6]}
-    #     refOdFileData['Estimation']['Covariance'] = FilteredData[-1]['EstimatedCovariance'][:6][:6]
-    # Write od_cfg file to dataTOC folder 
-    with open('dataTOC/'+fnod, 'w') as fp:
-        json.dump(refOdFileData, fp, indent=4)
 
     return
