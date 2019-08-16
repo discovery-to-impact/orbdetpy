@@ -4,8 +4,6 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import os
 import sys
-sys.path.append(sys.path.insert(0, os.path.abspath(__file__) + "\examples"))
-sys.path.append(sys.path.insert(0, os.path.abspath(__file__) + "\orbdetpy"))
 from examples import astrotools
 from examples import plotResults
 import time
