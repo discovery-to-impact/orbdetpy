@@ -49,26 +49,23 @@ The web interface for process execution currently includes:
 Installation
 ------------
 
-Python 3.6+ must be installed with the packages ``numpy``, ``scipy``, ``pyjnius``, ``matplotlib``, ``requests``, ``plotly``, and ``dash``.
-
 1. Install `Python 3.6+
-   <https://www.python.org/downloads/>`_.
-2. Install all required packages with pip install
-3. If pip is not recognized, try to add the installed python folder and the ``\Scripts\`` sub-folder to your ``PATH`` environment variable and try again. More information on `PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
-
-``orbdetpy`` also requires ``pyjnius``, which requires the Java Development
-Kit 8+ and ``Cython`` to install.
-
-1. Install the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/downloads/>`_.
-2. Install the `Java Development Kit 8+ (1.8+) <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_.
-3. Set the ``JAVA_HOME`` environment variable to point to your JDK
+   <https://www.python.org/downloads/>`_. To see if you have already installed Python 3.6+ or to see if it installed correctly, go to command prompt and type ``python``. Your current working version of python should be displayed. If any errors occured, download/re-install python from the link provided and make sure to select ADD TO PATH during the installation procedure. ``orbdetpy`` also requires ``pyjnius``, which requires the Java Development Kit 8+ and ``Cython`` to install.
+2. Install the `Microsoft Visual C++ Build Tools <https://visualstudio.microsoft.com/downloads/>`_, if you have not already.
+3. Install the `Java Development Kit 8+ (1.8+) <https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>`_, if you have not already.
+4. Set the ``JAVA_HOME`` system environment variable to point to your JDK
    installation.
-4. Add ``$JAVA_HOME\bin`` and ``$JAVA_HOME\jre\bin\server`` to your
-   ``PATH`` evironment variable
-5. Install ``Cython``::
+5. Add ``$JAVA_HOME\bin`` and ``$JAVA_HOME\jre\bin\server`` to your
+   ``PATH`` system evironment variable.
+6. Install ``Cython`` by going to command prompt and typing::
 
     pip install cython
     
+7. If pip is not recognized, try to add the installed python folder and the ``\Scripts\`` sub-folder to your ``PATH`` environment variable and try again. More information on `PATH system variable <https://www.java.com/en/download/help/path.xml>`_.
+8. Now pip install the following packages in the same fashion ``numpy``, ``scipy``, ``pyjnius``, ``matplotlib``, ``requests``, ``astropy``, ``plotly``, and ``dash``.
+9. Clone the orbdetpy repo and follow the examples.
+10. For those still having issues, ensure you are following the installation procedure in order and exactly as specified.
+
 The ``lib/`` folder contains JAR files for the following libraries, which are
 imported by orbdetpy automatically.
 
