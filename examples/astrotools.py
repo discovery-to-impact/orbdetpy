@@ -520,6 +520,7 @@ def aberrationCorrection(obs_data, plot):
     :type obs_data: str
     :type plot: 1 or 0
     """
+    plotsPath = 'examples/Plots'
     # Reference: pg 143-152 Astronomical Algorithms 2nd ed. Jean Meeus
     with open(obs_data, "r") as fp:
             inp = json.load(fp)
@@ -624,12 +625,12 @@ def aberrationCorrection(obs_data, plot):
         fig.append_trace(trace2, 2, 1)
         # Configure Layout
         fig['layout'].update(title=TITLE)
-        fig['layout']['xaxis1'].update(title='Time')
+        fig['layout']['xaxis1'].update(title='Time UTC')
         fig['layout']['yaxis1'].update(title='Aberration Effect [arcsec]')
         fig['layout']['yaxis2'].update(title='Aberration Effect [arcsec]')
         # Execute
         plotly.offline.plot(
-            fig, filename='Plots/abereffect.html', auto_open=True)
+            fig, filename=plotsPath+'/abereffect.html', auto_open=True)
     return
 
 
@@ -638,6 +639,7 @@ def plotEstSensorError(od_cfg, obs_data):
     :param od_cfg: od_cfg filename
     :type obs_data: obs_data filename
     """
+    plotsPath = 'examples/Plots'
     with open(od_cfg, "r") as fp:
             cfg = json.load(fp)
     with open(obs_data, "r") as fp:
@@ -718,12 +720,12 @@ def plotEstSensorError(od_cfg, obs_data):
     fig.append_trace(trace2, 2, 1)
     # Configure Layout
     fig.update_layout(title=TITLE)
-    fig['layout']['xaxis2'].update(title='Time')
+    fig['layout']['xaxis2'].update(title='Time UTC')
     fig['layout']['yaxis1'].update(title=key[0]+' '+units[0])
     fig['layout']['yaxis2'].update(title=key[1]+' '+units[1])
     
     # Execute
-    plotly.offline.plot(fig, filename='Plots/measerror.html', auto_open=True)
+    plotly.offline.plot(fig, filename=plotsPath+'/measerror.html', auto_open=True)
     return
 
 

@@ -24,6 +24,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
     """
     print("Plot start : %s" % tsys.strftime("%Y-%m-%d %H:%M:%S"))
 
+    plotsPath = 'examples/Plots'
     plotRef = 1
 
     if smootherRun:
@@ -314,7 +315,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             fig['layout']['yaxis5'].update(title=key[0]+' '+units[0])
             fig['layout']['yaxis6'].update(title=key[1]+' '+units[1])
         # Execute
-        plotly.offline.plot(fig, filename='Plots/filtermeas.html', auto_open=True)
+        plotly.offline.plot(fig, filename=plotsPath+'filtermeas.html', auto_open=True)
         # plotly.offline.plot(fig, image = 'png', image_filename='filtermeas', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         #################################################################################################################
@@ -345,7 +346,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             fig['layout']['yaxis3'].update(title='FSCT')
             fig['layout']['yaxis4'].update(title='FSCT')
             # Execute
-            plotly.offline.plot(fig, filename='Plots/smoothermeas.html', auto_open=True)
+            plotly.offline.plot(fig, filename=plotsPath+'/smoothermeas.html', auto_open=True)
             # plotly.offline.plot(fig, image = 'png', image_filename='smoothermeas', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         ########################################################################################
@@ -377,7 +378,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             fig['layout']['yaxis5'].update(title='FSCT')
             fig['layout']['yaxis6'].update(title='FSCT')
             # Execute
-            plotly.offline.plot(fig, filename='Plots/estparams.html', auto_open=True)
+            plotly.offline.plot(fig, filename=plotsPath+'/estparams.html', auto_open=True)
             # plotly.offline.plot(fig, image = 'png', image_filename='smoothermeas', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
     ########################################################################################
@@ -422,7 +423,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         fig['layout']['yaxis5'].update(title='z [m]')
         fig['layout']['yaxis6'].update(title='vz [m/s]')
         # Execute
-        plotly.offline.plot(fig, filename='Plots/filterresiduals.html', auto_open=True)
+        plotly.offline.plot(fig, filename=plotsPath+'/filterresiduals.html', auto_open=True)
         # plotly.offline.plot(fig, image = 'png', image_filename='filterresiduals', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         #####################################################################################################
@@ -467,7 +468,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             fig['layout']['yaxis5'].update(title='z [m]')
             fig['layout']['yaxis6'].update(title='vz [m/s]')
             # Execute
-            plotly.offline.plot(fig, filename='Plots/smootherresiduals.html', auto_open=True)
+            plotly.offline.plot(fig, filename=plotsPath+'/smootherresiduals.html', auto_open=True)
             # plotly.offline.plot(fig, image = 'png', image_filename='smootherresiduals', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         #####################################################################################################
@@ -512,7 +513,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
         fig['layout']['yaxis5'].update(title='Cross-track [m]')
         fig['layout']['yaxis6'].update(title='Cross-track [m/s]')
         # Execute
-        plotly.offline.plot(fig, filename='Plots/RICfilterresiduals.html', auto_open=True)
+        plotly.offline.plot(fig, filename=plotsPath+'/RICfilterresiduals.html', auto_open=True)
         # plotly.offline.plot(fig, image = 'png', image_filename='RICfilterresiduals', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         #####################################################################################################
@@ -557,7 +558,7 @@ def plot(obs_data, od_cfg, od_out, smootherRun,plots):
             fig['layout']['yaxis5'].update(title='Cross-track [m]')
             fig['layout']['yaxis6'].update(title='Cross-track [m/s]')
             # Execute
-            plotly.offline.plot(fig, filename='Plots/RICsmootherresiduals.html', auto_open=True)
+            plotly.offline.plot(fig, filename=plotsPath+'/RICsmootherresiduals.html', auto_open=True)
             # plotly.offline.plot(fig, image = 'png', image_filename='RICsmootherresiduals', output_type='file', image_width=1920, image_height=1080 , validate=False)
 
         #####################################################################################################
