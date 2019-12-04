@@ -46,6 +46,8 @@ import org.orekit.time.DateTimeComponents;
 import org.orekit.utils.Constants;
 import org.orekit.utils.PVCoordinates;
 import org.orekit.utils.TimeStampedPVCoordinates;
+import org.astria.AngularRaDecRates;
+
 
 public class Simulation
 {
@@ -261,6 +263,18 @@ public class Simulation
 							   new ObservableSatellite(0)).estimate(1, 1, sta).getEstimatedValue();
 				    json.RightAscension = obs[0] + rand.nextGaussian()*val.Error[0];
 				    json.Declination = obs[1] + rand.nextGaussian()*val.Error[0];
+
+				}
+				else if (name.equals("RightAscensionRate") || name.equals("DeclinationRate"))
+				{
+				    obs = new AngularRaDecRates(obj, simcfg.propframe, tm, new double[]{0.0, 0.0},
+							   new double[]{0, 0}, new double[]{1.0, 1.0},
+							   new ObservableSatellite(0)).estimate(1, 1, sta).getEstimatedValue();
+				    
+				    
+				    json.RightAscensionRate = obs[0] + rand.nextGaussian()*val.Error[0];
+				    json.DeclinationRate = obs[1] + rand.nextGaussian()*val.Error[0];
+
 				}
 				else if (name.equals("Azimuth") || name.equals("Elevation"))
 				{

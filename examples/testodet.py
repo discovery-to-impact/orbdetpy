@@ -38,13 +38,14 @@ for i in range(1,len(sys.argv)-2):
 with open(sys.argv[len(sys.argv)-2], "r") as fp:
     output = determineOrbit(config, fp.read())
 
-for i in range(0,int(len(output)/2)):
+for i in range(0,int((len(output)-1)/2)):
 	with open(sys.argv[len(sys.argv)-1]+"_estimation_"+str(i)+".json", "w") as fp:
 		fp.write(output[i])
 	with open(sys.argv[len(sys.argv)-1]+"_obs_"+str(i)+".json", "w") as fp:
 		fp.write(output[int(len(output)/2) + i])
 
-
+with open("Unassociated.json", "w") as fp:
+	fp.write(output[len(output)-1])
 
 
 print("OD end   : %s" % time.strftime("%Y-%m-%d %H:%M:%S"))

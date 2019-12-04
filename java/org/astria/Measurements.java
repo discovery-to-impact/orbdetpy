@@ -98,6 +98,8 @@ public class Measurements
 	Double RangeRate;
 	Double RightAscension;
 	Double Declination;
+	Double RightAscensionRate;
+	Double DeclinationRate;	
 	Double[] PositionVelocity;
     }
 

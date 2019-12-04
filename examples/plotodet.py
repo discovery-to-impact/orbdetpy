@@ -90,6 +90,20 @@ def plot(cfgfile, inpfile, outfile, interactive = False, filepath = None):
         pos *= 648000.0/math.pi
         cov *= 648000.0/math.pi
         units = ("arcsec", "arcsec")
+    
+
+        for i in range(len(pre)):
+            if(pre[i][0] >= 648000.0):
+                pre[i][0] -= 2*648000.0
+            elif(pre[i][0] <= -648000.0):
+                pre[i][0] += 2*648000.0
+            if(pos[i][0] >= 648000.0):
+                pos[i][0] -= 2*648000.0
+            elif(pos[i][0] <= -648000.0):
+                pos[i][0] += 2*648000.0
+
+
+
     else:
         if ("PositionVelocity" in key):
             units = ("m", "m", "m", "m/s", "m/s", "m/s")

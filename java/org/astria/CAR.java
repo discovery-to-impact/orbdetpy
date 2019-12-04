@@ -29,6 +29,8 @@ import org.hipparchus.analysis.solvers.LaguerreSolver;
 import org.hipparchus.complex.Complex;
 import org.hipparchus.linear.QRDecomposition;
 import org.hipparchus.linear.DecompositionSolver;
+import org.orekit.utils.TimeStampedPVCoordinates;
+import org.orekit.utils.Constants;
 
 //These are used for some validation, but aren't needed in main algorithm.
 import org.hipparchus.linear.MatrixUtils;
@@ -39,11 +41,12 @@ import java.io.FileWriter;
 public class CAR
 {
 	
-	double[] GMSplitLibrary = new double[1000];
-
+	ArrayList <CARGaussianElement> gaussians = new ArrayList<CARGaussianElement>();
 	
-	public CAR()
+	public CAR(double ra, double ra_d, double dec, double dec_d, TimeStampedPVCoordinates stationCoords, double sigma_range, double sigma_rr, double rangeSample, double amin, double amax, double emax)
     {
+
+		/*
 		//this is in rad, also its RA & dec not az el
 		double ra = 0.87406;
 		double ra_d = 7.29274E-5;
@@ -56,13 +59,18 @@ public class CAR
 		double sigma_range = 15000;
 		double sigma_rr = 60;
 		
-		double amin = 43000000 * 0.9;
+		double amin = 30000000 * 0.9;
 		double amax = 47000000 * 1.1;
 		double emax = 0.7;
 		
-		double rangeSample = 5000;
+		double rangeSample = 5000; 
+		*/
 		
-		double mu = 398600441500000L; ////////////////////////////////////////////////////////// fix, use actual constant from orekit
+		double mu = Constants.EGM96_EARTH_MU;
+
+		RealMatrix q = new Array2DRowRealMatrix(stationCoords.getPosition().toArray());
+		RealMatrix q_d = new Array2DRowRealMatrix(stationCoords.getVelocity().toArray());	
+		
 		
 		RealMatrix u_p = new Array2DRowRealMatrix(new  double[] {Math.cos(ra) * Math.cos(dec) , Math.sin(ra) * Math.cos(dec) , Math.sin(dec)});
 		RealMatrix u_a = new Array2DRowRealMatrix(new  double[] {-1 * Math.sin(ra) * Math.cos(dec) , Math.cos(ra) * Math.cos(dec) , 0});
@@ -91,12 +99,11 @@ public class CAR
 		double c7 = dotProduct(h3.scalarMultiply(2), h4);
 		double c8 = Math.pow(h4.getFrobeniusNorm(), 2);
 		
-		
-		double[] rho = new double[(int) (2 * amax / rangeSample)+1];
+		double[] rho = new double[(int) ((2 * amax)/ rangeSample)+1];
 		
 		for(int i = 0; i < rho.length; i++)
 		{
-			rho[i] = i * rangeSample;
+			rho[i] =  i * rangeSample;
 		}
 		
 		Double[] rhoRate_amin_l = new Double[rho.length];
@@ -105,11 +112,14 @@ public class CAR
 		Double[] rhoRate_amax_u = new Double[rho.length];
 		Double[] rhoRate_emax_l = new Double[rho.length];
 		Double[] rhoRate_emax_u = new Double[rho.length];
+		
+		double[] GMSplitLibrary = new double[1000];
 
 		GMSplitLibrary = readFile("../../data/uniformSigVals.txt");
 		
 		for(int i = 0; i < rho.length; i++)
 		{
+
 
 			double r = rho[i]; 
 			double r2 = r*r;
@@ -131,7 +141,7 @@ public class CAR
 				else {
 					E = -mu / (2 * amax);
 				}
-								
+				
 				if((w1*w1/4 - F + 2 * E) >= 0)
 				{
 					if (j==0){
@@ -148,7 +158,7 @@ public class CAR
 				
 			}
 			//compute emax bounds
-			
+
 			double P = c1 * r2 + c2 * r + c3;
 			double U = c4 * r4 + c5 * r3 + c6 * r2 + c7 * r + c8;
 			
@@ -168,33 +178,51 @@ public class CAR
 			for(int j = 0; j < roots.length; j ++)
 			{
 
-				if(roots[j].getImaginary() == 0)
+				if(Math.abs(roots[j].getImaginary()) < 1e-11)
 				{
 					if(realRoots[0] == null)
-					{realRoots[0] = roots[j].getReal();}
+					{
+						realRoots[0] = roots[j].getReal();
+						realRoots[1] = roots[j].getReal();
+					}
 					else
-					{realRoots[1] = roots[j].getReal();}
+					{
+						if(realRoots[0] < roots[j].getReal())
+						{
+							realRoots[0] = roots[j].getReal();
+						}
+						
+						if(realRoots[1] > roots[j].getReal())
+						{
+							realRoots[1] = roots[j].getReal();
+						}
+					}
 					
 				}
 			}
-			
+
+
+
 			
 			if(realRoots[0] != null)
 			{
 
-				rhoRate_emax_l[i] = Math.min(realRoots[0], realRoots[1]);
-				rhoRate_emax_u[i] = Math.max(realRoots[0], realRoots[1]);
+
+				
+				rhoRate_emax_l[i] = realRoots[1];
+				rhoRate_emax_u[i] = realRoots[0];
 			}
-			
+
 		}		
-		
+
 		// find range of truncated CAR
-		
+
 		int CARIndexStart = 0;
 		int CARIndexEnd = 0;
 		
 		for(int i = 0; i < rho.length; i++)
 		{
+			
 			
 			if(rhoRate_amax_u[i] != null && rhoRate_emax_u[i] != null && rhoRate_amin_l[i] == null)
 			{
@@ -203,7 +231,7 @@ public class CAR
 			}
 			else if((rhoRate_amax_u[i] != null && rhoRate_emax_u[i] != null && rhoRate_amin_l[i] != null))
 			{
-				if(rhoRate_amax_u[i] > rhoRate_amin_u[i] && rhoRate_emax_u[i] > rhoRate_amin_u[i] && rhoRate_amax_l[i] < rhoRate_amin_l[i] && rhoRate_emax_l[i] > rhoRate_amin_l[i])
+				if(rhoRate_amax_u[i] > rhoRate_amin_u[i] && rhoRate_emax_u[i] > rhoRate_amin_u[i] && rhoRate_amax_l[i] < rhoRate_amin_l[i] && rhoRate_emax_l[i] < rhoRate_amin_l[i])
 				{
 					CARIndexStart = i;
 					break;
@@ -211,7 +239,7 @@ public class CAR
 			}
 			
 		}
-		
+
 		for(int i = CARIndexStart; i < rho.length; i++)
 		{
 			if(rhoRate_amax_u[i] == null || rhoRate_emax_u[i] == null)
@@ -221,6 +249,7 @@ public class CAR
 				break;
 			}
 		}		
+
 		
 		//build truncated CAR
 		 
@@ -230,13 +259,18 @@ public class CAR
 		
 		for(int i = 0; i <= CARIndexEnd - CARIndexStart; i++)
 		{
+						
+
+			
 			
 			if(rhoRate_amax_u[CARIndexStart + i] != null && rhoRate_emax_u[CARIndexStart + i] != null && rhoRate_amin_l[CARIndexStart + i] != null)
 			{
 
-
+				//////////////////////////////////////////////////////////////////////////////////////////// THIS NEEDS TO BE VERIFIED. USED IMAGE ON JAH PAPER PG 3 TO GENERATE LOGIC
+				//////////////////////////////////////////////////////////////////////////////////////////// I think it works, checked by using matlab, changed emax to 0.2
 				if(rhoRate_emax_u[CARIndexStart + i] > rhoRate_amin_u[CARIndexStart + i])
 				{
+
 					boundaryCAR boundaryTemp = new boundaryCAR();
 					boundaryTemp.rho = rho[CARIndexStart + i];
 					boundaryTemp.lowerBound = rhoRate_amin_u[CARIndexStart + i];
@@ -247,6 +281,7 @@ public class CAR
 
 				if(rhoRate_emax_l[CARIndexStart + i] < rhoRate_amin_l[CARIndexStart + i])
 				{
+
 					boundaryCAR boundaryTemp = new boundaryCAR();
 					boundaryTemp.rho = rho[CARIndexStart + i];
 					boundaryTemp.lowerBound = Math.max(rhoRate_amax_l[CARIndexStart + i],rhoRate_emax_l[CARIndexStart + i]);
@@ -257,6 +292,7 @@ public class CAR
 			}
 			else if((rhoRate_amax_u[CARIndexStart + i] != null && rhoRate_emax_u[CARIndexStart + i] != null && rhoRate_amin_u[CARIndexStart + i] == null))
 			{
+
 				boundaryCAR boundaryTemp = new boundaryCAR();
 				boundaryTemp.rho = rho[CARIndexStart + i];
 				boundaryTemp.lowerBound = Math.max(rhoRate_amax_l[CARIndexStart + i],rhoRate_emax_l[CARIndexStart + i]);
@@ -268,21 +304,22 @@ public class CAR
 		
 		
 		
-		/*
+		/*	
 		System.out.println("--------------------------main---------------------");
-
 		for(int x = 0; x < mainCAR.size(); x++)
 		{
 			System.out.println(mainCAR.get(x).rho + "      " + mainCAR.get(x).upperBound + "      " + mainCAR.get(x).lowerBound);
-		}
-
+		}*/
+		/*
 		System.out.println("--------------------------upper---------------------");
 		for(int x = 0; x < upperCAR.size(); x++)
 		{
 			System.out.println(upperCAR.get(x).rho + "      " + upperCAR.get(x).upperBound + "      " + upperCAR.get(x).lowerBound);
 		}
+		*/
+		/*
 		System.out.println("--------------------------lower---------------------");
-
+		
 		for(int x = 0; x < lowerCAR.size(); x++)
 		{
 			System.out.println(lowerCAR.get(x).rho + "      " + lowerCAR.get(x).upperBound + "      " + lowerCAR.get(x).lowerBound);
@@ -303,6 +340,7 @@ public class CAR
 			
 			//compute area using trapzeoid rule
 
+			// I dont think i need this area calc, since only relative size of weights matters. Test removing the Area value & see if code still works.
 			if(!lowerCAR.isEmpty() && !upperCAR.isEmpty() && upperIndex + 1 == upperCAR.size() && lowerIndex + 1 == lowerCAR.size())
 			{
 
@@ -355,7 +393,6 @@ public class CAR
 		double[] binLocRho = new double[CARIndexEnd - CARIndexStart];
 		double[] binSizeRho = new double[CARIndexEnd - CARIndexStart];
 		
-		int asd = 0;
 		
 		for(int i = 0; i < CARIndexEnd - CARIndexStart; i++)
 		{
@@ -438,12 +475,28 @@ public class CAR
 		{
 			for(int j=0; j < gaussianContributions[i].length; j++)
 			{
-				gaussianContributions[i][j] = Math.exp(-Math.pow(binLocRho[i]-rangeMean[j], 2) / (2 * rangeSigma * rangeSigma)) / (Math.sqrt(2*  rangeSigma * rangeSigma *  Math.PI));
+				gaussianContributions[i][j] = Math.exp(-Math.pow(binLocRho[i]-rangeMean[j], 2) / (2 * rangeSigma * rangeSigma)) / (Math.sqrt(2*  rangeSigma * rangeSigma *  Math.PI)); // SOME OF THESE VALUES SLIGHTLY OFF FROM MATLAB, NOT SURE THE REASON FOR DIFFERENCE.
 			}
 		}
 		
-		double[] weights = constrainedLeastSquares(new Array2DRowRealMatrix(gaussianContributions), new Array2DRowRealMatrix(binSizeRho), 1, 0);
+		/*
+		for(int i=0; i < gaussianContributions.length; i++)
+		{
+			for(int j=0; j < gaussianContributions[i].length; j++)
+			{
+					System.out.print(gaussianContributions[i][j] + "  ");
+			}
+			System.out.println();
+
+		}*/
 		
+		double[] weights = constrainedLeastSquares(new Array2DRowRealMatrix(gaussianContributions), new Array2DRowRealMatrix(binSizeRho), 1, 0);
+		/*
+		for(int i=0;i<binSizeRho.length;i++)
+		{
+			System.out.println(binSizeRho[i]);
+		}
+		*/
 		
 		double weightSum = 0;
 		
@@ -467,10 +520,22 @@ public class CAR
 
 		
 		
-		ArrayList <CARGaussianElement> gaussians = new ArrayList<CARGaussianElement>();
+		/*
+	   RealMatrix tempans = new Array2DRowRealMatrix(gaussianContributions).multiply(new Array2DRowRealMatrix(weights)).subtract(new Array2DRowRealMatrix(binSizeRho));
+	   
+		for(int i =0; i < tempans.getRowDimension(); i++)
+		{
+			for(int j =0; j < tempans.getColumnDimension(); j++)
+			{
+				System.out.print(tempans.getEntry(i,j) + "  ");
+			}		
+			System.out.println();
+		} 
+		*/
+		
 
 
-		// make arraylist for mean, std, weights and CARGaussianElement Object
+		// make arraylist for mean, std, weights? and CARGaussianElement Object?
 		for(int i = 0; i < rangeMean.length; i++)
 		{
 			ArrayList <CARGaussianElement> tempGaussians = new ArrayList<CARGaussianElement>();
@@ -503,7 +568,7 @@ public class CAR
 						if(k + 1 < upperCAR.size())
 						{
 							
-							tempGaussians.addAll(generateHypotheses(upperCAR, k, sigma_rr, rangeMean[i], rangeSigma));
+							tempGaussians.addAll(generateHypotheses(upperCAR, k, sigma_rr, rangeMean[i], rangeSigma, GMSplitLibrary));
 							
 							skipMain = true;
 						}
@@ -519,7 +584,7 @@ public class CAR
 							
 							
 							
-							tempGaussians.addAll(generateHypotheses(tempCAR, 0, sigma_rr,rangeMean[i], rangeSigma));
+							tempGaussians.addAll(generateHypotheses(tempCAR, 0, sigma_rr,rangeMean[i], rangeSigma, GMSplitLibrary));
 
 							skipLower = true;
 							
@@ -538,7 +603,7 @@ public class CAR
 					if(lowerCAR.get(k).rho == currentRho)
 					{
 
-						tempGaussians.addAll(generateHypotheses(lowerCAR, k, sigma_rr,rangeMean[i], rangeSigma));
+						tempGaussians.addAll(generateHypotheses(lowerCAR, k, sigma_rr,rangeMean[i], rangeSigma, GMSplitLibrary));
 						
 						skipMain = true;
 											
@@ -556,7 +621,7 @@ public class CAR
 					if(mainCAR.get(k).rho == currentRho)
 					{
 
-						tempGaussians.addAll(generateHypotheses(mainCAR, k, sigma_rr,rangeMean[i], rangeSigma));
+						tempGaussians.addAll(generateHypotheses(mainCAR, k, sigma_rr,rangeMean[i], rangeSigma, GMSplitLibrary));
 						
 						skipMain = true;
 											
@@ -577,11 +642,45 @@ public class CAR
     	}
 		
 		
-		////////////////////////////Write Gaussians to text file/////////////////////////////////
+		
+		//////////////////////////////////////////// This code used to check various points in the pdf. Inside pdf values should be constant, outside pdf values should be zero/////////////////////////////////////////
 		/*
+		RealMatrix muMat = new Array2DRowRealMatrix(2,1); 
+		RealMatrix sigmaMat = new Array2DRowRealMatrix(2,2); 
+		RealMatrix testMat = new Array2DRowRealMatrix(2,1); 
+
+		testMat.setEntry(0,0,36500000 );
+		testMat.setEntry(1,0, 400);
+
+		
+		double Val = 0;
+		
+		for(int i = 0; i < gaussians.size(); i++)
+		{
+			//System.out.println(gaussians.get(i).rangeMean + "    " + gaussians.get(i).rangeRateMean + " " + gaussians.get(i).rangeStd + "    " + gaussians.get(i).rangeRateStd);
+
+			muMat.setEntry(0,0, gaussians.get(i).rangeMean);
+			muMat.setEntry(1,0, gaussians.get(i).rangeRateMean);
+
+			sigmaMat.setEntry(0,0, gaussians.get(i).rangeStd*gaussians.get(i).rangeStd);
+			sigmaMat.setEntry(1,1, gaussians.get(i).rangeRateStd * gaussians.get(i).rangeRateStd);
+
+			RealMatrix MahalaTemp = testMat.subtract(muMat);
+			RealMatrix JPDATemp = MahalaTemp.transpose().multiply(MatrixUtils.inverse(sigmaMat).multiply(MahalaTemp));
+			
+			Val += gaussians.get(i).weight * Math.exp(-JPDATemp.getEntry(0,0)/2) / (Math.sqrt(new LUDecomposition(sigmaMat).getDeterminant() * Math.pow(2 * Math.PI, 2)));;
+
+			
+		}
+		
+		System.out.println(Val);*/
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////Write Gaussians to text file/////////////////////////////////
+		
 		try {
 			
-		FileWriter writer = new FileWriter("../../../outputGaussians.txt"); 
+		FileWriter writer = new FileWriter("../../../Matlab/outputGaussians.txt"); 
 		for(CARGaussianElement line: gaussians) {
 		  writer.write(line.rangeMean + "," + line.rangeRateMean + "," + line.rangeStd + "," + line.rangeRateStd + "," + line.weight + "," + System.lineSeparator());
 		  }
@@ -591,12 +690,19 @@ public class CAR
 	
 		e.printStackTrace();
 	
-		} */
+		} 
 		
 		/////////////////////////////////////////////////////////////////////////////////////////
 
 
+
     }
+	
+	ArrayList <CARGaussianElement> getCAR()
+	{
+		return gaussians;
+
+	}
 	
 	RealMatrix crossProduct(RealMatrix vect_A, RealMatrix vect_B) 
 	{ 
@@ -620,7 +726,7 @@ public class CAR
 
 	
 
-	ArrayList <CARGaussianElement> generateHypotheses(ArrayList <boundaryCAR> currentCAR, int k, double sigma_rr, double rangeMean, double rangeSigma)
+	ArrayList <CARGaussianElement> generateHypotheses(ArrayList <boundaryCAR> currentCAR, int k, double sigma_rr, double rangeMean, double rangeSigma, double[] GMSplitLibrary)
 	{
 		ArrayList <CARGaussianElement> tempGaussians = new ArrayList<CARGaussianElement>();
 
@@ -633,7 +739,6 @@ public class CAR
 						* (rangeMean - currentCAR.get(k).rho) + currentCAR.get(k).lowerBound;
 		
 		//find number of mean points (Jp)
-		
 				
 	  	int Jp_rr = -1;
 		double sigTemp = sigma_rr / (max_rr - min_rr); 
@@ -644,6 +749,10 @@ public class CAR
 			{
 				Jp_rr = w+1;
 				break;
+			}
+			else if(w == (GMSplitLibrary.length-1))
+			{
+				Jp_rr = GMSplitLibrary.length;
 			}
 		}
 
@@ -669,7 +778,6 @@ public class CAR
 	}
 	
 	
-	
 	//Solve min(|Ax - b|) for x given bounds on x (upper and lower)
 	//Uses the following algorithm https://www.stat.berkeley.edu/~stark/Preprints/bvls.pdf
 	//QR decomposition used
@@ -679,6 +787,14 @@ public class CAR
 		ArrayList <Integer> lower = new ArrayList<Integer>();
 		ArrayList <Integer> upper = new ArrayList<Integer>();
 
+		ArrayList <Integer> boundComponents = new ArrayList<Integer>(); // Bound components checks to make sure variable that is just bound is not freed again.
+
+		
+		boolean roundError = false;
+		int tstar = - 99;
+		double tstarVal;
+		char tstarOrigBound = 'a';
+		
 		RealMatrix x = new Array2DRowRealMatrix(A.getColumnDimension(),1);
 		
 		
@@ -692,7 +808,31 @@ public class CAR
 		mainLoop:
 		while(true)
 		{
+			System.out.println("Free: " + free.size() + "   Lower: " + lower.size() + "   Upper: " + upper.size());
+			// Round Error Test. Component becomes free then moves out of free region.
+			if(roundError == true)
+			{
+				
+				System.out.println("Round Error Adjustment");
+				
+				free.remove(Integer.valueOf(tstar));
+				
+				if(tstarOrigBound == 'l')
+				lower.add(tstar);
+				else
+				upper.add(tstar);
+				
+			}
+			
+			
 			RealMatrix w = (A.transpose()).multiply(b.subtract(A.multiply(x)));
+			
+			//Set problem component term in w to zero
+			if(roundError == true)
+			{
+				roundError = false;
+				w.setEntry(tstar,0,0);
+			}
 			
 			//Step 2 test for Kuhn Tucker convergence.
 			boolean finished = true;
@@ -714,6 +854,12 @@ public class CAR
 			}
 			//
 			
+			if(b.getFrobeniusNorm() * 1e-12 > b.subtract(A.multiply(x)).getFrobeniusNorm() )
+			{
+				System.out.println("Solution Essentially Optimal");
+				finished = true;
+			}
+			
 			if(free.size() == A.getColumnDimension() || finished)
 			{
 				break mainLoop;
@@ -721,38 +867,47 @@ public class CAR
 			else
 			{
 				//step 4
-				int tstar;
-				double tstarVal;
-				
+				/*
 				if(lower.size() > 0)
 				{
 					tstar = lower.get(0);
 					tstarVal = w.getEntry(tstar,0);
+					tstarOrigBound = 'l';
 				}
 				else
 				{
 					tstar = upper.get(0);
 					tstarVal = -w.getEntry(tstar,0);
-				}
+					tstarOrigBound = 'u';
+
+				}*/
 				
+				tstarVal = Double.NEGATIVE_INFINITY;
+				
+				//System.out.println(free.size());
 				
 				for(int i = 0; i < lower.size(); i++)
 				{
-					if(w.getEntry(lower.get(i),0) > tstarVal)
+					if(w.getEntry(lower.get(i),0) > tstarVal && !boundComponents.contains(Integer.valueOf(lower.get(i))))
 					{
 						tstar = lower.get(i);
 						tstarVal = w.getEntry(tstar,0);
+						tstarOrigBound = 'l';
 					}
 				}
 				
 				for(int i = 0; i < upper.size(); i++)
 				{
-					if(-w.getEntry(upper.get(i),0) > tstarVal)
+					if(-w.getEntry(upper.get(i),0) > tstarVal && !boundComponents.contains(Integer.valueOf(upper.get(i))))
 					{
 						tstar = upper.get(i);
 						tstarVal = -w.getEntry(tstar,0);
+						tstarOrigBound = 'u';
 					}
 				}
+				
+				boundComponents = new ArrayList<Integer>();
+
 				
 				//step 5
 				lower.remove(Integer.valueOf(tstar));
@@ -826,6 +981,14 @@ public class CAR
 							
 					}
 					
+					if((x.getEntry(free.size()-1,0) >= UB && tstarOrigBound == 'u') || (x.getEntry(free.size()-1,0) <= LB && tstarOrigBound == 'l'))
+					{
+						
+						//roundError = true;
+						//continue mainLoop;
+						
+					}
+					
 					for(int i = 0; i < free.size(); i++)
 					{		
 						if(x.getEntry(free.get(i),0) >= UB)
@@ -837,6 +1000,8 @@ public class CAR
 							free.remove(Integer.valueOf(tempIndex));
 							
 							upper.add(tempIndex);
+							boundComponents.add(tempIndex);
+
 							
 						}
 						else if(x.getEntry(free.get(i),0) <= LB)
@@ -848,6 +1013,7 @@ public class CAR
 							free.remove(Integer.valueOf(tempIndex));
 							
 							lower.add(tempIndex);
+							boundComponents.add(tempIndex);
 						}
 							
 					}
