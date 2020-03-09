@@ -112,6 +112,8 @@ public final class Measurements
 	public double declination;
 	public double[] position;
 	public double[] positionVelocity;
+	
+	public String NORAD;
 
 	public Measurement()
 	{
@@ -232,6 +234,7 @@ public final class Measurements
 
 	    if (m.rightAscension != 0.0 && crigh != null && cdecl != null)
 	    {
+
 		AngularRaDec obs = new AngularRaDec(gs, DataManager.getFrame("EME2000"), time, new double[] {m.rightAscension, m.declination},
 						    new double[]{crigh.error[0], cdecl.error[0]}, twoOnes, satellite);
 		if (addOutlier)

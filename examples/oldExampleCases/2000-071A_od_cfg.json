@@ -1,0 +1,105 @@
+{
+    "Gravity" :
+    {
+	"Degree" : 20,
+	"Order" : 20
+    },
+
+    "OceanTides" :
+    {
+	"Degree" : -1,
+	"Order" : -1
+    },
+
+    "Drag" :
+    {
+	"Model" : "MSISE",
+	"Coefficient" :
+	{
+	    "Value" : 2.0,
+	    "Min" : 0.01,
+	    "Max" : 3.00,
+	    "Estimation" : "Estimate"
+	}
+    },
+
+    "SolidTides" :
+    {
+	"Sun" : false,
+	"Moon" : false
+    },
+
+    "ThirdBodies" :
+    {
+	"Sun" : true,
+	"Moon" : true
+    },
+
+    "RadiationPressure" :
+    {
+	"Sun" : true,
+	"Creflection" :
+	{
+            "Value" : 1.5,
+            "Min" : 1.0,
+            "Max" : 2.0,
+            "Estimation" : "Estimate"
+	}
+    },
+
+    "SpaceObject" :
+    {
+	"Mass" : 2000.0,
+	"Area" : 20.0
+    },
+
+    "Propagation" :
+    {
+	"Start" : "2019-04-11T20:07:06.668Z",
+	"End" : "2019-05-11T18:02:50.747Z",
+	"InitialState" :
+	[
+	    -2.5251150219617452E7,
+	    -2546098.00923541,
+	    -7827636.6270518685,
+        -714.3151898210817,
+        -2407.5973155557413,
+	    2950.090897485522
+	]
+    },
+
+    "Stations" :
+    {
+	"SMART-01-B-SUTH" :
+	{
+            "Latitude" : -0.56515017816,
+            "Longitude" : 0.3632166309,
+            "Altitude" : 1761.0
+	},
+	"SMART-01-A-SUTH" :
+	{
+            "Latitude" : -0.56515017816,
+            "Longitude" : 0.3632166309,
+            "Altitude" : 1761.0
+	}
+    },
+
+    "Measurements" :
+    {
+	"RightAscension" :
+	{
+	    "Error" : [1e-5]
+	},
+	"Declination" :
+	{
+	    "Error" : [1e-5]
+	}
+    },
+
+    "Estimation" :
+    {
+	"Filter" : "UKF",
+	"Covariance" : [1E6, 1E6, 1E6, 1E-4, 1E-4, 1E-4, 1.00, 0.25],
+	"ProcessNoise" : [1E-10, 1E-10, 1E-10, 1E-10, 1E-10, 1E-10]
+    }
+}

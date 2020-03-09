@@ -72,15 +72,21 @@ public final class Utilities
 	{
 	    int i = 0;
 	    String atype = blk.getMetaData().getAngleType();
+
 	    ArrayList<Measurements.SimulatedMeasurement> mall = new ArrayList<Measurements.SimulatedMeasurement>();
 	    for (TDMFile.Observation obs : blk.getObservations())
 	    {
+
 		String keyw = obs.getKeyword();
 		if (!(keyw.equalsIgnoreCase("RANGE") || keyw.equalsIgnoreCase("DOPPLER_INSTANTANEOUS") ||
 		      keyw.equalsIgnoreCase("ANGLE_1") || keyw.equalsIgnoreCase("ANGLE_2")))
 		    continue;
 		if (i == 0)
 		    obj = new Measurements.SimulatedMeasurement();
+
+		
+	    obj.NORAD = blk.getMetaData().getParticipants().get(2);
+	    obj.station = blk.getMetaData().getParticipants().get(1);
 
 		if (atype == null)
 		{

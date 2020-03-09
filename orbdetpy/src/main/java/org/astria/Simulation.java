@@ -54,6 +54,12 @@ public final class Simulation
 
     public ArrayList<Measurements.SimulatedMeasurement> simulateMeasurements()
     {
+    	
+
+    	
+    ReadSP3 SP3 = new ReadSP3();
+	    	
+    	
 	final NumericalPropagator propagator = new NumericalPropagator(
 	    new DormandPrince853Integrator(simCfg.integMinTimeStep, simCfg.integMaxTimeStep,
 					   simCfg.integAbsTolerance, simCfg.integRelTolerance));

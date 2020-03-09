@@ -1,0 +1,123 @@
+{
+    "Gravity" :
+    {
+	"Degree" : 20,
+	"Order" : 20
+    },
+
+    "OceanTides" :
+    {
+	"Degree" : -1,
+	"Order" : -1
+    },
+
+    "Drag" :
+    {
+	"Model" : "MSISE",
+	"Coefficient" :
+	{
+	    "Value" : 2.0,
+	    "Min" : 0.01,
+	    "Max" : 3.00,
+	    "Estimation" : "Estimate"
+	}
+    },
+
+    "SolidTides" :
+    {
+	"Sun" : false,
+	"Moon" : false
+    },
+
+    "ThirdBodies" :
+    {
+	"Sun" : true,
+	"Moon" : true
+    },
+
+    "RadiationPressure" :
+    {
+	"Sun" : true,
+	"Creflection" :
+	{
+            "Value" : 1.5,
+            "Min" : 1.0,
+            "Max" : 2.0,
+            "Estimation" : "Estimate"
+	}
+    },
+
+    "SpaceObject" :
+    {
+	"Mass" : 2000.0,
+	"Area" : 20.0
+    },
+
+    "Propagation" :
+    {
+	"Start" : "2019-04-12T00:01:20.311Z",
+	"End" : "2019-05-02T22:34:09.730Z",
+	"InitialState" :
+	[
+	    -2.005662450400512E7,
+	    -1.6085443154287307E7,
+	    5614223.546320488,
+        988.174758936232,
+        -2353.383236462856,
+	    -2961.703988507106
+	]
+    },
+
+    "Stations" :
+    {
+	"SMART-01-B-SUTH" :
+	{
+            "Latitude" : -0.56515017816,
+            "Longitude" : 0.3632166309,
+            "Altitude" : 1761.0
+	},
+	"TRCK1" :
+	{
+            "Latitude" : 0.67271045664,
+            "Longitude" : -0.07694266554,
+            "Altitude" : 1120.0
+	},
+	"TRCK2" :
+	{
+            "Latitude" : 0.67271045664,
+            "Longitude" : -0.07694126927,
+            "Altitude" : 1120.0
+	},
+	"AROAC-T30" :
+	{
+            "Latitude" : 0.81525080829,
+            "Longitude" : 0.41177994226,
+            "Altitude" : 741.0
+	},
+	"MAM" :
+	{
+            "Latitude" : 0.8414800603,
+            "Longitude" : 0.1950700679,
+            "Altitude" : 582.0
+	}
+    },
+
+    "Measurements" :
+    {
+	"RightAscension" :
+	{
+	    "Error" : [4.8e-6]
+	},
+	"Declination" :
+	{
+	    "Error" : [4.8e-6]
+	}
+    },
+
+    "Estimation" :
+    {
+	"Filter" : "UKF",
+	"Covariance" : [1E6, 1E6, 1E6, 1E-4, 1E-4, 1E-4, 1.00, 0.25],
+	"ProcessNoise" : [1E-10, 1E-10, 1E-10, 1E-10, 1E-10, 1E-10]
+    }
+}
