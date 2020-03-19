@@ -133,9 +133,9 @@ public final class ReadSP3
         StationLookup.put("COAST",new double[] {28.2990611, -16.5101778, 2420}); //WGS, ICRF
         
         AbsoluteDate referenceDate = null;
-        
-    	// read in TDM file using java.utils.
-        File dir = new File("/workspace/NATO/TDM");
+        System.out.println("adsasd");
+        // read in TDM file using java.utils.
+        File dir = new File("D:\\School\\Work\\NATOData\\TDM");
         File[] directoryListing = dir.listFiles();
         Arrays.sort(directoryListing);
 
@@ -208,7 +208,7 @@ public final class ReadSP3
         		
         		// Read in GPS file corresponding to GPS week
         		
-            	String SP3File = "/workspace/NATO/GNSS/"+week+"/igs"+week+dayOfWeek+".sp3";
+            	String SP3File = "D:\\School\\Work\\NATOData\\GNSS\\"+week+"\\igs"+week+dayOfWeek+".sp3";
             	
             	SP3File SP3ParsedData = null;
             	
@@ -239,16 +239,12 @@ public final class ReadSP3
 
             	SpacecraftState[] sta = new SpacecraftState[]{SP3Orbit.propagate(tMeas)};
             	
-            	/*//Account for LT (very minor change in results...)
-            	double LTcorr = sta[0].getPVCoordinates().getPosition().getNorm() / Constants.SPEED_OF_LIGHT;
-            	
-            	sta = new SpacecraftState[]{SP3Orbit.propagate(new AbsoluteDate(tMeas, -LTcorr))};
-				*/
+
             	
         		// Produce measurement
             	
             	double[] obs = null;
-            	
+            	double[] obsAzEl = {0,0};
             	/*
             	obs = new AngularRaDec(gst, FramesFactory.getEME2000(), tMeas, zeros, zeros, ones,
 						   obssat).estimate(0, 0, sta).getEstimatedValue();
@@ -260,30 +256,60 @@ public final class ReadSP3
                 	obs = new AngularRaDec(gst, FramesFactory.getGCRF(), tMeas, zeros, zeros, ones,
  						   obssat).estimate(0, 0, sta).getEstimatedValue();
             	}
-            	else if(TDMData.get(0).get(0).station.equals("SMART-01-A-SUTH") || TDMData.get(0).get(0).station.equals("SMART-01-B-SUTH") 
-            			|| TDMData.get(0).get(0).station.equals("TRCK1") || TDMData.get(0).get(0).station.equals("TRCK2"))
+            	else if(TDMData.get(0).get(0).station.equals("TRCK1") || TDMData.get(0).get(0).station.equals("TRCK2"))
             	{
                 	obs = new AngularRaDec(gst, FramesFactory.getEME2000(), tMeas, zeros, zeros, ones,
  						   obssat).estimate(0, 0, sta).getEstimatedValue();
             	}
-            	else
+            	else if(TDMData.get(0).get(0).station.equals("SMART-01-A-SUTH") || TDMData.get(0).get(0).station.equals("SMART-01-B-SUTH"))
             	{
             		
+                	double LTcorr = sta[0].getPVCoordinates().getPosition().subtract(gst.getBaseFrame().getPVCoordinates(tMeas, sta[0].getFrame()).getPosition()).getNorm() / Constants.SPEED_OF_LIGHT;
+                	
+                	sta = new SpacecraftState[]{SP3Orbit.propagate(new AbsoluteDate(tMeas, -LTcorr))};
+    				
+            		Vector3D relPosMinusLT = sta[0].getPVCoordinates(FramesFactory.getEME2000()).getPosition().subtract(gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getEME2000()).getPosition());
+            				
+    				Vector3D aberrationVel = gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getICRF()).getVelocity().add(gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getEME2000()).getVelocity());
+            		
+            		obs = new double[2];
+            		obs[0] = relPosMinusLT.subtract(aberrationVel.scalarMultiply(LTcorr)).getAlpha();
+            		obs[1] = relPosMinusLT.subtract(aberrationVel.scalarMultiply(LTcorr)).getDelta();
+                	
+            		
+            	}
+            	else
+            	{
+            		/*
                 	obs = new AngularRaDec(gst, FramesFactory.getGCRF(), tMeas, zeros, zeros, ones,
  						   obssat).estimate(0, 0, sta).getEstimatedValue();
-				   
+				   */
             		
-            		/*
-            		EarthStandardAtmosphereRefraction RefractionCorr = new EarthStandardAtmosphereRefraction();
-            		
-            		AngularAzEl AzElModel = new AngularAzEl(gst, sta[0].getDate(), zeros, zeros, ones, obssat);
-            		AzElModel.addModifier(new AngularRadioRefractionModifier(RefractionCorr));
+                	
+                	//Account for LT (very minor change in results...)
+                	double LTcorr = sta[0].getPVCoordinates().getPosition().subtract(gst.getBaseFrame().getPVCoordinates(tMeas, sta[0].getFrame()).getPosition()).getNorm() / Constants.SPEED_OF_LIGHT;
+                	
+                	sta = new SpacecraftState[]{SP3Orbit.propagate(new AbsoluteDate(tMeas, -LTcorr))};
+    				
+            		Vector3D relPosMinusLT = sta[0].getPVCoordinates(FramesFactory.getGCRF()).getPosition().subtract(gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getGCRF()).getPosition());
             				
-    				double[] obsAzEl = AzElModel.estimate(0, 0, sta).getEstimatedValue();
+    				Vector3D aberrationVel = gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getICRF()).getVelocity().add(gst.getBaseFrame().getPVCoordinates(tMeas, FramesFactory.getGCRF()).getVelocity());
             		
+            		obs = new double[2];
+            		obs[0] = relPosMinusLT.subtract(aberrationVel.scalarMultiply(LTcorr)).getAlpha();
+            		obs[1] = relPosMinusLT.subtract(aberrationVel.scalarMultiply(LTcorr)).getDelta();
+                	
+                	/*
+            		AngularAzEl AzElModel = new AngularAzEl(gst, sta[0].getDate(), zeros, zeros, ones, obssat);
+    				obsAzEl = AzElModel.estimate(0, 0, sta).getEstimatedValue();
             		GeodeticPoint gstPoint = gst.getOffsetGeodeticPoint(sta[0].getDate());
 
-            		obs = Conversion.convertAzElToRaDec(sta[0].getDate().toString(), obsAzEl[0], obsAzEl[1], gstPoint.getLatitude(), gstPoint.getLongitude(), gstPoint.getAltitude(), "EME2000");
+            		EarthStandardAtmosphereRefraction RefractionCorr = new EarthStandardAtmosphereRefraction();
+
+            		double[] refractionRADEC = Conversion.convertAzElToRaDec(sta[0].getDate().toString(), 0, RefractionCorr.getRefraction(obsAzEl[1]), gstPoint.getLatitude(), gstPoint.getLongitude(), gstPoint.getAltitude(), "GCRF");
+            		
+            		obs[0] = obs[0] - refractionRADEC[0];
+            		obs[1] = obs[1] - refractionRADEC[1];
             		*/
             		
             	}
@@ -309,11 +335,11 @@ public final class ReadSP3
             	
             	// if file doesnt exist, output initial state
             	
-            	if(!new File("/workspace/NATO/Output/"+TDMData.get(0).get(0).NORAD+".txt").exists())
+            	if(!new File("D:\\School\\Work\\NATOData\\Output\\"+TDMData.get(0).get(0).NORAD+".txt").exists())
             	{
         			try {
         				
-                    	String output = "/workspace/NATO/Output/"+TDMData.get(0).get(0).NORAD+".txt";
+                    	String output = "D:\\School\\Work\\NATOData\\Output\\"+TDMData.get(0).get(0).NORAD+".txt";
 
                     	String data = sta[0].getPVCoordinates(FramesFactory.getEME2000()).toString()+"\n";
                     	
@@ -330,7 +356,7 @@ public final class ReadSP3
             	
         			try {
         				
-                    	String output = "/workspace/NATO/Output/"+TDMData.get(0).get(0).NORAD+".txt";
+                    	String output = "D:\\School\\Work\\NATOData\\Output\\"+TDMData.get(0).get(0).NORAD+".txt";
 
                     	String data = tMeas.toString()+","+TDMData.get(0).get(0).station+","+RA+","+Dec+","+obs[0]+","+obs[1]+"\n";
                     	
@@ -346,7 +372,7 @@ public final class ReadSP3
 
     			try {
     				
-                	String output = "/workspace/NATO/Output/"+TDMData.get(0).get(0).NORAD+".json";
+                	String output = "D:\\School\\Work\\NATOData\\Output\\"+TDMData.get(0).get(0).NORAD+".json";
 
                 	String data = "{\"Time\": \"" + tMeas.toString()+"Z\", \"Station\": \""+TDMData.get(0).get(0).station+"\", \"RightAscension\": "+RA+", \"Declination\": "+Dec + "},\n";
                 	
@@ -362,7 +388,7 @@ public final class ReadSP3
         			
     			try {
     				
-                	String output = "/workspace/NATO/Output/StationData/"+TDMData.get(0).get(0).station+".txt";
+                	String output = "D:\\School\\Work\\NATOData\\Output\\StationData\\"+TDMData.get(0).get(0).station+".txt";
 
                 	String data = tMeas.durationFrom(referenceDate)+","+RA+","+Dec+","+obs[0]+","+obs[1]+"\n";
                 	

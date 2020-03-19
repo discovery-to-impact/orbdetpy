@@ -56,7 +56,6 @@ public final class Simulation
     {
     	
 
-    	
     ReadSP3 SP3 = new ReadSP3();
 	    	
     	
