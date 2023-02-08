@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdiscovery-to-impact%2Forbdetpy.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdiscovery-to-impact%2Forbdetpy?ref=badge_shield)
+
 orbdetpy is a Python library for orbit determination. It is a thin
 Python wrapper for our Java estimation tools and Orekit <http://www.orekit.org/>.
 
@@ -87,3 +89,7 @@ Known Issues
    can be used in the parent process or the spawned child processes, but not both.
    A workaround is to run the `orbdetpy` RPC server using `orbdetpy/start_server.sh`
    in a separate terminal window before running your Python code.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdiscovery-to-impact%2Forbdetpy.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdiscovery-to-impact%2Forbdetpy?ref=badge_large)
